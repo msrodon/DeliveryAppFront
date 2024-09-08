@@ -1,4 +1,4 @@
-# vue-delivery-app
+# delivery-app-front
 
 ## Project setup
 ```
