@@ -16,7 +16,7 @@
           </b-nav-item-dropdown>
 
           <b-nav-item-dropdown text="I TU TEŻ W SUMIE :3" right>
-            <b-dropdown-item href="#">I LOVE YOUUUUU</b-dropdown-item>
+            <b-dropdown-item href="#">I L0VE YOUUUUU</b-dropdown-item>
             <b-dropdown-item href="#">SŁODZIAKU</b-dropdown-item>
             <b-dropdown-item href="#"><img style="width: 100%;" src="../src/assets/aaa1.png"></b-dropdown-item>
           </b-nav-item-dropdown>
