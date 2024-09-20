@@ -1,16 +1,20 @@
 <template>
   <div id="app">
-    <nav-bar></nav-bar>
-    <router-view/>
+    <NavBar/>
+    <base-card>
+      <router-view/>
+    </base-card>
   </div>
 </template>
 
 <script>
-import NavBar from './components/NavBar.vue';
+import NavBar from '@/components/NavBar.vue';
+import BaseCard from './components/BaseCard.vue';
 
 export default {
   components: {
-    NavBar
+    NavBar,
+    BaseCard
   }
 }
 </script>

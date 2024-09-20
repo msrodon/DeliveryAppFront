@@ -4,8 +4,8 @@ import HomeView from '../views/HomeView.vue'
 
 import Login from "../components/Login.vue"
 import Register from "../components/Register.vue"
-import TestEndpointsButtons from '@/components/TestEndpointsButtons.vue'
-import { component } from 'vue/types/umd'
+import TestEndpointsButtons from '../components/TestEndpointsButtons.vue'
+// import { component } from 'vue/types/umd'
 
 // lazy-loaded
 const Dashboard = () => import("../components/Dashboard.vue")
@@ -28,8 +28,8 @@ const routes = [
     }
   },
   {
-    path: "/",
-    alias: ['/login'],
+    path: "/login",
+    // alias: ['/login'],
     name:"Login",
     component: Login,
   },
@@ -49,8 +49,8 @@ const routes = [
       component: NotFound,
   },
   {
-    path: "/testEnpoints",
-    name: "testEnpoints",
+    path: "/testEndpoints",
+    name: "testEndpoints",
     component: TestEndpointsButtons
   }
 ]

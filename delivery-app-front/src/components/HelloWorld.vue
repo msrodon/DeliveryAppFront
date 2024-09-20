@@ -33,11 +33,8 @@
       <!-- For a guide and recipes on how to configure / customize this project,<br>
       check out the
       <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>. -->
+      aaa
     </p>
-    <h3>OMGGGG</h3>
-    <h3>HIIIIIIII</h3>
-    <img src="../assets/aaa2.png" alt="">
-    <h3>*literally me when i see u*</h3>
   </div>
 </template>
 

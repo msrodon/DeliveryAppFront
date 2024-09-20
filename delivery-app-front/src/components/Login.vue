@@ -3,6 +3,7 @@
         <div class="container">
             <h3 class="e-shop-font">
                 <div class="card">
+                    <h1>LOGIN</h1>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="username">Username</label>
@@ -21,3 +22,11 @@
         </div>
     </div>
 </template>
+
+<style>
+
+.card{
+    padding: 10px;
+}
+
+</style>
