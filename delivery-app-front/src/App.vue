@@ -10,11 +10,13 @@
 <script>
 import NavBar from '@/components/NavBar.vue';
 import BaseCard from './components/BaseCard.vue';
+import WhiteCard80 from './components/WhiteCard80.vue';
 
 export default {
   components: {
     NavBar,
-    BaseCard
+    BaseCard,
+    WhiteCard80
   }
 }
 </script>

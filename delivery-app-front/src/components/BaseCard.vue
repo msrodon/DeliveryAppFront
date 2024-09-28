@@ -7,13 +7,13 @@
 <style>
 
 .base-card {
-    background-color: #DEE5D4;
+    /* background-color: #c7c7c7; */
     width: 95vw;
     height: 80vh;
-    margin-top: 40px;
+    margin-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 20px;
+    padding-top: 30px;
     margin-left: auto;
     margin-right: auto;
     border-radius: 20px;

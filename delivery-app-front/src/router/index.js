@@ -2,14 +2,19 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 
-import Login from "../components/Login.vue"
-import Register from "../components/Register.vue"
+import Login from "../components/Auth/Login.vue"
+import Register from "../components/Auth/Register.vue"
 import TestEndpointsButtons from '../components/TestEndpointsButtons.vue'
 // import { component } from 'vue/types/umd'
 
 // lazy-loaded
 const Dashboard = () => import("../components/Dashboard.vue")
 const NotFound = () => import("../components/404.vue")
+
+//CARS
+const AddCar = () => import("../components/Cars/AddCar.vue")
+const Cars = () => import("../components/Cars/Cars.vue")
+
 
 Vue.use(VueRouter)
 
@@ -52,6 +57,16 @@ const routes = [
     path: "/testEndpoints",
     name: "testEndpoints",
     component: TestEndpointsButtons
+  },
+  {
+    path: "/AddCar",
+    name: "AddCar",
+    component: AddCar
+  },
+  {
+    path: "/Cars",
+    name: "Cars",
+    component: Cars
   }
 ]
 
