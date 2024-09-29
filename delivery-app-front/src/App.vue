@@ -9,8 +9,8 @@
 
 <script>
 import NavBar from '@/components/NavBar.vue';
-import BaseCard from './components/BaseCard.vue';
-import WhiteCard80 from './components/WhiteCard80.vue';
+import BaseCard from './components/LayoutComponents/BaseCard.vue';
+import WhiteCard80 from './components/LayoutComponents/WhiteCard80.vue';
 
 export default {
   components: {

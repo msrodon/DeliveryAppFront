@@ -8,7 +8,6 @@ import TestEndpointsButtons from '../components/TestEndpointsButtons.vue'
 // import { component } from 'vue/types/umd'
 
 // lazy-loaded
-const Dashboard = () => import("../components/Dashboard.vue")
 const NotFound = () => import("../components/404.vue")
 
 //CARS
@@ -25,14 +24,6 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-    }
-  },
-  {
     path: "/login",
     // alias: ['/login'],
     name:"Login",
@@ -42,11 +33,6 @@ const routes = [
       path: "/register",
       name: "Register",
       component: Register,
-  },
-  {
-      path: "/dashboard",
-      name: "Dashboard",
-      component: Dashboard,
   },
   {
       path: "/404",
@@ -75,28 +61,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
-// const router = createRouter({
-//   history: createWebHistory(),
-//   routes,
-//   });
-
-//   router.beforeEach((to, from, next) => {
-//       const publicPages = ['/login', '/register'];
-//       const authRequired = !publicPages.includes (to.path);
-//       const loggedIn = localStorage.getItem("token");
-      
-//       if (authRequired && !loggedIn) {
-//           next('/login');
-//       } else {
-//           next();
-//       }
-
-//       if (authRequired) {
-//           next('/login');
-//       } else {
-//           next();
-//       }
-//   });
 
 export default router
