@@ -1,56 +1,46 @@
 <template>
-  <div class="container h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <div class="card bg-white text-dark" style="border-radius: 1rem;">
-          <div class="card-body p-5 text-center">
+  <white-card-20>
 
-            <div class="mb-md-5 mt-md-4 pb-5">
+    <h2 class="fw-bold mb-2 text-uppercase">Register</h2>
+    <p class="text-dark-50 mb-5">Sign up now</p>
 
-              <h2 class="fw-bold mb-2 text-uppercase">Register</h2>
-              <p class="text-dark-50 mb-5">Sign up now</p>
-
-              <div class="text-start mx-1">
-                <p class="text-dark-50 m-0">Email</p>
-              </div>
-              <div data-mdb-input-init class="form-outline form-dark mb-4">
-                <input type="email" id="typeEmailX" class="form-control form-control-lg" placeholder="Email"/>
-              </div>
-
-              <div class="text-start mx-1">
-                <p class="text-dark-50 m-0">Password</p>
-              </div>
-              <div data-mdb-input-init class="form-outline form-dark mb-4">
-                <input type="password" id="typePasswordX" class="form-control form-control-lg" placeholder="Password"/>
-              </div>
-              
-              <div class="text-start mx-1">
-                <p class="text-dark-50 m-0">Repeat password</p>
-              </div>
-              <div data-mdb-input-init class="form-outline form-dark mb-4">
-                <input type="password" id="typePasswordX2" class="form-control form-control-lg" placeholder="Repeat password"/>
-              </div>
-
-              <!-- <p class="small mb-3 pb-lg-2"><a class="text-dark-50" href="#!">Forgot password?</a></p> -->
-
-              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-dark btn-lg px-5" type="submit" @click="Register">Register</button>
-
-            </div>
-
-            <div>
-              <p class="mb-0">Already have an account ? <a href="/Login" class="text-dark-50 fw-bold">Login</a>
-              </p>
-            </div>
-
-          </div>
-        </div>
-      </div>
+    <div class="text-start mx-1">
+      <p class="text-dark-50 m-0">Email</p>
     </div>
-  </div>
+    <div data-mdb-input-init class="form-outline form-dark mb-4">
+      <input type="email" id="typeEmailX" class="form-control form-control-lg" placeholder="Email"/>
+    </div>
+
+    <div class="text-start mx-1">
+      <p class="text-dark-50 m-0">Password</p>
+    </div>
+    <div data-mdb-input-init class="form-outline form-dark mb-4">
+      <input type="password" id="typePasswordX" class="form-control form-control-lg" placeholder="Password"/>
+    </div>
+    
+    <div class="text-start mx-1">
+      <p class="text-dark-50 m-0">Repeat password</p>
+    </div>
+    <div data-mdb-input-init class="form-outline form-dark mb-4">
+      <input type="password" id="typePasswordX2" class="form-control form-control-lg" placeholder="Repeat password"/>
+    </div>
+
+    <!-- <p class="small mb-3 pb-lg-2"><a class="text-dark-50" href="#!">Forgot password?</a></p> -->
+
+    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-dark btn-lg px-5" type="submit" @click="Register">Register</button>
+
+    <div class="mt-4">
+      <p class="mb-0">Already have an account ? <a href="/Login" class="text-dark-50 fw-bold">Login</a>
+      </p>
+    </div>
+
+  </white-card-20>
 </template>
 
 <script>
+import WhiteCard20 from '../LayoutComponents/WhiteCard20.vue';
 export default {
+  components: { WhiteCard20 },
   data: {
     email: '',
     password: '',

@@ -10,9 +10,14 @@
             <b-dropdown-item href="/404">404 page</b-dropdown-item>
           </b-nav-item-dropdown>
 
-          <b-nav-item-dropdown text="USERS" right>
+          <b-nav-item-dropdown text="AUTH" right>
             <b-dropdown-item href="/Login">LOGIN</b-dropdown-item>
             <b-dropdown-item href="/Register">REJESTRACJA</b-dropdown-item>
+          </b-nav-item-dropdown>
+
+          <b-nav-item-dropdown text="USERS" right>
+            <b-dropdown-item href="/Users">Users list</b-dropdown-item>
+            <b-dropdown-item href="/AddUser">Add user</b-dropdown-item>
           </b-nav-item-dropdown>
 
           <b-nav-item-dropdown text="CARS" right>

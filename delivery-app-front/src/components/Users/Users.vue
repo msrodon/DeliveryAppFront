@@ -1,6 +1,6 @@
 <template>
   <white-card-80>
-    <h2 class="fw-bold mb-2 text-uppercase">Registered cars</h2>
+    <h2 class="fw-bold mb-2 text-uppercase">Registered users</h2>
     <hr>
     <div class="mt-4">
       <b-container fluid>
@@ -59,9 +59,14 @@
               <strong> Loading...</strong>
             </div>
           </template>
+
+          <template #cell(activeStatus)="row">
+            <b-icon-circle-fill scale="1" :variant=setStatusColor(row.item.activeStatus) ></b-icon-circle-fill>
+          </template>
+
           <template #cell(buttons)="row">
             <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
-              Edytuj
+              Edit
             </b-button>
           </template>
         </b-table>
@@ -92,22 +97,18 @@ import WhiteCard80 from '../LayoutComponents/WhiteCard80.vue'
         busyState: false,
         fields: [
           { key: 'id', sortable: true },
-          { key: 'brand', sortable: true },
-          { key: 'model', sortable: true },
-          { key: 'year', sortable: true },
-          { key: 'seats', sortable: true },
-          { key: 'engineCapacity', sortable: true },
-          { key: 'horsePower', sortable: true },
-          { key: 'maxLoad', sortable: true },
-          { key: 'buttons', label: "", sortable: false}
+          { key: 'activeStatus', sortable: true },
+          { key: 'firstName', sortable: true },
+          { key: 'lastName', sortable: true },
+          { key: 'userType', sortable: true },
         ],
         items: [
-          { id: 1, brand: 'Ford', model: 'Transit', year: 2001, seats: 1, engineCapacity: 2300, horsePower: 150, maxLoad: 2000 },
-          { id: 2, brand: 'Dacia', model: 'Logan', year: 2020, seats: 3, engineCapacity: 1400, horsePower: 220, maxLoad: 1500 },
-          { id: 3, brand: 'Ford', model: 'Focus ST', year: 2015, seats: 4, engineCapacity: 2000, horsePower: 125, maxLoad: 2400 },
-          { id: 4, brand: 'Fiat', model: 'Ducato', year: 2023, seats: 2, engineCapacity: 3000, horsePower: 160, maxLoad: 2400 },
-          { id: 5, brand: 'Inveco', model: 'Dayli', year: 2014, seats: 3, engineCapacity: 3600, horsePower: 306, maxLoad: 2500 },
-          { id: 6, brand: 'Mercedes-Benz', model: 'Sprinter', year: 2020, seats: 1, engineCapacity: 1500, horsePower: 255, maxLoad: 2600 }
+          { id: 1, activeStatus: true, firstName: 'Mario', lastName: 'Bros', userType: "Szef" },
+          { id: 2, activeStatus: true, firstName: 'Luigi', lastName: 'Bros', userType: "Pomocnik" },
+          { id: 3, activeStatus: true, firstName: 'Yoshi', lastName: 'Leonardi', userType: "Pomocnik" },
+          { id: 4, activeStatus: false, firstName: 'Peach', lastName: 'Princessa', userType: "Baba" },
+          { id: 5, activeStatus: false, firstName: 'Toad', lastName: 'Mushroomski', userType: "Grzyb" },
+          { id: 6, activeStatus: true, firstName: 'Koopa', lastName: 'Troopa', userType: "Zolwww" }
         ],
         
       }
@@ -131,6 +132,9 @@ import WhiteCard80 from '../LayoutComponents/WhiteCard80.vue'
         console.log(item);
         console.log(item.id);
       },
+      setStatusColor(status){
+        return status ? "success" : "danger";
+      }
     }
   }
 </script>

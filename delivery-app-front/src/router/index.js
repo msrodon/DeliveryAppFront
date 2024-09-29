@@ -14,6 +14,9 @@ const NotFound = () => import("../components/404.vue")
 const AddCar = () => import("../components/Cars/AddCar.vue")
 const Cars = () => import("../components/Cars/Cars.vue")
 
+//USERS
+const Users = () => import("../components/Users/Users.vue")
+
 
 Vue.use(VueRouter)
 
@@ -53,6 +56,11 @@ const routes = [
     path: "/Cars",
     name: "Cars",
     component: Cars
+  },
+  {
+    path: "/Users",
+    name: "Users",
+    component: Users
   }
 ]
 

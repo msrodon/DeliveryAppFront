@@ -1,62 +1,44 @@
 <template>
-    <div class="container h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-          <div class="card bg-white text-dark" style="border-radius: 1rem;">
-            <div class="card-body p-5 text-center">
-  
-              <div class="mb-md-5 mt-md-4 pb-5">
-  
-                <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-                <p class="text-dark-50 mb-5">Please enter your login and password!</p>
-  
-                <div class="text-start mx-1">
-                    <p class="text-dark-50 m-0">Email</p>
-                </div>
-                <div data-mdb-input-init class="form-outline form-dark mb-4">
-                  <input type="email" id="typeEmailX" class="form-control form-control-lg" placeholder="Email" v-model="email"/>
-                </div>
-  
-                <div class="text-start mx-1">
-                    <p class="text-dark-50 m-0">Password</p>
-                </div>
-                <div data-mdb-input-init class="form-outline form-dark mb-4">
-                  <input type="password" id="typePasswordX" class="form-control form-control-lg" placeholder="Password" v-model="password"/>
-                </div>
-  
-                <!-- <p class="small mb-3 pb-lg-2"><a class="text-dark-50" href="#!">Forgot password?</a></p> -->
-  
-                <button class="btn btn-outline-dark btn-lg px-5" @click="Login">Login</button>
-  
-              </div>
-  
-                <div v-if="this.error != null">
-                            <p style="color: red;">{{ this.error }}</p>
-                        </div>
-                <div>
-                    
-                <p class="mb-0">Don't have an account? <a href="/Register" class="text-dark-50 fw-bold">Sign Up</a>
-                </p>
-              </div>
-  
-            </div>
-          </div>
-        </div>
+    <white-card-20>
+
+      <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+      <p class="text-dark-50 mb-5">Please enter your login and password!</p>
+
+      <div class="text-start mx-1">
+          <p class="text-dark-50 m-0">Email</p>
       </div>
-    </div>
-  </template>
+      <div data-mdb-input-init class="form-outline form-dark mb-4">
+        <input type="email" id="typeEmailX" class="form-control form-control-lg" placeholder="Email" v-model="email"/>
+      </div>
 
-<style>
+      <div class="text-start mx-1">
+          <p class="text-dark-50 m-0">Password</p>
+      </div>
+      <div data-mdb-input-init class="form-outline form-dark mb-4">
+        <input type="password" id="typePasswordX" class="form-control form-control-lg" placeholder="Password" v-model="password"/>
+      </div>
 
-.card{
-    padding: 10px;
-}
+      <!-- <p class="small mb-3 pb-lg-2"><a class="text-dark-50" href="#!">Forgot password?</a></p> -->
 
-</style>
+      <button class="btn btn-outline-dark btn-lg px-5" @click="Login">Login</button>
+
+
+      <div v-if="this.error != null">
+        <p style="color: red;">{{ this.error }}</p>
+      </div>
+
+      <div class="mt-4">
+        <p class="mb-0">Don't have an account? <a href="/Register" class="text-dark-50 fw-bold">Sign Up</a></p>
+      </div>
+
+    </white-card-20>
+</template>
 
 <script>
+import WhiteCard20 from '../LayoutComponents/WhiteCard20.vue';
 
 export default {
+  components: { WhiteCard20 },
     data() {
         return {
             email: '',
