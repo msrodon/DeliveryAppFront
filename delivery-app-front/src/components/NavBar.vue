@@ -17,13 +17,17 @@
 
           <b-nav-item-dropdown text="USERS" right>
             <b-dropdown-item href="/Users">Users list</b-dropdown-item>
-            <b-dropdown-item href="/AddUser">Add user</b-dropdown-item>
           </b-nav-item-dropdown>
 
           <b-nav-item-dropdown text="CARS" right>
             <b-dropdown-item href="/Cars">Cars list</b-dropdown-item>
-            <b-dropdown-item href="/AddCar">Add car</b-dropdown-item>
+            <b-dropdown-item href="/Cars/AddCar">Add car</b-dropdown-item>
           </b-nav-item-dropdown>
+          
+          <b-nav-item-dropdown text="DICTIONARIES" right>
+            <b-dropdown-item href="/DictionaryTypes">Dictionaries types</b-dropdown-item>
+          </b-nav-item-dropdown>
+
         </b-navbar-nav>
       </b-navbar>
     </div>

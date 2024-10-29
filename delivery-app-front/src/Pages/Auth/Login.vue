@@ -22,6 +22,9 @@
 
       <button class="btn btn-outline-dark btn-lg px-5" @click="Login">Login</button>
 
+      
+      <button class="btn btn-outline-dark btn-lg px-5" @click="Logs">Log Logs</button>
+
 
       <div v-if="this.error != null">
         <p style="color: red;">{{ this.error }}</p>
@@ -35,7 +38,7 @@
 </template>
 
 <script>
-import WhiteCard20 from '../LayoutComponents/WhiteCard20.vue';
+import WhiteCard20 from '../../components/LayoutComponents/WhiteCard20.vue';
 
 export default {
   components: { WhiteCard20 },
@@ -52,40 +55,40 @@ export default {
             this.error = null;
 
         try {
-                // const response = await axios.post('https://localhost:7263/Auth/login', {
-                //   username: this.username,
-                //   password: this.password
-                // });
-                
-                const response = await fetch('https://localhost:7263/Auth/login', {
+                const response = await fetch('https://localhost:7263/login', {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
                     },
                         body: JSON.stringify({
-                        email: this.email,
-                        password: this.password
+                            email: this.email,
+                            password: this.password,
                     }),
                         credentials: 'include' 
-                });
-                
-                
-                console.log("POST - https://localhost:7263/Auth/login");
+                })
+                .then(data => { return data.json() });
+
+                console.log("POST - https://localhost:7263/login");
                 console.log(response);
 
-                const token = response.data.token;
-                localStorage.setItem('token', token);
+                // const token = response.data.token;
+                localStorage.setItem('token', response.accessToken);
+                localStorage.setItem('refreshToken', response.refreshToken);
 
-                this.email = null;
-                this.password = null;
+                // this.email = null;
+                // this.password = null;
 
                 // Dodaj token do nagłówków Axios
                 // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-                this.$router.push({ name: 'dashboard' });
+                // this.$router.push({ name: 'dashboard' });
             } catch (error) {
                 this.error = 'Niepoprawne dane logowania';
             }
+        },
+        Logs(){
+            console.log("LOGGINNS");
+            console.log(localStorage.getItem('token'));
         }
     }
 }

@@ -83,58 +83,58 @@
 </template>
 
 <script>
-import WhiteCard80 from '../LayoutComponents/WhiteCard80.vue'
-  export default {
-  components: { WhiteCard80 },
-    data() {
-      return {
-        sortBy: null,
-        sortDesc: false,
-        totalRows: 0,
-        currentPage: 0,
-        perPage: 5,
-        pageOptions: [1, 5, 10, 25, 50,100],
-        busyState: false,
-        fields: [
-          { key: 'id', sortable: true },
-          { key: 'activeStatus', sortable: true },
-          { key: 'firstName', sortable: true },
-          { key: 'lastName', sortable: true },
-          { key: 'userType', sortable: true },
-        ],
-        items: [
-          { id: 1, activeStatus: true, firstName: 'Mario', lastName: 'Bros', userType: "Szef" },
-          { id: 2, activeStatus: true, firstName: 'Luigi', lastName: 'Bros', userType: "Pomocnik" },
-          { id: 3, activeStatus: true, firstName: 'Yoshi', lastName: 'Leonardi', userType: "Pomocnik" },
-          { id: 4, activeStatus: false, firstName: 'Peach', lastName: 'Princessa', userType: "Baba" },
-          { id: 5, activeStatus: false, firstName: 'Toad', lastName: 'Mushroomski', userType: "Grzyb" },
-          { id: 6, activeStatus: true, firstName: 'Koopa', lastName: 'Troopa', userType: "Zolwww" }
-        ],
-        
-      }
+import WhiteCard80 from '../../components/LayoutComponents/WhiteCard80.vue'
+export default {
+components: { WhiteCard80 },
+  data() {
+    return {
+      sortBy: null,
+      sortDesc: false,
+      totalRows: 0,
+      currentPage: 0,
+      perPage: 5,
+      pageOptions: [1, 5, 10, 25, 50,100],
+      busyState: false,
+      fields: [
+        { key: 'id', sortable: true },
+        { key: 'activeStatus', sortable: true },
+        { key: 'firstName', sortable: true },
+        { key: 'lastName', sortable: true },
+        { key: 'userType', sortable: true },
+      ],
+      items: [
+        { id: 1, activeStatus: true, firstName: 'Mario', lastName: 'Bros', userType: "Szef" },
+        { id: 2, activeStatus: true, firstName: 'Luigi', lastName: 'Bros', userType: "Pomocnik" },
+        { id: 3, activeStatus: true, firstName: 'Yoshi', lastName: 'Leonardi', userType: "Pomocnik" },
+        { id: 4, activeStatus: false, firstName: 'Peach', lastName: 'Princessa', userType: "Baba" },
+        { id: 5, activeStatus: false, firstName: 'Toad', lastName: 'Mushroomski', userType: "Grzyb" },
+        { id: 6, activeStatus: true, firstName: 'Koopa', lastName: 'Troopa', userType: "Zolwww" }
+      ],
+      
+    }
+  },
+  mounted() {
+    // Set the initial number of items
+    this.totalRows = this.items.length
+    this.currentPage = 1.
+  },
+  methods:{
+    changeBusyState(){
+      this.busyState = !this.busyState;
     },
-    mounted() {
-      // Set the initial number of items
-      this.totalRows = this.items.length
-      this.currentPage = 1.
+    resetSort(){
+      this.sortBy = "id";
+      this.sortDesc = true;
+      this.perPage = 5;
+      this.currentPage = 1;
     },
-    methods:{
-      changeBusyState(){
-        this.busyState = !this.busyState;
-      },
-      resetSort(){
-        this.sortBy = "id";
-        this.sortDesc = true;
-        this.perPage = 5;
-        this.currentPage = 1;
-      },
-      info(item, index, button) {
-        console.log(item);
-        console.log(item.id);
-      },
-      setStatusColor(status){
-        return status ? "success" : "danger";
-      }
+    info(item, index, button) {
+      console.log(item);
+      console.log(item.id);
+    },
+    setStatusColor(status){
+      return status ? "success" : "danger";
     }
   }
+}
 </script>

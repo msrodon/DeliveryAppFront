@@ -5,24 +5,46 @@
     <p class="text-dark-50 mb-5">Sign up now</p>
 
     <div class="text-start mx-1">
+      <p class="text-dark-50 m-0">Username</p>
+    </div>
+    <div data-mdb-input-init class="form-outline form-dark mb-4">
+      <input type="text" id="typeUsernameX" class="form-control form-control-lg" placeholder="Username" v-model="username"/>
+    </div>
+    
+    
+    <div class="text-start mx-1">
+      <p class="text-dark-50 m-0">First name</p>
+    </div>
+    <div data-mdb-input-init class="form-outline form-dark mb-4">
+      <input type="text" id="typeFirstnameX" class="form-control form-control-lg" placeholder="Firstname" v-model="firstName"/>
+    </div>
+    
+    <div class="text-start mx-1">
+      <p class="text-dark-50 m-0">Last name</p>
+    </div>
+    <div data-mdb-input-init class="form-outline form-dark mb-4">
+      <input type="text" id="typeLastnameX" class="form-control form-control-lg" placeholder="Last name" v-model="lastName"/>
+    </div>
+
+    <div class="text-start mx-1">
       <p class="text-dark-50 m-0">Email</p>
     </div>
     <div data-mdb-input-init class="form-outline form-dark mb-4">
-      <input type="email" id="typeEmailX" class="form-control form-control-lg" placeholder="Email"/>
+      <input type="text" id="typeEmailX" class="form-control form-control-lg" placeholder="Email" v-model="email"/>
     </div>
 
     <div class="text-start mx-1">
       <p class="text-dark-50 m-0">Password</p>
     </div>
     <div data-mdb-input-init class="form-outline form-dark mb-4">
-      <input type="password" id="typePasswordX" class="form-control form-control-lg" placeholder="Password"/>
+      <input type="password" id="typePasswordX" class="form-control form-control-lg" placeholder="Password" v-model="password"/>
     </div>
     
     <div class="text-start mx-1">
       <p class="text-dark-50 m-0">Repeat password</p>
     </div>
     <div data-mdb-input-init class="form-outline form-dark mb-4">
-      <input type="password" id="typePasswordX2" class="form-control form-control-lg" placeholder="Repeat password"/>
+      <input type="password" id="typePasswordX2" class="form-control form-control-lg" placeholder="Repeat password" v-model="repeatedPassword"/>
     </div>
 
     <!-- <p class="small mb-3 pb-lg-2"><a class="text-dark-50" href="#!">Forgot password?</a></p> -->
@@ -38,13 +60,16 @@
 </template>
 
 <script>
-import WhiteCard20 from '../LayoutComponents/WhiteCard20.vue';
+import WhiteCard20 from '../../components/LayoutComponents/WhiteCard20.vue';
 export default {
   components: { WhiteCard20 },
   data: {
     email: '',
+    username: '',
     password: '',
     repeatedPassword: '',
+    firstName: '',
+    lastName: '',
     error: null
   },
   methods: {
@@ -54,6 +79,7 @@ export default {
       if(!this.ValidatePasswords()){
         
         console.log("register11");
+        console.log(this.error);
         return;
       }
 
@@ -68,8 +94,11 @@ export default {
                   'Content-Type': 'application/json',
               },
                 body: JSON.stringify({
+                username: this.username,
                 email: this.email,
-                password: this.password
+                password: this.password,
+                firstName: this.firstName,
+                lastName: this.lastName
               }),
                 credentials: 'include' 
           });
@@ -77,18 +106,18 @@ export default {
           console.log("POST - https://localhost:7263/Auth/Register");
           console.log(response);
 
-          const token = response.data.token;
-          localStorage.setItem('token', token);
+          // const token = response.data.token;
+          // localStorage.setItem('token', token);
 
-          this.email = null;
-          this.password = null;
+          // this.email = null;
+          // this.password = null;
 
           // Dodaj token do nagłówków Axios
           // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-          this.$router.push({ name: 'dashboard' });
+          // this.$router.push({ name: 'dashboard' });
       } catch (error) {
-          this.error = 'Niepoprawne dane logowania';
+        this.error = 'Niepoprawne dane logowania';
       }
     },
     ValidatePasswords() {
