@@ -6,6 +6,9 @@ import store from './store'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 
+//CSS
+import "@/assets/styles/global.css"
+
 //Global components
 import NavBar from '@/components/NavBar.vue';
 import BaseCard from '@/components/layoutComponents/BaseCard.vue';
