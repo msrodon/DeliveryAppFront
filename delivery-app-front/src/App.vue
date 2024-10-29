@@ -7,28 +7,6 @@
   </div>
 </template>
 
-<script>
-import NavBar from '@/components/NavBar.vue';
-import BaseCard from '@/components/layoutComponents/BaseCard.vue';
-import BaseDialog from '@/components/layoutComponents/BaseDialog.vue';
-
-// //White cards
-import WhiteCard80 from '@/components/layoutComponents/WhiteCard80.vue';
-import WhiteCard50 from '@/components/layoutComponents/WhiteCard50.vue';
-import WhiteCard20 from '@/components/layoutComponents/WhiteCard20.vue';
-
-export default {
-  components: {
-    NavBar,
-    BaseCard,
-    BaseDialog,
-    WhiteCard80,
-    WhiteCard50,
-    WhiteCard20
-  }
-}
-</script>
-
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
