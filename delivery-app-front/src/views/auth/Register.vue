@@ -10,7 +10,13 @@
     <div data-mdb-input-init class="form-outline form-dark mb-4">
       <input type="text" id="typeUsernameX" class="form-control form-control-lg" placeholder="Username" v-model="username"/>
     </div>
-    
+
+    <div class="text-start mx-1">
+      <p class="text-dark-50 m-0">Email</p>
+    </div>
+    <div data-mdb-input-init class="form-outline form-dark mb-4">
+      <input type="text" id="typeEmailX" class="form-control form-control-lg" placeholder="Email" v-model="email"/>
+    </div>
     
     <div class="text-start mx-1">
       <p class="text-dark-50 m-0">First name</p>
@@ -27,13 +33,6 @@
     </div>
 
     <div class="text-start mx-1">
-      <p class="text-dark-50 m-0">Email</p>
-    </div>
-    <div data-mdb-input-init class="form-outline form-dark mb-4">
-      <input type="text" id="typeEmailX" class="form-control form-control-lg" placeholder="Email" v-model="email"/>
-    </div>
-
-    <div class="text-start mx-1">
       <p class="text-dark-50 m-0">Password</p>
     </div>
     <div data-mdb-input-init class="form-outline form-dark mb-4">
@@ -46,8 +45,6 @@
     <div data-mdb-input-init class="form-outline form-dark mb-4">
       <input type="password" id="typePasswordX2" class="form-control form-control-lg" placeholder="Repeat password" v-model="repeatedPassword"/>
     </div>
-
-    <p class="small mb-3 pb-lg-2"><a class="text-dark-50" href="#!">Forgot password?</a></p>
 
     <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-dark btn-lg px-5" type="submit" >Register</button>
 

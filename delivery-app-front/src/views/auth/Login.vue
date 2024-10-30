@@ -20,11 +20,7 @@
 
       <!-- <p class="small mb-3 pb-lg-2"><a class="text-dark-50" href="#!">Forgot password?</a></p> -->
 
-      <button class="btn btn-outline-dark btn-lg px-5" @click="Login">Login</button>
-
-      
-      <button class="btn btn-outline-dark btn-lg px-5" @click="Logs">Log Logs</button>
-
+      <button class="btn btn-outline-success btn-lg px-5" @click="Login">Login</button>
 
       <div v-if="this.error != null">
         <p style="color: red;">{{ this.error }}</p>
@@ -33,6 +29,8 @@
       <div class="mt-4">
         <p class="mb-0">Don't have an account? <a href="/Register" class="text-dark-50 fw-bold">Sign Up</a></p>
       </div>
+
+    <p class="small mb-3 pb-lg-2"><a class="text-dark-50" href="#!">Forgot password?</a></p>
 
     </white-card-20>
 </template>
@@ -98,10 +96,6 @@ export default {
             } catch (error) {
                 this.error = 'Niepoprawne dane logowania';
             }
-        },
-        Logs(){
-            console.log("LOGGINNS");
-            console.log(localStorage.getItem('token'));
         }
     }
 }

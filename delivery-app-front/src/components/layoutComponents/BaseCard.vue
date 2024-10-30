@@ -7,7 +7,7 @@
 <style>
 
 .base-card {
-    background-color: #c7c7c7;
+    /* background-color: #c7c7c7; */
     width: 95vw;
     height: 80vh;
     margin-top: 10px;

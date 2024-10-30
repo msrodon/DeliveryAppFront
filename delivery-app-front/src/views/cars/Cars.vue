@@ -32,9 +32,7 @@
         </b-col>
       
           <b-col sm="7" md="8" class="my-1 d-flex justify-content-end">
-            <a href="/Cars/AddCar">
-              <button class="btn btn-lg btn-outline-success m-0">Add new car</button>
-            </a>
+            <button class="btn btn-lg btn-outline-success m-0" @click="addNewCar">Add new car</button>
           </b-col>
         </b-row>
         <b-row class="mb-3">
@@ -179,6 +177,9 @@
         var route = "/Cars/EditCar/"+ item.id
 
         this.$router.push({ path: route })
+      },
+      addNewCar(){
+        this.$router.push("/Cars/AddCar")
       }
     }
   }

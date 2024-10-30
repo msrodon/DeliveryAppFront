@@ -1,7 +1,7 @@
 <template>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid mx-5">
-    
+  <div class="container-fluid mx-3">
+    <h1 class="pe-2">DELIVERY APP///</h1>
     <button class="nav-link" @click="redirect('/')">HOME</button>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,39 +9,30 @@
     <div class="collapse navbar-collapse" id="navbarScroll" v-if="!!isAuth">
       <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              MENU
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-              <li><button class="dropdown-item" @click="redirect('/TestEndpoints')">TEST BUTTONS</button></li>
-              <li><button class="dropdown-item" @click="redirect('/404')">404 PAGE</button></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              USERS
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-              <li><button class="dropdown-item" @click="redirect('/Users')">USERS LSIT</button></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              CARS
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-              <li><button class="dropdown-item" @click="redirect('/Cars')">CARS LSIT</button></li>
-              <li><button class="dropdown-item" @click="redirect('/Cars/AddCar')">ADD CAR</button></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              DICTIONARIES
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-              <li><button class="dropdown-item" @click="redirect('/DictionaryTypes')">DICTIONARY TYPES</button></li>
-            </ul>
-          </li>
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            USERS
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><button class="dropdown-item" @click="redirect('/Users')">USERS LSIT</button></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            CARS
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><button class="dropdown-item" @click="redirect('/Cars')">CARS LSIT</button></li>
+            <li><button class="dropdown-item" @click="redirect('/Cars/AddCar')">ADD CAR</button></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            DICTIONARIES
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><button class="dropdown-item" @click="redirect('/DictionaryTypes')">DICTIONARY TYPES</button></li>
+          </ul>
+        </li>
       </ul>
       <div class="d-flex">
         <h2 class="">{{ this.userLogin }}</h2>
@@ -50,14 +41,6 @@
     </div>
     <div class="collapse navbar-collapse" id="navbarScroll" v-else>
       <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              MENU
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-              <li><button class="dropdown-item" @click="redirect('/TestEndpoints')">TEST BUTTONS</button></li>
-            </ul>
-        </li>
         <button class="nav-link" @click="redirect('/Login')">LOGIN</button>
         <button class="nav-link" @click="redirect('/Register')">REGISTER</button>
       </ul>
@@ -114,6 +97,6 @@ h2{
 
 .nav-link:hover{
   background-color: #76ABAE;
-  transition: background-color 0.3s linear;
+  transition: background-color 0.5s linear;
 }
 </style>
