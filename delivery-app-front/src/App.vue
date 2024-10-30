@@ -7,6 +7,19 @@
   </div>
 </template>
 
+<script>
+
+import NavBar from '@/components/NavBar.vue';
+export default {
+  components: {
+    NavBar
+  },
+  created() {
+    this.$store.dispatch('auth/TryLogin');
+  }
+}
+</script>
+
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

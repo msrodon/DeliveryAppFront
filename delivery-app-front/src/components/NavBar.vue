@@ -1,28 +1,20 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">HOME</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid mx-5">
+    
+    <button class="nav-link" @click="redirect('/')">HOME</button>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll" v-if="!!isAuth">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               MENU
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-              <li><a class="dropdown-item" href="/TestEndpoints">TEST BUTTONS</a></li>
-              <li><a class="dropdown-item" href="/404">404 PAGE</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              AUTH
-            </a>
-            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-              <li><a class="dropdown-item" href="/Login">LOGIN</a></li>
-              <li><a class="dropdown-item" href="/Register">REGISTER</a></li>
+              <li><button class="dropdown-item" @click="redirect('/TestEndpoints')">TEST BUTTONS</button></li>
+              <li><button class="dropdown-item" @click="redirect('/404')">404 PAGE</button></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
@@ -30,7 +22,7 @@
               USERS
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-              <li><a class="dropdown-item" href="/Users">USERS LSIT</a></li>
+              <li><button class="dropdown-item" @click="redirect('/Users')">USERS LSIT</button></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
@@ -38,8 +30,8 @@
               CARS
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-              <li><a class="dropdown-item" href="/Cars">CARS LSIT</a></li>
-              <li><a class="dropdown-item" href="/Cars/AddCar">ADD CAR</a></li>
+              <li><button class="dropdown-item" @click="redirect('/Cars')">CARS LSIT</button></li>
+              <li><button class="dropdown-item" @click="redirect('/Cars/AddCar')">ADD CAR</button></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
@@ -47,23 +39,81 @@
               DICTIONARIES
             </a>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-              <li><a class="dropdown-item" href="/DictionaryTypes">DICTIONARY TYPES</a></li>
+              <li><button class="dropdown-item" @click="redirect('/DictionaryTypes')">DICTIONARY TYPES</button></li>
             </ul>
           </li>
-        </ul>
+      </ul>
+      <div class="d-flex">
+        <h2 class="">{{ this.userLogin }}</h2>
+        <button class="btn sm btn-outline-danger ms-4" @click="logout">Logout</button>
       </div>
     </div>
-  </nav>
+    <div class="collapse navbar-collapse" id="navbarScroll" v-else>
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              MENU
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+              <li><button class="dropdown-item" @click="redirect('/TestEndpoints')">TEST BUTTONS</button></li>
+            </ul>
+        </li>
+        <button class="nav-link" @click="redirect('/Login')">LOGIN</button>
+        <button class="nav-link" @click="redirect('/Register')">REGISTER</button>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 </template>
 
-<style lang="scss">
+<script>
+export default {
+  
+  computed: {
+  isAuth(){
+    return this.$store.getters['auth/UserIsAuthenticated'];
+  },
+  userLogin(){
+    return this.$store.getters['auth/UserLogin'];
+  }
+},
+methods: {
+  redirect(to){
+    this.$router.push(to);
+  },
+  logout(){
+    this.$store.dispatch('auth/Logout');
+  }
+}
+}
+</script>
+
+<style scoped lang="scss">
+
+a{
+  color: white;
+}
+
+h2{
+  color: white;
+}
+
 .navbar{
   background-color: #76ABAE;
 }
 
 .nav-link{
-  color: #EEEEEE !important;
+  color: white !important;
   font-size: 130% !important;
   font-weight: 500 !important;
+  
+  margin-right: 0.5rem !important;
+  margin-left: 0.5rem !important;
+}
+
+.nav-link:hover{
+  background-color: #76ABAE;
+  transition: background-color 0.3s linear;
 }
 </style>

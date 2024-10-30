@@ -2,8 +2,6 @@
   <div>
       <button class="btn btn-success" @click="login">Test LOGIN</button>
       <button class="btn btn-success" @click="logout">Test LOGOUT</button>
-      <p v-if="!!isAuth">LOGGED</p>
-
   </div>
 </template>
 
@@ -12,18 +10,23 @@
 export default {
 methods: {
   login(){
-    // this.#store.dispatch("login");
+    localStorage.setItem('token', "TestToken");
+    localStorage.setItem('refreshToken', "TestRefreshToken");
+
+    this.$store.dispatch('auth/Login', {userLogin: "Mario"});
   },
   logout(){
-    // this.$store.dispatch("logout")
+    this.$store.dispatch('auth/Logout');
   }
 },
 computed: {
   isAuth(){
-    // #return this.$store.getters.UserIsAuthenticated
+    return this.$store.getters['auth/UserIsAuthenticated'];
+  },
+  userLogin(){
+    return this.$store.getters['auth/UserLogin'];
   }
-}
-}
+}}
 
 </script>
 

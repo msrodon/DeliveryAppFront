@@ -48,11 +48,16 @@ export default {
         };
     },
     methods: {
+        
+        login(userLogin){
+            this.$store.dispatch('auth/Login', {userLogin});
+        },
+        
         async Login() {
 
             this.error = null;
 
-        try {
+            try {
                 const response = await fetch('https://localhost:7263/login', {
                     method: "POST",
                     headers: {
@@ -66,20 +71,30 @@ export default {
                 })
                 .then(data => { return data.json() });
 
-                console.log("POST - https://localhost:7263/login");
-                console.log(response);
+                // console.log("POST - https://localhost:7263/login");
+                // console.log(response);
 
-                // const token = response.data.token;
                 localStorage.setItem('token', response.accessToken);
                 localStorage.setItem('refreshToken', response.refreshToken);
 
-                // this.email = null;
-                // this.password = null;
+                const token = localStorage.getItem('token');
 
-                // Dodaj token do nagłówków Axios
-                // axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                const response2 = await fetch('https://localhost:7263/Auth/me', {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                        credentials: 'include' 
+                })
+                .then(data => { return data.json() });
 
-                // this.$router.push({ name: 'dashboard' });
+                // console.log("GET - https://localhost:7263/Auth/me");
+                // console.log(response2);
+
+                this.login(response2.email)
+
+                this.$router.push({ name: 'dashboard' });
             } catch (error) {
                 this.error = 'Niepoprawne dane logowania';
             }
