@@ -11,7 +11,7 @@
               <p class="text-dark-50 m-0">na gurze rurze</p>
               <p class="text-dark-50 m-0">kuce w piwnicy</p>
               <hr>
-              <img src="../assets/eyes1.png" alt="" width="20%">
+              <img src="./../assets/images/eyes1.png" alt="" width="20%">
 
               <p class="text-dark-50 m-0">spacje czy taby</p>
               <p class="text-dark-50 m-0">nie widze różnicy</p>
