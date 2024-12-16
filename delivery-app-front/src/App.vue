@@ -15,7 +15,7 @@ export default {
     NavBar
   },
   created() {
-    this.$store.dispatch('auth/TryLogin');
+    // this.$store.dispatch('auth/TryLogin');
   }
 }
 </script>

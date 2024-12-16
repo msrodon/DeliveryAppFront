@@ -16,6 +16,7 @@ const EditCar = () => import("@/views/cars/EditCar.vue")
 
 //USERS
 const Users = () => import("@/views/users/Users.vue")
+const EditUser = () => import("@/views/users/EditUser.vue")
 
 const routes = [
   {path: '/', name: 'home', component: HomeView },
@@ -29,6 +30,7 @@ const routes = [
   {path: "/Cars/EditCar/:id",name: "EditCar",component: EditCar, meta: { requiresAuth: true}},
   
   {path: "/Users",name: "Users",component: Users, meta: { requiresAuth: true}},
+  {path: "/Users/EditUser/:id",name: "EditUser",component: EditUser, meta: { requiresAuth: true}},
 
   {path: "/testEndpoints",name: "testEndpoints",component: TestEndpointsButtons},
   {path: "/404",name: "404",component: NotFound,},
@@ -42,9 +44,14 @@ const router = createRouter({
 })
 
 router.beforeEach(function(to, from, next){
+
+  if(!store.getters['auth/UserIsAuthenticated']){
+    store.dispatch('auth/TryLogin');    
+  } 
+
   if(to.meta.requiresAuth && !store.getters['auth/UserIsAuthenticated']){
     next('/Login');
-  }else if(to.meta.requiresUnauth && store.getters['auth/UserIsAuthenticated']){
+  }else if(to.meta.requiresUnauth && !!store.getters['auth/UserIsAuthenticated']){
     next('/')
   }else{
     next();

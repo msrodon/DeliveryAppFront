@@ -1,5 +1,6 @@
 export default {
     Login(context, payload){
+        console.log("login");
         context.commit("setAuth", {isAuth: true, userLogin: payload.userLogin});
     },
     Logout(context){
@@ -16,21 +17,24 @@ export default {
             return;
         }
 
-        try{
-
+        try {
             const response = await fetch('https://localhost:7263/Auth/me', {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                credentials: 'include' 
-            })
-            .then(data => { return data.json() });
-            
-            context.dispatch("Login", {userLogin: response.email})
-        }catch(err){
-            console.log(err);
+                credentials: 'include'
+            });
+        
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+        
+            const data = await response.json();
+            context.dispatch("Login", { userLogin: data.email });
+        } catch (err) {
+            console.log('Fetch error:', err);
         }
     }
 }

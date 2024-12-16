@@ -46,7 +46,7 @@
       <input type="password" id="typePasswordX2" class="form-control form-control-lg" placeholder="Repeat password" v-model="repeatedPassword"/>
     </div>
 
-    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-dark btn-lg px-5" type="submit" >Register</button>
+    <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-dark btn-lg px-5" v-on:click="Register()">Register</button>
 
     <div class="mt-4">
       <p class="mb-0">Already have an account ? <a href="/Login" class="text-dark-50 fw-bold">Login</a>
@@ -112,9 +112,9 @@ export default {
       } catch (error) {
         this.error = 'Niepoprawne dane logowania';
       }
+      this.$router.push("/Login");
     },
     ValidatePasswords() {
-      console.log("AAA");
 
       // Sprawdzenie, czy hasła nie są puste
       if (!this.password || !this.repeatedPassword) {
