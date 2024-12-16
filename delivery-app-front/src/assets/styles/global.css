@@ -93,3 +93,27 @@ body {
     padding-right: 5px;
     padding-left: 5px
 }
+
+.status-circle {
+display: inline-block;
+width: 15px;
+height: 15px;
+border-radius: 50%;
+}
+
+.green-circle {
+background-color: green;
+}
+
+.red-circle {
+background-color: red;
+}
+
+.table>tbody {
+    vertical-align: middle;
+}
+
+.deactiveUser > td,
+.deactiveUser > th{
+    color: #6c757d;
+}

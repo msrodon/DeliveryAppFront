@@ -107,11 +107,13 @@ export default {
     methods: {
         async EditCar() {
 
+            const token = localStorage.getItem('token');
             try {
                 const response = await fetch('https://localhost:7263/Cars/editCar', {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                         body: JSON.stringify({
                             id: this.id,
@@ -133,6 +135,7 @@ export default {
         },
         async FetchCarData(){
             var url = 'https://localhost:7263/Cars/getCar?'
+            const token = localStorage.getItem('token');
 
             const response = await fetch(url + new URLSearchParams({
                 carId: this.$route.params.id
@@ -140,13 +143,14 @@ export default {
             {
                 method: "GET",
                 headers: {
-                    'accept': ''
+                    // 'accept': '',
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
             });
             const responseJson = await response.json();
             var fetchCar = responseJson.car;
 
-            console.log(fetchCar);
             this.id = fetchCar.id;
             this.brand = fetchCar.brand;
             this.model = fetchCar.model;

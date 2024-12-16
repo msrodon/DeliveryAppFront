@@ -106,11 +106,13 @@ export default {
     methods: {
         async AddCar() {
 
+            const token = localStorage.getItem('token');
             try {
                 const response = await fetch('https://localhost:7263/Cars/addCar', {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
                     },
                         body: JSON.stringify({
                             brand: this.brand,
@@ -123,11 +125,11 @@ export default {
                     }),
                         credentials: 'include' 
                 });
+                this.$router.push({ path: '/Cars' })
             } catch (error) {
 
             }
             
-            this.$router.push({ path: '/Cars' })
         }
     }
 }
