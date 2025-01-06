@@ -9,8 +9,14 @@ const Register = () => import("@/views/auth/Register.vue")
 const TestEndpointsButtons = () => import('@/components/layoutComponents/TestEndpointsButtons.vue')
 const NotFound = () => import("@/components/404.vue")
 
+//DICTIONARIES
+const Dictionaries = () => import("@/views/dictionaries/Dictionaries.vue")
+const AddDictionary = () => import("@/views/dictionaries/AddDictionary.vue")
+const EditDictionary = () => import("@/views/dictionaries/EditDictionary.vue")
+
 //DICTIONARY TYPES
 const DictionaryTypes = () => import("@/views/dictionaryTypes/DictionaryTypes.vue")
+const AddDictionaryType = () => import("@/views/dictionaryTypes/AddDictionaryType.vue")
 
 //CARS
 const Cars = () => import("@/views/cars/Cars.vue")
@@ -22,13 +28,18 @@ const Users = () => import("@/views/users/Users.vue")
 const EditUser = () => import("@/views/users/EditUser.vue")
 
 const routes = [
-  {path: '/', name: 'home', component: HomeView },
-  {path: '/dashboard', name: 'dashboard', component: HomeView },
+  {path: '/', name: 'home', component: HomeView, meta: { requiresAuth: true} },
+  {path: '/dashboard', name: 'dashboard', component: HomeView, meta: { requiresAuth: true} },
 
   {path: "/login", name:"Login",component: Login, meta: { requiresUnauth: true }},
   {path: "/register",name: "Register",component: Register, meta: { requiresUnauth: true }},
+  
+  {path: "/DictionaryTypes/:typeId/Dictionaries", name: "Dictionaries",component: Dictionaries, meta: { requiresAuth: true}},
+  {path: "/DictionaryTypes/:typeId/Dictionaries/AddDictionary", name: "AddDictionary",component: AddDictionary, meta: { requiresAuth: true}},
+  {path: "/DictionaryTypes/:typeId/Dictionaries/EditDictionary/:id", name: "EditDictionary",component: EditDictionary, meta: { requiresAuth: true}},
 
   {path: "/DictionaryTypes", name: "DictionaryTypes",component: DictionaryTypes, meta: { requiresAuth: true}},
+  {path: "/DictionaryTypes/AddDictionaryType",name: "AddDictionaryType",component: AddDictionaryType, meta: { requiresAuth: true}},
   
   {path: "/Cars",name: "Cars",component: Cars, meta: { requiresAuth: true}},
   {path: "/Cars/AddCar",name: "AddCar",component: AddCar, meta: { requiresAuth: true}},

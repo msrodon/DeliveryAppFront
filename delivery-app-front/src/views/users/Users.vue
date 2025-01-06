@@ -33,17 +33,15 @@
               <td>{{ user.lastName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.phoneNumber }}</td>
-              <div class="text-start ms-2">
-                  <td v-if="user.activeStatus">
-                    <button size="sm" @click="editUser(user.id)" class="me-3 btn btn-primary">Edit</button>
-                    <button size="sm" @click="changeActiveStatus(user.id, false)" class="me-3 btn btn-danger">Deactivate</button>
-                    <!-- <button size="sm" @click="deleteUser(user.id)" class="btn btn-danger">Delete</button> -->
-                  </td>
-                  <td v-else>
-                    <button size="sm" @click="editUser(user.id)" class="me-3 btn btn-primary">Edit</button>
-                    <button size="sm" @click="changeActiveStatus(user.id, true)" class="me-3 btn btn-success">Activate</button>
-                  </td>
-              </div>
+              <td v-if="user.activeStatus" class="text-start ms-2">
+                <button size="sm" @click="editUser(user.id)" class="me-3 btn btn-primary">Edit</button>
+                <button size="sm" @click="changeActiveStatus(user.id, false)" class="me-3 btn btn-danger">Deactivate</button>
+                <!-- <button size="sm" @click="deleteUser(user.id)" class="btn btn-danger">Delete</button> -->
+              </td>
+              <td v-else class="text-start ms-2">
+                <button size="sm" @click="editUser(user.id)" class="me-3 btn btn-primary">Edit</button>
+                <button size="sm" @click="changeActiveStatus(user.id, true)" class="me-3 btn btn-success">Activate</button>
+              </td>
             </tr>
           </tbody>
         </table> 

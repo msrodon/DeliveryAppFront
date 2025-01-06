@@ -22,9 +22,9 @@
               <th scope="row">{{ dType.id }}</th>
               <td>{{ dType.name }}</td>
               <td>
-                <button size="sm" @click="editDType(car.id)" class="me-3 btn btn-primary">Edit name</button>
-                <button size="sm" @click="editDictionaries(car.id)" class="me-3 btn btn-primary">Edit dictionaries</button>
-                <button size="sm" @click="deleteDType(car.id)" class="btn btn-danger">Delete type</button>
+                <button size="sm" @click="editDType(dType.id)" class="me-3 btn btn-primary">Edit name</button>
+                <button size="sm" v-on:click="editDictionaries(dType.id)" class="me-3 btn btn-primary">Edit dictionaries</button>
+                <button size="sm" @click="deleteDType(dType.id)" class="btn btn-danger">Delete type</button>
               </td>
             </tr>
           </tbody>
@@ -66,7 +66,7 @@
           this.busyState = true;
   
           const token = localStorage.getItem('token');
-          const response = await fetch('https://localhost:7263/dictionaries/getDictionaryTypes', {
+          const response = await fetch('https://localhost:7263/Dictionaries/getDictionaryTypes', {
             method: "GET",
             headers: {
               'accept': '',
@@ -87,14 +87,14 @@
         
           const token = localStorage.getItem('token');
           try {
-            const response = await fetch('https://localhost:7263/DictionaryTypes/removeDictionaryType', {
+            const response = await fetch('https://localhost:7263/Dictionaries/removeDictionaryType', {
               method: "DELETE",
               headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
               },
-                  body: JSON.stringify({
-                    id: dTypeId
+              body: JSON.stringify({
+                id: dTypeId
               }),
                 credentials: 'include' 
           });
@@ -106,7 +106,11 @@
 
         editDType(dTypeId){
           var route = "/DictionaryTypes/EditDictionaryType/"+ dTypeId;
-  
+          this.$router.push({ path: route });
+        },
+
+        editDictionaries(dTypeId){
+          var route = "/DictionaryTypes/" + dTypeId + "/Dictionaries";
           this.$router.push({ path: route });
         },
 
