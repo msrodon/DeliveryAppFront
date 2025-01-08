@@ -23,6 +23,11 @@ const Cars = () => import("@/views/cars/Cars.vue")
 const AddCar = () => import("@/views/cars/AddCar.vue")
 const EditCar = () => import("@/views/cars/EditCar.vue")
 
+//CURRENCIES
+const Currencies = () => import("@/views/currencies/Currencies.vue")
+const AddCurrency = () => import("@/views/currencies/AddCurrency.vue")
+const EditCurrency = () => import("@/views/currencies/EditCurrency.vue")
+
 //USERS
 const Users = () => import("@/views/users/Users.vue")
 const EditUser = () => import("@/views/users/EditUser.vue")
@@ -44,6 +49,10 @@ const routes = [
   {path: "/Cars",name: "Cars",component: Cars, meta: { requiresAuth: true}},
   {path: "/Cars/AddCar",name: "AddCar",component: AddCar, meta: { requiresAuth: true}},
   {path: "/Cars/EditCar/:id",name: "EditCar",component: EditCar, meta: { requiresAuth: true}},
+
+  {path: "/Currencies",name: "Currencies",component: Currencies, meta: { requiresAuth: true}},
+  {path: "/Currencies/AddCurrency",name: "AddCurrency",component: AddCurrency, meta: { requiresAuth: true}},
+  {path: "/Currencies/EditCurrency/:id",name: "EditCurrency",component: EditCurrency, meta: { requiresAuth: true}},
   
   {path: "/Users",name: "Users",component: Users, meta: { requiresAuth: true}},
   {path: "/Users/EditUser/:id",name: "EditUser",component: EditUser, meta: { requiresAuth: true}},
