@@ -51,6 +51,15 @@
             <li><button class="dropdown-item" @click="redirect('/Countries/AddCountry')">ADD COUNTRY</button></li>
           </ul>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            ADDRESSES
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><button class="dropdown-item" @click="redirect('/Addresses')">ADDRESSES</button></li>
+            <li><button class="dropdown-item" @click="redirect('/Addresses/AddAddress')">ADD ADDRESS</button></li>
+          </ul>
+        </li>
       </ul>
       <div class="d-flex">
         <h2 class="">{{ this.userLogin }}</h2>

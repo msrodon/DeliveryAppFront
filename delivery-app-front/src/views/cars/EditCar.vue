@@ -143,7 +143,6 @@ export default {
             {
                 method: "GET",
                 headers: {
-                    // 'accept': '',
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }

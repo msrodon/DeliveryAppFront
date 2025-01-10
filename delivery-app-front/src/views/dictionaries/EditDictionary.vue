@@ -95,11 +95,11 @@ export default {
 
             }
             
-            var route = "/DictionaryTypes/" + this.dictionaryType + "/Dictionaries";
+            var route = "/DictionaryTypes/" + this.dictionaryTypeId + "/Dictionaries";
             this.$router.push({ path: route });
         },
         Cancell(){
-          var route = "/DictionaryTypes/" + this.dictionaryType + "/Dictionaries";
+          var route = "/DictionaryTypes/" + this.dictionaryTypeId + "/Dictionaries";
           this.$router.push({ path: route });
         }
     }

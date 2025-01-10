@@ -33,6 +33,11 @@ const Countries = () => import("@/views/countries/Countries.vue")
 const AddCountry = () => import("@/views/countries/AddCountry.vue")
 const EditCountry = () => import("@/views/countries/EditCountry.vue")
 
+//ADDRESSES
+const Addresses = () => import("@/views/addresses/Addresses.vue")
+const AddAddress = () => import("@/views/addresses/AddAddress.vue")
+const EditAddress = () => import("@/views/addresses/EditAddress.vue")
+
 //USERS
 const Users = () => import("@/views/users/Users.vue")
 const EditUser = () => import("@/views/users/EditUser.vue")
@@ -62,6 +67,10 @@ const routes = [
   {path: "/Countries",name: "Countries",component: Countries, meta: { requiresAuth: true}},
   {path: "/Countries/AddCountry",name: "AddCountry",component: AddCountry, meta: { requiresAuth: true}},
   {path: "/Countries/EditCountry/:id",name: "EditCountry",component: EditCountry, meta: { requiresAuth: true}},
+
+  {path: "/Addresses",name: "Addresses",component: Addresses, meta: { requiresAuth: true}},
+  {path: "/Addresses/AddAddress",name: "AddAddress",component: AddAddress, meta: { requiresAuth: true}},
+  {path: "/Addresses/EditAddress/:id",name: "EditAddress",component: EditAddress, meta: { requiresAuth: true}},
   
   {path: "/Users",name: "Users",component: Users, meta: { requiresAuth: true}},
   {path: "/Users/EditUser/:id",name: "EditUser",component: EditUser, meta: { requiresAuth: true}},
