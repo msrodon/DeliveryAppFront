@@ -10,54 +10,33 @@
       <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            USERS
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-            <li><button class="dropdown-item" @click="redirect('/Users')">USERS LSIT</button></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            CARS
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-            <li><button class="dropdown-item" @click="redirect('/Cars')">CARS LSIT</button></li>
-            <li><button class="dropdown-item" @click="redirect('/Cars/AddCar')">ADD CAR</button></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            DICTIONARIES
+            ADMINISTRATION
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
             <li><button class="dropdown-item" @click="redirect('/DictionaryTypes')">DICTIONARY TYPES</button></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            CURRENCIES
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
             <li><button class="dropdown-item" @click="redirect('/Currencies')">CURRENCIES</button></li>
-            <li><button class="dropdown-item" @click="redirect('/Currencies/AddCurrency')">ADD CURRENCY</button></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            COUNTRIES
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><button class="dropdown-item" @click="redirect('/PriceLists')">PRICELISTS</button></li>
             <li><button class="dropdown-item" @click="redirect('/Countries')">COUNTRIES</button></li>
-            <li><button class="dropdown-item" @click="redirect('/Countries/AddCountry')">ADD COUNTRY</button></li>
+            <li><button class="dropdown-item" @click="redirect('/Users')">USERS</button></li>
+            <li><button class="dropdown-item" @click="redirect('/Cars')">CARS</button></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            ADDRESSES
+            MY ADDRESSES
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
             <li><button class="dropdown-item" @click="redirect('/Addresses')">ADDRESSES</button></li>
             <li><button class="dropdown-item" @click="redirect('/Addresses/AddAddress')">ADD ADDRESS</button></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            PACKAGES
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><button class="dropdown-item" @click="redirect('/Packages')">PACKAGES</button></li>
+            <li><button class="dropdown-item" @click="redirect('/Packages/AddPackage')">ADD PACKAGE</button></li>
           </ul>
         </li>
       </ul>

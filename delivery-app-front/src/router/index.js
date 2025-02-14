@@ -38,6 +38,14 @@ const Addresses = () => import("@/views/addresses/Addresses.vue")
 const AddAddress = () => import("@/views/addresses/AddAddress.vue")
 const EditAddress = () => import("@/views/addresses/EditAddress.vue")
 
+//PRICELISTS
+const PriceLists = () => import("@/views/priceLists/PriceLists.vue")
+const EditPriceList = () => import("@/views/priceLists/EditPriceList.vue")
+
+//PACKAGES
+const Packages = () => import("@/views/packages/Packages.vue")
+const AddPackage = () => import("@/views/packages/AddPackage.vue")
+
 //USERS
 const Users = () => import("@/views/users/Users.vue")
 const EditUser = () => import("@/views/users/EditUser.vue")
@@ -71,6 +79,12 @@ const routes = [
   {path: "/Addresses",name: "Addresses",component: Addresses, meta: { requiresAuth: true}},
   {path: "/Addresses/AddAddress",name: "AddAddress",component: AddAddress, meta: { requiresAuth: true}},
   {path: "/Addresses/EditAddress/:id",name: "EditAddress",component: EditAddress, meta: { requiresAuth: true}},
+  
+  {path: "/PriceLists",name: "PriceLists",component: PriceLists, meta: { requiresAuth: true}},
+  {path: "/PriceLists/EditPriceList/:id",name: "EditPriceList",component: EditPriceList, meta: { requiresAuth: true}},
+  
+  {path: "/Packages",name: "Packages",component: Packages, meta: { requiresAuth: true}},
+  {path: "/Packages/AddPackage",name: "AddPackage",component: AddPackage, meta: { requiresAuth: true}},
   
   {path: "/Users",name: "Users",component: Users, meta: { requiresAuth: true}},
   {path: "/Users/EditUser/:id",name: "EditUser",component: EditUser, meta: { requiresAuth: true}},
