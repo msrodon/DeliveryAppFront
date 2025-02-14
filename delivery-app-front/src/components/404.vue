@@ -6,7 +6,7 @@
     </div>
 </template>
 
-<style>
+<style scoped lang="scss">
 h1, h5, p{
     color: white;
 }
