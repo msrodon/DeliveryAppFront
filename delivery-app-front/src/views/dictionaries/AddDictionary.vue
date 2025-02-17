@@ -30,7 +30,7 @@
 export default {
     data() {
         return {
-            dictionaryType: '',
+            dictionaryTypeId: '',
             name: ''
         };
     },
@@ -54,13 +54,14 @@ export default {
                     }),
                     credentials: 'include' 
                 });
-                this.$router.push({ path: '/DictionaryTypes' })
+                var route = "/DictionaryTypes/" + this.dictionaryTypeId + "/Dictionaries";
+                this.$router.push({ path: route });
             } catch (error) {
 
             }
         },
         Cancell(){
-          var route = "/DictionaryTypes/" + this.dictionaryType + "/Dictionaries";
+          var route = "/DictionaryTypes/" + this.dictionaryTypeId + "/Dictionaries";
           this.$router.push({ path: route });
         }
     }

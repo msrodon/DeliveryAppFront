@@ -10,6 +10,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Country ID</th>
             <th scope="col">Name</th>
             <th scope="col">Code</th>
             <th scope="col">Default currency</th>
@@ -17,8 +18,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="country in items" :key="country.id">
-            <th scope="row">{{ country.id }}</th>
+          <tr v-for="(country, index) in items" :key="country.id">
+            <th scope="row">{{ index + 1 }}</th>
+            <th>{{ country.id }}</th>
             <td>{{ country.name }}</td>
             <td>{{ country.code }}</td>
             <td>{{ findCurrencyName(country.currencyId) }}</td>

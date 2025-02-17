@@ -13,13 +13,15 @@
           <thead>
             <tr>
               <th scope="col">#</th>
+              <th scope="col">Dictionary type ID</th>
               <th scope="col">Name</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="dType in items" :key="dType.id">
-              <th scope="row">{{ dType.id }}</th>
+            <tr v-for="(dType, index) in items" :key="dType.id">
+              <th scope="row">{{ index + 1 }}</th>
+              <th>{{ dType.id }}</th>
               <td>{{ dType.name }}</td>
               <td>
                 <button size="sm" @click="editDType(dType.id)" class="me-3 btn btn-primary">Edit name</button>

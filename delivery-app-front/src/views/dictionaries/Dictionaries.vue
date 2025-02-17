@@ -18,15 +18,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="Dictionary in items" :key="Dictionary.dictionaryId">
-                        <th scope="row">{{ Dictionary.dictionaryId }}</th>
-                        <td>{{ Dictionary.name }}</td>
-                        <td>{{ Dictionary.isDefault }}</td>
+                    <tr v-for="dictionary in items" :key="dictionary.dictionaryId">
+                        <th scope="row">{{ dictionary.dictionaryId }}</th>
+                        <td>{{ dictionary.name }}</td>
+                        <td>{{ dictionary.isDefault }}</td>
                         <td>
-                            <button size="sm" @click="editDictionary(Dictionary.dictionaryId)" class="me-3 btn btn-primary">
+                            <button size="sm" @click="editDictionary(dictionary.dictionaryId)" class="me-3 btn btn-primary">
                                 Edit
                             </button>
-                            <button size="sm" @click="deleteDictionary(Dictionary.dictionaryId)" class="btn btn-danger">
+                            <button size="sm" @click="deleteDictionary(dictionary.dictionaryId)" class="btn btn-danger">
                                 Delete
                             </button>
                         </td>

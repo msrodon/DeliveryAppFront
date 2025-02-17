@@ -11,7 +11,9 @@
         <table class="table" v-if="items.length > 0">
           <thead>
             <tr>
+              <th scope="col">#</th>
               <th scope="col">Active status</th>
+              <!-- <th scope="col">User ID</th> -->
               <th scope="col">User type</th>
               <th scope="col">Login</th>
               <th scope="col">FirstName</th>
@@ -22,11 +24,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="user in items" :key="user.id" :class="{ deactiveUser: !user.activeStatus }">
+            <tr v-for="(user, index) in items" :key="user.id" :class="{ deactiveUser: !user.activeStatus }">
+              
+              <th scope="row">{{ index + 1 }}</th>
               <td> <span 
                 :class="{'green-circle': user.activeStatus, 'red-circle': !user.activeStatus}"
                 class="status-circle"
               ></span> </td>
+              <!-- <td>{{ user.id }}</td> -->
               <td>{{ user.userType }}</td>
               <th>{{ user.userName }}</th>
               <td>{{ user.firstName }}</td>

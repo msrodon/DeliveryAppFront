@@ -12,6 +12,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Car ID</th>
             <th scope="col">Brand</th>
             <th scope="col">Model</th>
             <th scope="col">Year</th>
@@ -23,8 +24,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="car in items" :key="car.id">
-            <th scope="row">{{ car.id }}</th>
+          <tr v-for="(car, index) in items" :key="car.id">
+            <th scope="row">{{ index + 1 }}</th>
+            <th>{{ car.id }}</th>
             <td>{{ car.brand }}</td>
             <td>{{ car.model }}</td>
             <td>{{ car.year }}</td>

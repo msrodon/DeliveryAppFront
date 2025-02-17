@@ -12,14 +12,17 @@
         <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Currency ID</th>
             <th scope="col">Name</th>
             <th scope="col">Shortcut</th>
             <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="currency in items" :key="currency.id">
-            <th scope="row">{{ currency.id }}</th>
+          <tr v-for="(currency, index) in items" :key="currency.id">
+            
+            <th scope="row">{{ index + 1 }}</th>
+            <th>{{ currency.id }}</th>
             <td>{{ currency.name }}</td>
             <td>{{ currency.shortcut }}</td>
             <td>
