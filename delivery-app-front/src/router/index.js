@@ -45,6 +45,7 @@ const EditPriceList = () => import("@/views/priceLists/EditPriceList.vue")
 //PACKAGES
 const Packages = () => import("@/views/packages/Packages.vue")
 const AddPackage = () => import("@/views/packages/AddPackage.vue")
+const AllPackages = () => import("@/views/packages/AllPackages.vue")
 
 //USERS
 const Users = () => import("@/views/users/Users.vue")
@@ -84,6 +85,7 @@ const routes = [
   {path: "/PriceLists/EditPriceList/:id",name: "EditPriceList",component: EditPriceList, meta: { requiresAuth: true}},
   
   {path: "/Packages",name: "Packages",component: Packages, meta: { requiresAuth: true}},
+  {path: "/AllPackages",name: "AllPackages",component: AllPackages, meta: { requiresAuth: true}},
   {path: "/Packages/AddPackage",name: "AddPackage",component: AddPackage, meta: { requiresAuth: true}},
   
   {path: "/Users",name: "Users",component: Users, meta: { requiresAuth: true}},

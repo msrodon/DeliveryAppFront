@@ -14,6 +14,7 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
             <li><button class="dropdown-item" @click="redirect('/DictionaryTypes')">DICTIONARY TYPES</button></li>
+            <li><button class="dropdown-item" @click="redirect('/AllPackages')">ALL PACKAGES</button></li>
             <li><button class="dropdown-item" @click="redirect('/Currencies')">CURRENCIES</button></li>
             <li><button class="dropdown-item" @click="redirect('/PriceLists')">PRICELISTS</button></li>
             <li><button class="dropdown-item" @click="redirect('/Countries')">COUNTRIES</button></li>

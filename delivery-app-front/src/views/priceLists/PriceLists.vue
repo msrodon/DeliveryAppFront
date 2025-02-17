@@ -13,6 +13,7 @@
         <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Price list ID</th>
             <th scope="col">Currency</th>
             <th scope="col">Shortcut</th>
             
@@ -20,8 +21,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="currency in items" :key="currency.id">
-            <th scope="row">{{ currency.id }}</th>
+          <tr v-for="(currency, index) in items" :key="currency.id">
+            <th scope="row">{{ index + 1 }}</th>
+            <th>{{ currency.id }}</th>
             <td>{{ currency.name }}</td>
             <td>{{ currency.shortcut }}</td>
             <!-- FOR package types -->
@@ -56,12 +58,12 @@
     },
     
     mounted() {
-      this.getCurrenciesData()
+      this.getCurrencies()
     },
     methods:{
       resetSort(){
       },
-      async getCurrenciesData(){
+      async getCurrencies(){
         this.busyState = true;
 
         const token = localStorage.getItem('token');
