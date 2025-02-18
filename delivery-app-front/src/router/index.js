@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 import store from "@/store/index.js"
 
 import HomeView from '../views/HomeView.vue'
@@ -51,6 +52,10 @@ const AllPackages = () => import("@/views/packages/AllPackages.vue")
 const Users = () => import("@/views/users/Users.vue")
 const EditUser = () => import("@/views/users/EditUser.vue")
 
+//PAYMENTS
+// const Payment = () => import("@/views/payments/Payment.vue")
+const Payment = () => import("@/views/payments/ProcessPayment.vue")
+
 const routes = [
   {path: '/', name: 'home', component: HomeView, meta: { requiresAuth: true} },
   {path: '/dashboard', name: 'dashboard', component: HomeView, meta: { requiresAuth: true} },
@@ -90,6 +95,8 @@ const routes = [
   
   {path: "/Users",name: "Users",component: Users, meta: { requiresAuth: true}},
   {path: "/Users/EditUser/:id",name: "EditUser",component: EditUser, meta: { requiresAuth: true}},
+  
+  {path: "/Payment/:id",name: "Payment",component: Payment, meta: { requiresAuth: true, layout: 'payment-layout' }},
 
   {path: "/testEndpoints",name: "testEndpoints",component: TestEndpointsButtons},
   {path: "/404",name: "404",component: NotFound,},
@@ -97,22 +104,20 @@ const routes = [
 ]
 
 const router = createRouter({
-  mode: 'history',
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
 
-router.beforeEach(function(to, from, next){
+router.beforeEach(async (to, from, next) => {
+  if (!store.getters['auth/UserIsAuthenticated']) {
+    await store.dispatch('auth/TryLogin');
+  }
 
-  if(!store.getters['auth/UserIsAuthenticated']){
-    store.dispatch('auth/TryLogin');    
-  } 
-
-  if(to.meta.requiresAuth && !store.getters['auth/UserIsAuthenticated']){
+  if (to.meta.requiresAuth && !store.getters['auth/UserIsAuthenticated']) {
     next('/Login');
-  }else if(to.meta.requiresUnauth && !!store.getters['auth/UserIsAuthenticated']){
-    next('/')
-  }else{
+  } else if (to.meta.requiresUnauth && store.getters['auth/UserIsAuthenticated']) {
+    next('/');
+  } else {
     next();
   }
 });

@@ -15,6 +15,7 @@
               <th scope="col">Package type</th>
               <th scope="col">Package status (NOT PUBLIC TO DO)</th>
               <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -24,6 +25,17 @@
               <td>{{ pack.reciverEmail }}</td>
               <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
               <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
+              <td>
+                <button class="btn btn-outline-secondary px-5 mt-3" @click="goPackageInfo(pack.id)">Package info</button>
+              </td>
+              <td>
+                <div v-if="pack.packageStatusId == packageStatusEnum.New">
+                  <button class="btn btn-outline-warning px-5 mt-3" @click="goToPayment(pack.paymentId)">Continue payment</button>
+                </div>
+                <div v-if="pack.packageStatusId == packageStatusEnum.Paid">
+                  <button class="btn btn-outline-info px-5 mt-3" @click="goToSending(pack.id)">Mark as send</button>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table> 
@@ -40,49 +52,46 @@
              -->
             
       </div>
-      <button class="btn btn-outline-success px-5 mt-3" v-on:click="addNewPackage()">Add new package</button>
+      <button class="btn btn-outline-success px-5 mt-3" @click="goToNewPackage()">Add new package</button>
     </white-card-80>
   </template>
   
   <script>
+    import { Enums } from '@/constants/statuses';
     export default {
       data() {
         return {
           items: [],
           currencies: [],
           packageTypes: [],
-          packageStatuses: []
+          packageStatuses: [],
+          //
+          token: "",
+          packageStatusEnum: []
         }
       },
       mounted() {
+        this.token = localStorage.getItem('token');
+        this.packageStatusEnum = Enums.PackageStatuses;
         this.getPackages();
         this.getPackageTypes();
         this.getPackageStatuses();
       },
       methods:{
-  
         async getPackages(){
-          this.busyState = true;
-  
-          const token = localStorage.getItem('token');
           const response = await fetch('https://localhost:7263/Packages/getUserPackages', {
             method: "GET",
             headers: {
               'accept': '',
-              'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${this.token}`
             }
           });
   
           const responseJson = await response.json();
           this.items = responseJson.userPackages;
-  
-          this.busyState = false;
-        },
-        addNewPackage(){
-          this.$router.push("/Packages/addPackage");
+          console.log(this.items);
         },
         async getPackageTypes(){
-            const token = localStorage.getItem('token');
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
                 dictionaryTypeId: 5
@@ -91,7 +100,7 @@
                 method: "GET",
                 headers: {
                     'accept': '',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
 
@@ -99,7 +108,6 @@
             this.packageTypes = responseJson.dictionaries
         },
         async getPackageStatuses(){
-            const token = localStorage.getItem('token');
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
                 dictionaryTypeId: 2
@@ -108,12 +116,24 @@
                 method: "GET",
                 headers: {
                     'accept': '',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
 
             const responseJson = await response.json();
             this.packageStatuses = responseJson.dictionaries;
+        },
+        goToNewPackage(){
+          this.$router.push("/Packages/addPackage");
+        },
+        goToPayment(paymentId){
+          this.$router.push("/Payment/"+paymentId);
+        },
+        goToSending(packageId){
+          this.$router.push("/Packages/send/"+packageId);
+        },
+        goPackageInfo(packageId){
+          this.$router.push("/Packages/info"+packageId);
         },
         findDictionary(dictionaryList, dictionaryId) {
           const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);

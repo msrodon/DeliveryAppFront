@@ -1,44 +1,24 @@
 <template>
   <div id="app">
-    <NavBar/>
-    <base-card>
+    <component :is="layout">
       <router-view/>
-    </base-card>
+    </component>
   </div>
 </template>
 
 <script>
+import DefaultLayout from '@/components/layouts/DefaultLayout.vue';
+import PaymentLayout from '@/components/layouts/PaymentLayout.vue';
 
-import NavBar from '@/components/NavBar.vue';
 export default {
   components: {
-    NavBar
+    DefaultLayout,
+    PaymentLayout
   },
-  created() {
-    // this.$store.dispatch('auth/TryLogin');
-  }
-}
-</script>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+  computed: {
+    layout() {
+      return this.$route.meta.layout ? this.$route.meta.layout : 'default-layout';
     }
   }
 }
-</style>
+</script>

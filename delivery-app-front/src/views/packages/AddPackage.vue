@@ -249,8 +249,10 @@ export default {
                     body: JSON.stringify(body),
                     credentials: 'include'
                 });
-
-                this.$router.push({ path: '/' });
+                
+                const responseJson = await response.json();
+                const path = "/Payment/"+ responseJson.newPackageId
+                this.$router.push({ path });
             } catch (error) {
                 console.error("Error adding package:", error);
             }
