@@ -42,8 +42,8 @@
         </li>
       </ul>
       <div class="d-flex">
-        <h2 class="">{{ this.userLogin }}</h2>
-        <button class="btn sm btn-outline-danger ms-4" @click="logout">Logout</button>
+        <h2 class="h4">{{ this.userLogin }}</h2>
+        <button class="btn btn-sm btn-outline-danger ms-4" @click="logout">LOGOUT</button>
       </div>
     </div>
     <div class="collapse navbar-collapse" id="navbarScroll" v-else>
