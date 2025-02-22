@@ -79,10 +79,8 @@
         </div>
 
         <div class="mt-4">
-            <a href="/Users">
-                <button class="btn btn-outline-danger btn-lg px-5" type="submit">Cancell</button>
-            </a>
-            <button class="btn btn-outline-success btn-lg px-5" type="submit" v-on:click="EditUser()">Save changes</button>
+            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToUsers()">Cancell</button>
+            <button class="btn btn-outline-success btn-lg px-5" @click="editUser()">Save changes</button>
         </div>
     </white-card-50>
 </template>
@@ -99,19 +97,23 @@ export default {
             lastName: "",
             email: "",  
             phoneNumber: "",
-            userType: ""
+            userType: "",
+            //
+            token: ""
         };
     },
+    mounted(){
+        this.token = localStorage.getItem('token');
+        this.getUserData();
+    },
     methods: {
-        async EditUser() {
-
-            const token = localStorage.getItem('token');
+        async editUser() {
             try {
                 const response = await fetch('https://localhost:7263/Users/editUser', {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${this.token}`
                     },
                         body: JSON.stringify({
                             id: this.id,
@@ -130,10 +132,8 @@ export default {
             
             this.$router.push({ path: '/Users' })
         },
-        async FetchUserData(){
+        async getUserData(){
             var url = 'https://localhost:7263/Users/getUser?'
-            const token = localStorage.getItem('token');
-
             const response = await fetch(url + new URLSearchParams({
                 userId: this.$route.params.id
             }),
@@ -141,12 +141,11 @@ export default {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
             const responseJson = await response.json();
             var fetchUser = responseJson.user;
-            console.log(fetchUser);
 
             this.id = fetchUser.id;
             this.userName = fetchUser.userName;
@@ -156,10 +155,10 @@ export default {
             this.email = fetchUser.email;
             this.phoneNumber = fetchUser.phoneNumber;
             this.userType = fetchUser.userType;
+        },
+        goToUsers(){
+            this.$router.push('/Users');
         }
-    },
-    mounted(){
-        this.FetchUserData();
     }
 }
 </script>

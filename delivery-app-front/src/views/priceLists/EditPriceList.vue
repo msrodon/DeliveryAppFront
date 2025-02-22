@@ -47,10 +47,8 @@
       </div>
 
         <div class="mt-4">
-            <a href="/PriceLists">
-                <button class="btn btn-outline-danger btn-lg px-5" type="submit">Cancell</button>
-            </a>
-            <button class="btn btn-outline-success btn-lg px-5" type="submit" @click="editPriceList()">Save changes</button>
+            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToPriceLists()">Cancell</button>
+            <button class="btn btn-outline-success btn-lg px-5" @click="editPriceList()">Save changes</button>
         </div>
     </white-card-50>
 </template>
@@ -168,6 +166,9 @@ export default {
                     this.packagePrices.push({ packageTypeId:dictionaryId, price: parseFloat(numericValue.toFixed(2)) });
                 }
             }
+        },
+        goToPriceLists(){
+            this.$router.push('/PriceLists');
         }
     }
 }

@@ -4,7 +4,7 @@
       <div class="col-12 col-md-12 col-lg-12 col-xl-12">
         <div class="card bg-white text-dark" style="border-radius: 1rem;">
           <div class="card-body p-2 text-center">
-            <div class="mb-md-5 mt-md-4 pb-5">
+            <div class="mb-md-5 mt-md-4 pb-2">
               <slot></slot>
             </div>
           </div>

@@ -84,10 +84,8 @@
 
 
         <div class="mt-4">
-            <a href="/Addresses">
-                <button class="btn btn-outline-danger btn-lg px-5" type="submit">Cancell</button>
-            </a>
-            <button class="btn btn-outline-success btn-lg px-5" type="submit" @click="addAddress">Add new address</button>
+            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToAddresses()">Cancell</button>
+            <button class="btn btn-outline-success btn-lg px-5" @click="addAddress()">Add new address</button>
         </div>
     </white-card-50>
 </template>
@@ -169,6 +167,9 @@ export default {
 
             const responseJson = await response.json();
             this.addressTypes = responseJson.dictionaries
+        },
+        goToAddresses(){
+            this.$router.push('/Addresses');
         }
     }
 }

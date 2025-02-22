@@ -19,8 +19,8 @@
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-danger btn-lg px-5" type="submit" v-on:click="Cancell()">Cancell</button>
-            <button class="btn btn-outline-success btn-lg px-5" type="submit" v-on:click="AddDictionary()">Add new dictionary</button>
+            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToDictionaries()">Cancell</button>
+            <button class="btn btn-outline-success btn-lg px-5" @click="AddDictionary()">Add new dictionary</button>
         </div>
     </white-card-50>
 </template>
@@ -60,7 +60,7 @@ export default {
 
             }
         },
-        Cancell(){
+        goToDictionaries(){
           var route = "/DictionaryTypes/" + this.dictionaryTypeId + "/Dictionaries";
           this.$router.push({ path: route });
         }

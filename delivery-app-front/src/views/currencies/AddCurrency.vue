@@ -25,10 +25,8 @@
         </div>
 
         <div class="mt-4">
-            <a href="/Currencies">
-                <button class="btn btn-outline-danger btn-lg px-5" type="submit">Cancell</button>
-            </a>
-            <button class="btn btn-outline-success btn-lg px-5" type="submit" @click="AddCurrency">Add new currency</button>
+            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToCurrencies()">Cancell</button>
+            <button class="btn btn-outline-success btn-lg px-5" @click="addCurrency()">Add new currency</button>
         </div>
     </white-card-50>
 </template>
@@ -43,7 +41,7 @@ export default {
         };
     },
     methods: {
-        async AddCurrency() {
+        async addCurrency() {
 
             const token = localStorage.getItem('token');
             try {
@@ -62,8 +60,10 @@ export default {
                 this.$router.push({ path: '/Currencies' })
             } catch (error) {
 
-            }
-            
+            }   
+        },
+        goToCurrencies(){
+            this.$router.push('/Currencies');
         }
     }
 }

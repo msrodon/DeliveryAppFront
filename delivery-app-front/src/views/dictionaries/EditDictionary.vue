@@ -30,8 +30,8 @@
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-danger btn-lg px-5" type="submit" v-on:click="Cancell()">Cancell</button>
-            <button class="btn btn-outline-success btn-lg px-5" type="submit" v-on:click="EditDictionary()">Save changes</button>
+            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToDictionaries()">Cancell</button>
+            <button class="btn btn-outline-success btn-lg px-5" @click="EditDictionary()">Save changes</button>
         </div>
     </white-card-50>
 </template>
@@ -45,10 +45,12 @@ export default {
             dictionaryId: '',
             name: '',
             isDefault: null,
-
+            //
+            token: ''
         };
     },
     mounted() {
+        this.token = localStorage.getItem('token');
         this.dictionaryTypeId = this.$route.params.typeId;
         this.dictionaryId = this.$route.params.id;
         this.FetchDictionaryData();
@@ -56,8 +58,6 @@ export default {
     methods: {
         async FetchDictionaryData(){
             var url = 'https://localhost:7263/Dictionaries/getDictionary?'
-            const token = localStorage.getItem('token');
-
             const response = await fetch(url + new URLSearchParams({
                 dictionaryId: this.dictionaryId
             }),
@@ -65,7 +65,7 @@ export default {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
             const responseJson = await response.json();
@@ -75,13 +75,12 @@ export default {
             this.isDefault = fetchDictionary.isDefault;
         },
         async EditDictionary(){
-            const token = localStorage.getItem('token');
             try {
                 const response = await fetch('https://localhost:7263/Dictionaries/editDictionary', {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${this.token}`
                     },
                         body: JSON.stringify({
                             dictionaryId: this.dictionaryId,
@@ -98,7 +97,7 @@ export default {
             var route = "/DictionaryTypes/" + this.dictionaryTypeId + "/Dictionaries";
             this.$router.push({ path: route });
         },
-        Cancell(){
+        goToDictionaries(){
           var route = "/DictionaryTypes/" + this.dictionaryTypeId + "/Dictionaries";
           this.$router.push({ path: route });
         }

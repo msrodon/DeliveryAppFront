@@ -7,17 +7,7 @@ export default {
     state(){
         return {
             userIsLoggedIn: false,
-            userLogin: "",
-            authList: [
-                {
-                    id: 1,
-                    msg: "test"
-                },
-                {
-                    id: 2,
-                    msg: "test2"
-                }
-            ]
+            userLogin: ""
         }
     },
     mutations,

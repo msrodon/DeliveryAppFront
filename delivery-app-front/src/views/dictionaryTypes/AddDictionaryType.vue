@@ -17,10 +17,8 @@
         </div>
 
         <div class="mt-4">
-            <a href="/Cars">
-                <button class="btn btn-outline-danger btn-lg px-5" type="submit">Cancell</button>
-            </a>
-            <button class="btn btn-outline-success btn-lg px-5" type="submit" v-on:click="AddDictionaryType()">Add new dictionary type</button>
+            <button class="btn btn-outline-danger btn-lg px-5 mx-3" @click="goToDictionaryTypes()">Cancell</button>
+            <button class="btn btn-outline-success btn-lg px-5" @click="addDictionaryType()">Add new dictionary type</button>
         </div>
     </white-card-50>
 </template>
@@ -34,7 +32,7 @@ export default {
         };
     },
     methods: {
-        async AddDictionaryType() {
+        async addDictionaryType() {
 
             const token = localStorage.getItem('token');
             try {
@@ -53,6 +51,9 @@ export default {
             } catch (error) {
 
             }
+        },
+        goToDictionaryTypes(){
+            this.$router.push('/DictionaryTypes');
         }
     }
 }

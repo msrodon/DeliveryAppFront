@@ -81,10 +81,8 @@
         </div>
 
         <div class="mt-4">
-            <a href="/Cars">
-                <button class="btn btn-outline-danger btn-lg px-5" type="submit">Cancell</button>
-            </a>
-            <button class="btn btn-outline-success btn-lg px-5" type="submit" @click="EditCar">Save changes</button>
+            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToCars()">Cancell</button>
+            <button class="btn btn-outline-success btn-lg px-5" @click="editCar()">Save changes</button>
         </div>
     </white-card-50>
 </template>
@@ -104,8 +102,11 @@ export default {
             maxLoad: null
         };
     },
+    mounted(){
+        this.FetchCarData();
+    },
     methods: {
-        async EditCar() {
+        async editCar() {
 
             const token = localStorage.getItem('token');
             try {
@@ -158,11 +159,10 @@ export default {
             this.horsePower = fetchCar.horsePower;
             this.seats = fetchCar.seats;
             this.maxLoad = fetchCar.maxLoad;
+        },
+        goToCars(){
+            this.$router.push('/Cars');
         }
-
-    },
-    mounted(){
-        this.FetchCarData();
     }
 }
 </script>

@@ -1,6 +1,5 @@
 export default {
     Login(context, payload){
-        console.log("login");
         context.commit("setAuth", {isAuth: true, userLogin: payload.userLogin});
     },
     Logout(context){

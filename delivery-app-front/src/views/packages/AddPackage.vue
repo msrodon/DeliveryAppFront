@@ -168,8 +168,8 @@
         
         <div class="mt-4">
             
-            <button class="btn btn-outline-danger btn-lg px-5 me-4" type="submit" v-on:click="cancell()">Cancell</button>
-            <button class="btn btn-outline-success btn-lg px-5" type="submit" v-on:click="addPackage()">Pay & Send</button>
+            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="cancell()">Cancell</button>
+            <button class="btn btn-outline-success btn-lg px-5" @click="addPackage()">Pay & Send</button>
         </div>
     </white-card-50>
 </div>

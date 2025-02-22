@@ -46,11 +46,6 @@ export default {
         };
     },
     methods: {
-        
-        login(userLogin){
-            this.$store.dispatch('auth/Login', {userLogin});
-        },
-        
         async Login() {
 
             this.error = null;
@@ -69,34 +64,29 @@ export default {
                 })
                 .then(data => { return data.json() });
 
-                // console.log("POST - https://localhost:7263/login");
-                // console.log(response);
-
                 localStorage.setItem('token', response.accessToken);
                 localStorage.setItem('refreshToken', response.refreshToken);
-
-                const token = localStorage.getItem('token');
 
                 const response2 = await fetch('https://localhost:7263/Auth/me', {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${response.accessToken}`
                     },
                         credentials: 'include' 
                 })
                 .then(data => { return data.json() });
 
-                // console.log("GET - https://localhost:7263/Auth/me");
-                // console.log(response2);
-
-                this.login(response2.email)
+                this.dispatchToStore(response2.email)
 
                 this.$router.push({ name: 'dashboard' });
             } catch (error) {
                 this.error = 'Niepoprawne dane logowania';
             }
-        }
+        },
+        dispatchToStore(userLogin){
+            this.$store.dispatch('auth/Login', {userLogin});
+        },
     }
 }
 

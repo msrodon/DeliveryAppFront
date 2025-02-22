@@ -74,6 +74,7 @@ methods: {
   },
   logout(){
     this.$store.dispatch('auth/Logout');
+    this.$router.push('/Login');
   }
 }
 }

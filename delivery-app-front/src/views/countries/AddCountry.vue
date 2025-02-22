@@ -39,10 +39,8 @@
         </div>
 
         <div class="mt-4">
-            <a href="/Countries">
-                <button class="btn btn-outline-danger btn-lg px-5" type="submit">Cancell</button>
-            </a>
-            <button class="btn btn-outline-success btn-lg px-5" type="submit" @click="AddCountry">Add new country</button>
+            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToCountries()">Cancell</button>
+            <button class="btn btn-outline-success btn-lg px-5" @click="AddCountry()">Add new country</button>
         </div>
     </white-card-50>
 </template>
@@ -96,6 +94,9 @@ export default {
 
             const responseJson = await response.json();
             this.currencies = responseJson.currencies
+        },
+        goToCountries(){
+            this.$router.push('/Countries');
         }
     }
 }

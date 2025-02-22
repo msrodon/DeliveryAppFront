@@ -46,9 +46,8 @@
 -->
         </div>
         <!-- <button class="btn btn-secondary" v-on:click="resetSort()">Reset sort</button> -->
-        <button class="btn btn-outline-success px-5 mt-3" v-on:click="addNewDictionary()">
-            Add new dictionary
-        </button>
+        <button class="btn btn-outline-danger btn-lg px-5 mt-3 me-3" v-on:click="goToDictionaryTypes()">Cancell</button>
+        <button class="btn btn-outline-success btn-lg px-5 mt-3" v-on:click="addNewDictionary()">Add new dictionary</button>
     </white-card-80>
 </template>
 
@@ -129,6 +128,9 @@ export default {
             var route = "/DictionaryTypes/"+ this.dictionaryTypeId + "/Dictionaries/AddDictionary/";
             this.$router.push({ path: route });
         },
+        goToDictionaryTypes(){
+            this.$router.push('/DictionaryTypes');
+        }
     },
 };
 </script>

@@ -25,10 +25,8 @@
         </div>
 
         <div class="mt-4">
-            <a href="/Currencies">
-                <button class="btn btn-outline-danger btn-lg px-5" type="submit">Cancell</button>
-            </a>
-            <button class="btn btn-outline-success btn-lg px-5" type="submit" @click="EditCurrency">Save changes</button>
+            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToCurrencies()">Cancell</button>
+            <button class="btn btn-outline-success btn-lg px-5" @click="editCurrency()">Save changes</button>
         </div>
     </white-card-50>
 </template>
@@ -40,22 +38,24 @@ export default {
         return {
             id: null,
             name: '',
-            shortcut: ''
+            shortcut: '',
+            //
+            token: ''
         };
     },
     mounted(){
-        this.FetchCurrencyData();
+        this.token = localStorage.getItem('token');
+        this.getCurrencyData();
     },
     methods: {
 
-        async EditCurrency() {
-            const token = localStorage.getItem('token');
+        async editCurrency() {
             try {
                 const response = await fetch('https://localhost:7263/Currencies/editCurrency', {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${this.token}`
                     },
                         body: JSON.stringify({
                             id: this.id,
@@ -71,10 +71,8 @@ export default {
             this.$router.push({ path: '/Currencies' })
         },
 
-        async FetchCurrencyData(){
+        async getCurrencyData(){
             var url = 'https://localhost:7263/Currencies/getCurrency?'
-            const token = localStorage.getItem('token');
-
             const response = await fetch(url + new URLSearchParams({
                 currencyId: this.$route.params.id
             }),
@@ -82,7 +80,7 @@ export default {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
             const responseJson = await response.json();
@@ -91,6 +89,9 @@ export default {
             this.id = fetchCurrency.id;
             this.name = fetchCurrency.name,
             this.shortcut = fetchCurrency.shortcut
+        },
+        goToCurrencies(){
+            this.$router.push('/Currencies');
         }
     }
 }

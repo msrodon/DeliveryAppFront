@@ -81,10 +81,8 @@
         </div>
 
         <div class="mt-4">
-            <a href="/Cars">
-                <button class="btn btn-outline-danger btn-lg px-5" type="submit">Cancell</button>
-            </a>
-            <button class="btn btn-outline-success btn-lg px-5" type="submit" @click="AddCar">Add new car</button>
+            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToCars()">Cancell</button>
+            <button class="btn btn-outline-success btn-lg px-5" @click="addCar()">Add new car</button>
         </div>
     </white-card-50>
 </template>
@@ -104,7 +102,7 @@ export default {
         };
     },
     methods: {
-        async AddCar() {
+        async addCar() {
 
             const token = localStorage.getItem('token');
             try {
@@ -130,6 +128,9 @@ export default {
 
             }
             
+        },
+        goToCars(){
+            this.$router.push('/Cars');
         }
     }
 }
