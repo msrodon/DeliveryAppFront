@@ -53,6 +53,8 @@ const SendPackage = () => import("@/views/packages/SendPackage.vue")
 const Users = () => import("@/views/users/Users.vue")
 const EditUser = () => import("@/views/users/EditUser.vue")
 
+const Drivers = () => import("@/views/drivers/Drivers.vue")
+
 //PAYMENTS
 // const Payment = () => import("@/views/payments/Payment.vue")
 const Payment = () => import("@/views/payments/ProcessPayment.vue")
@@ -97,6 +99,8 @@ const routes = [
   
   {path: "/Users",name: "Users",component: Users, meta: { requiresAuth: true}},
   {path: "/Users/EditUser/:id",name: "EditUser",component: EditUser, meta: { requiresAuth: true}},
+
+  {path: "/Drivers",name: "Drivers",component: Drivers, meta: { requiresAuth: true}},
   
   {path: "/Payment/:id",name: "Payment",component: Payment, meta: { requiresAuth: true, layout: 'payment-layout' }},
 

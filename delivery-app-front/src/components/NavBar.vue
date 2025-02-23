@@ -18,6 +18,7 @@
             <li><button class="dropdown-item" @click="redirect('/Currencies')">CURRENCIES</button></li>
             <li><button class="dropdown-item" @click="redirect('/PriceLists')">PRICELISTS</button></li>
             <li><button class="dropdown-item" @click="redirect('/Countries')">COUNTRIES</button></li>
+            <li><button class="dropdown-item" @click="redirect('/Drivers')">DRIVERS</button></li>
             <li><button class="dropdown-item" @click="redirect('/Users')">USERS</button></li>
             <li><button class="dropdown-item" @click="redirect('/Cars')">CARS</button></li>
           </ul>
