@@ -26,7 +26,7 @@
             <td>{{ currency.name }}</td>
             <td>{{ currency.shortcut }}</td>
             <td>
-              <button size="sm" @click="editCurrency(currency.id)" class="me-3 btn btn-primary">Edit</button>
+              <button size="sm" @click="goToEditCurrency(currency.id)" class="me-3 btn btn-primary">Edit</button>
               <button size="sm" @click="deleteCurrency(currency.id)" class="btn btn-danger">Delete</button>
             </td>
           </tr>
@@ -46,7 +46,7 @@
           
     </div>
     <!-- <button class="btn btn-secondary" v-on:click="resetSort()">Reset sort</button> -->
-    <button class="btn btn-outline-success px-5 mt-3" v-on:click="addNewCurrency()">Add new currency</button>
+    <button class="btn btn-outline-success px-5 mt-3" v-on:click="goToAddCurrency()">Add new currency</button>
   </white-card-80>
 </template>
 
@@ -54,44 +54,37 @@
   export default {
     data() {
       return {
-        items: []
+        items: [],
+        token: ''
       }
     },
     
     mounted() {
+      this.token = localStorage.getItem('token');
       this.getCurrenciesData()
     },
     methods:{
       resetSort(){
       },
       async getCurrenciesData(){
-        this.busyState = true;
-
-        const token = localStorage.getItem('token');
         const response = await fetch('https://localhost:7263/Currencies/getCurrencies', {
           method: "GET",
           headers: {
             'accept': '',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${this.token}`
           }
         });
 
         const responseJson = await response.json();
         this.items = responseJson.currencies
-        this.busyState = false;
-      },
-      deleteCurrenciesDialog(){
-        // this.showDialog = true;
       },
       async deleteCurrency(currencyId){
-      
-        const token = localStorage.getItem('token');
         try {
           const response = await fetch('https://localhost:7263/Currencies/removeCurrency', {
             method: "DELETE",
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${this.token}`
             },
                 body: JSON.stringify({
                   currencyId: currencyId
@@ -103,12 +96,11 @@
         }
         window.location.href = window.location.href;
       },
-      editCurrency(carId){
+      goToEditCurrency(carId){
         var route = "/Currencies/EditCurrency/"+ carId;
-
         this.$router.push({ path: route });
       },
-      addNewCurrency(){
+      goToAddCurrency(){
         this.$router.push("/Currencies/AddCurrency");
       }
     }

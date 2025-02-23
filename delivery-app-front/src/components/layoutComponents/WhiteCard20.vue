@@ -1,5 +1,5 @@
 <template>
-  <div class="container h-100">
+  <div class="container h-100 mb-3">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-12 col-md-8 col-lg-6 col-xl-5">
         <div class="card bg-white text-dark" style="border-radius: 1rem;">

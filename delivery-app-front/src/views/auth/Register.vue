@@ -96,9 +96,6 @@ export default {
                 credentials: 'include' 
           });
           
-          console.log("POST - https://localhost:7263/Auth/Register");
-          console.log(response);
-
           const token = response.data.token;
           localStorage.setItem('token', token);
 

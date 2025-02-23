@@ -105,24 +105,24 @@ export default {
             countryId: null,
             //
             countries: [],
-            addressTypes: []
+            addressTypes: [],
+            token: ''
         };
     },
     mounted(){
+        this.token = localStorage.getItem('token');
         this.fetchAddressData();
         this.getCountries();
         this.getAddressTypes();
     },
     methods: {
         async editAddress() {
-
-            const token = localStorage.getItem('token');
             try {
                 const response = await fetch('https://localhost:7263/Addresses/editAddress', {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${this.token}`
                     },
                         body: JSON.stringify({
                             id: this.id,
@@ -144,8 +144,6 @@ export default {
         },
         async fetchAddressData(){
             var url = 'https://localhost:7263/Addresses/getAddress?'
-            const token = localStorage.getItem('token');
-
             const response = await fetch(url + new URLSearchParams({
                 addressId: this.$route.params.id
             }),
@@ -153,7 +151,7 @@ export default {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
             const responseJson = await response.json();
@@ -169,12 +167,11 @@ export default {
             this.countryId = fetchAddress.countryId;
         },
         async getCountries(){
-            const token = localStorage.getItem('token');
             const response = await fetch('https://localhost:7263/Countries/getCountries', {
             method: "GET",
             headers: {
                 'accept': '',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${this.token}`
             }
             });
 
@@ -182,7 +179,6 @@ export default {
             this.countries = responseJson.countries
         },
         async getAddressTypes(){
-            const token = localStorage.getItem('token');
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
                 dictionaryTypeId: 9
@@ -191,7 +187,7 @@ export default {
                 method: "GET",
                 headers: {
                     'accept': '',
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${this.token}`,
                     'DictionaryTypeId': 9
                 }
             });

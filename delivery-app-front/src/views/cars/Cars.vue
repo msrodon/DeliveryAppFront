@@ -35,7 +35,7 @@
             <td>{{ car.horsePower }}</td>
             <td>{{ car.maxLoad }}</td>
             <td>
-              <button size="sm" @click="editCar(car.id)" class="me-3 btn btn-primary">Edit</button>
+              <button size="sm" @click="goToEditCar(car.id)" class="me-3 btn btn-primary">Edit</button>
               <button size="sm" @click="deleteCar(car.id)" class="btn btn-danger">Delete</button>
             </td>
           </tr>
@@ -55,7 +55,7 @@
           
     </div>
     <!-- <button class="btn btn-secondary" v-on:click="resetSort()">Reset sort</button> -->
-    <button class="btn btn-outline-success px-5 mt-3" v-on:click="addNewCar()">Add new car</button>
+    <button class="btn btn-outline-success px-5 mt-3" v-on:click="goToAddCar()">Add new car</button>
   </white-card-80>
 </template>
 
@@ -63,44 +63,36 @@
   export default {
     data() {
       return {
-        items: []
+        items: [],
+        token: ''
       }
     },
     
     mounted() {
+      this.token = localStorage.getItem('token');
       this.getCarsData()
     },
     methods:{
-      resetSort(){
-      },
       async getCarsData(){
-        this.busyState = true;
-
-        const token = localStorage.getItem('token');
         const response = await fetch('https://localhost:7263/Cars/getCars', {
           method: "GET",
           headers: {
             'accept': '',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${this.token}`
           }
         });
 
         const responseJson = await response.json();
         this.items = responseJson.cars
-        this.busyState = false;
       },
-      deleteCarDialog(){
-        // this.showDialog = true;
-      },
+
       async deleteCar(carId){
-      
-        const token = localStorage.getItem('token');
         try {
           const response = await fetch('https://localhost:7263/Cars/removeCar', {
             method: "DELETE",
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${thistoken}`
             },
                 body: JSON.stringify({
                   carId: carId
@@ -112,12 +104,11 @@
         }
         window.location.href = window.location.href;
       },
-      editCar(carId){
+      goToEditCar(carId){
         var route = "/Cars/EditCar/"+ carId;
-
         this.$router.push({ path: route });
       },
-      addNewCar(){
+      goToAddCar(){
         this.$router.push("/Cars/AddCar");
       }
     }

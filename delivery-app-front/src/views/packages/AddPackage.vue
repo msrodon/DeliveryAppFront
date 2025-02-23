@@ -203,10 +203,12 @@ export default {
             paymentTypes: [],
             //SETTINGS
             useGuestAddress: false,
-            selectedCurrency: ""
+            selectedCurrency: '',
+            token: ''
         };
     },
     mounted(){
+        this.token = localStorage.getItem('token');
         this.getCountries();
         this.getCurrencies();
         this.getPackageTypes();
@@ -216,8 +218,6 @@ export default {
     },
     methods: {
         async addPackage() {
-
-            const token = localStorage.getItem('token');
             const body = { 
                 reciverEmail: this.reciverEmail,
                 packageTypeId: this.packageTypeId,
@@ -225,7 +225,6 @@ export default {
                 currencyId: this.currencyId,
                 price: this.totalPrice
             };
-            console.log(body);
 
             if (this.useGuestAddress) {
                 body.guestAddress = {
@@ -244,7 +243,7 @@ export default {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${this.token}`
                     },
                     body: JSON.stringify(body),
                     credentials: 'include'
@@ -258,7 +257,6 @@ export default {
             }
         },
         async getPackageTypes(){
-            const token = localStorage.getItem('token');
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
                 dictionaryTypeId: 5
@@ -267,7 +265,7 @@ export default {
                 method: "GET",
                 headers: {
                     'accept': '',
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${this.token}`,
                     'DictionaryTypeId': 5
                 }
             });
@@ -276,12 +274,11 @@ export default {
             this.packageTypes = responseJson.dictionaries
         },
         async getUserAddresses(){
-            const token = localStorage.getItem('token');
             const response = await fetch('https://localhost:7263/Addresses/getUserAddresses', {
             method: "GET",
             headers: {
                 'accept': '',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${this.token}`
             }
             });
 
@@ -289,7 +286,6 @@ export default {
             this.userAddresses = responseJson.userAddresses
         },
         async getAddressTypes(){
-            const token = localStorage.getItem('token');
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
                 dictionaryTypeId: 9
@@ -298,7 +294,7 @@ export default {
                 method: "GET",
                 headers: {
                     'accept': '',
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${this.token}`,
                     'DictionaryTypeId': 9
                 }
             });
@@ -307,7 +303,6 @@ export default {
             this.addressTypes = responseJson.dictionaries
         },
         async getPaymentTypes(){
-            const token = localStorage.getItem('token');
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
                 dictionaryTypeId: 8
@@ -316,7 +311,7 @@ export default {
                 method: "GET",
                 headers: {
                     'accept': '',
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${this.token}`,
                     'DictionaryTypeId': 8	
                 }
             });
@@ -325,12 +320,11 @@ export default {
             this.paymentTypes = responseJson.dictionaries
         },
         async getCountries(){
-            const token = localStorage.getItem('token');
             const response = await fetch('https://localhost:7263/Countries/getCountries', {
             method: "GET",
             headers: {
                 'accept': '',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${this.token}`
             }
             });
 
@@ -338,25 +332,20 @@ export default {
             this.countries = responseJson.countries
         },
         async getCurrencies(){
-        this.busyState = true;
 
-        const token = localStorage.getItem('token');
         const response = await fetch('https://localhost:7263/Currencies/getCurrencies', {
           method: "GET",
           headers: {
             'accept': '',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${this.token}`
           }
         });
 
         const responseJson = await response.json();
-        this.currencies = responseJson.currencies
-        this.busyState = false;
+        this.currencies = responseJson.currencies;
         },
         async getPackagePrice(){
             var url = 'https://localhost:7263/PackagePrices/getPackagePrices?'
-            const token = localStorage.getItem('token');
-
             const response = await fetch(url + new URLSearchParams({
                 currencyId: this.currencyId
             }),
@@ -364,7 +353,7 @@ export default {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
             const responseJson = await response.json();

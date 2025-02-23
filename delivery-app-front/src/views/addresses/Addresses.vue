@@ -29,7 +29,7 @@
             <td>{{ address.street }}</td>
             <td>{{ address.number }}</td>
             <td>
-              <button size="sm" @click="editAddress(address.id)" class="me-3 btn btn-primary">Edit</button>
+              <button size="sm" @click="goToEditAddress(address.id)" class="me-3 btn btn-primary">Edit</button>
               <button size="sm" @click="deleteAddress(address.id)" class="btn btn-danger">Delete</button>
             </td>
           </tr>
@@ -48,7 +48,7 @@
            -->
           
     </div>
-    <button class="btn btn-outline-success px-5 mt-3" v-on:click="addNewAddress()">Add new address</button>
+    <button class="btn btn-outline-success px-5 mt-3" v-on:click="goToAddAddress()">Add new address</button>
   </white-card-80>
 </template>
 
@@ -57,40 +57,36 @@
     data() {
       return {
         items: [],
-        countries: []
+        countries: [],
+        token: ''
       }
     },
     mounted() {
+      this.token = localStorage.getItem('token');
       this.getAddresses();
       this.getCountries();
     },
     methods:{
 
       async getAddresses(){
-        this.busyState = true;
-
-        const token = localStorage.getItem('token');
         const response = await fetch('https://localhost:7263/Addresses/getUserAddresses', {
           method: "GET",
           headers: {
             'accept': '',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${this.token}`
           }
         });
 
         const responseJson = await response.json();
         this.items = responseJson.userAddresses;
-
-        this.busyState = false;
       },
 
       async getCountries(){
-            const token = localStorage.getItem('token');
             const response = await fetch('https://localhost:7263/Countries/getCountries', {
             method: "GET",
             headers: {
                 'accept': '',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${this.token}`
             }
             });
 
@@ -98,19 +94,13 @@
             this.countries = responseJson.countries
         },
 
-      deleteAddressDialog(){
-        // this.showDialog = true;
-      },
-
       async deleteAddress(addressId){
-      
-        const token = localStorage.getItem('token');
         try {
           const response = await fetch('https://localhost:7263/Addresses/removeAddress', {
             method: "DELETE",
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${this.token}`
             },
                 body: JSON.stringify({
                   addressId: addressId
@@ -122,12 +112,11 @@
         }
         window.location.href = window.location.href;
       },
-      editAddress(addressId){
+      goToEditAddress(addressId){
         var route = "/Addresses/editAddress/"+ addressId;
-
         this.$router.push({ path: route });
       },
-      addNewAddress(){
+      goToAddAddress(){
         this.$router.push("/Addresses/addAddress");
       },
       findCountryName(countryId) {

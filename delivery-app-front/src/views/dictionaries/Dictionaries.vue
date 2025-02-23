@@ -12,14 +12,16 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
+                        <th scope="col">DictionaryType ID</th>
                         <th scope="col">Name</th>
                         <th scope="col">Default</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="dictionary in items" :key="dictionary.dictionaryId">
-                        <th scope="row">{{ dictionary.dictionaryId }}</th>
+                    <tr v-for="(dictionary, index) in items" :key="dictionary.dictionaryId">
+                        <td>{{ index + 1}}</td>
+                        <th>{{ dictionary.dictionaryId }}</th>
                         <td>{{ dictionary.name }}</td>
                         <td>{{ dictionary.isDefault }}</td>
                         <td>
@@ -57,10 +59,12 @@ export default {
         return {
             dictionaryTypeId: 0,
             items: [],
+            token: ''
         };
     },
 
     mounted() {
+        this.token = localStorage.getItem("token");
         this.dictionaryTypeId = this.$route.params.typeId;
         this.getDictionariesData();
     },
@@ -68,11 +72,7 @@ export default {
         resetSort() { },
 
         async getDictionariesData() {
-            this.busyState = true;
-
             var url = "https://localhost:7263/Dictionaries/getDictionariesByType?";
-            const token = localStorage.getItem("token");
-
             const response = await fetch(url +
                 new URLSearchParams(
                     {
@@ -82,23 +82,16 @@ export default {
                         method: "GET",
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
+                            'Authorization': `Bearer ${this.token}`
                         }
                     }
             );
 
             const responseJson = await response.json();
-
             this.items = responseJson.dictionaries;
-            this.busyState = false;
-        },
-
-        deleteDictionary() {
-            // this.showDialog = true;
         },
 
         async deleteDictionary(dictionaryId) {
-            const token = localStorage.getItem("token");
             try {
                 const response = await fetch(
                     "https://localhost:7263/Dictionaries/removeDictionary",
@@ -106,7 +99,7 @@ export default {
                         method: "DELETE",
                         headers: {
                             "Content-Type": "application/json",
-                            'Authorization': `Bearer ${token}`
+                            'Authorization': `Bearer ${this.token}`
                         },
                         body: JSON.stringify({
                             dictionaryId: dictionaryId,

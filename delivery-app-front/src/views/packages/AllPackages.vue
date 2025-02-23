@@ -49,34 +49,30 @@
         return {
           items: [],
           packageTypes: [],
-          packageStatuses: []
+          packageStatuses: [],
+          token: ''
         }
       },
       mounted() {
+        this.token = localStorage.getItem('token');
         this.getPackages();
         this.getPackageTypes();
         this.getPackageStatuses();
       },
       methods:{
         async getPackages(){
-          this.busyState = true;
-  
-          const token = localStorage.getItem('token');
           const response = await fetch('https://localhost:7263/Packages/getPackages', {
             method: "GET",
             headers: {
               'accept': '',
-              'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${this.token}`
             }
           });
   
           const responseJson = await response.json();
           this.items = responseJson.packages;
-  
-          this.busyState = false;
         },
         async getPackageTypes(){
-            const token = localStorage.getItem('token');
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
                 dictionaryTypeId: 5
@@ -85,7 +81,7 @@
                 method: "GET",
                 headers: {
                     'accept': '',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
 
@@ -93,7 +89,6 @@
             this.packageTypes = responseJson.dictionaries
         },
         async getPackageStatuses(){
-            const token = localStorage.getItem('token');
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
                 dictionaryTypeId: 2
@@ -102,7 +97,7 @@
                 method: "GET",
                 headers: {
                     'accept': '',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
 

@@ -62,7 +62,9 @@ export default {
             shortcut: '',
             currency: {},
             packageTypes: [],
-            packagePrices: []
+            packagePrices: [],
+            //
+            token:''
         };
     },
     computed: {
@@ -74,6 +76,7 @@ export default {
         }
     },
     mounted(){
+        this.token = localStorage.getItem('token');
         this.getPackagePricesData();
         this.getPackageTypes();
         this.getCurrency();
@@ -81,13 +84,12 @@ export default {
     methods: {
 
         async editPriceList() {
-            const token = localStorage.getItem('token');
             try {
                 const response = await fetch('https://localhost:7263/PackagePrices/editPackagePrice', {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${this.token}`
                     },
                         body: JSON.stringify({
                             currencyId: this.$route.params.id,
@@ -103,8 +105,6 @@ export default {
         },
         async getCurrency(){
             var url = 'https://localhost:7263/Currencies/getCurrency?'
-            const token = localStorage.getItem('token');
-
             const response = await fetch(url + new URLSearchParams({
                 currencyId: this.$route.params.id
             }),
@@ -112,17 +112,14 @@ export default {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
             const responseJson = await response.json();
-            console.log(responseJson);
             this.currency = responseJson.currency;
         },
         async getPackagePricesData(){
             var url = 'https://localhost:7263/PackagePrices/getPackagePrices?'
-            const token = localStorage.getItem('token');
-
             const response = await fetch(url + new URLSearchParams({
                 currencyId: this.$route.params.id
             }),
@@ -130,14 +127,13 @@ export default {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
             const responseJson = await response.json();
             this.packagePrices = responseJson.packagePrices;
         },
         async getPackageTypes(){
-            const token = localStorage.getItem('token');
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
                 dictionaryTypeId: 5
@@ -146,7 +142,7 @@ export default {
                 method: "GET",
                 headers: {
                     'accept': '',
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${this.token}`,
                     'DictionaryTypeId': 5
                 }
             });

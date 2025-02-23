@@ -8,7 +8,7 @@
     <h2 class="fw-bold mb-2 text-uppercase">Registered users</h2>
     <hr>
       <div class="mt-4">
-        <table class="table" v-if="items.length > 0">
+        <table class="table" v-if="users.length > 0">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -24,7 +24,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(user, index) in items" :key="user.id" :class="{ deactiveUser: !user.activeStatus }">
+            <tr v-for="(user, index) in users" :key="user.id" :class="{ deactiveUser: !user.activeStatus }">
               
               <th scope="row">{{ index + 1 }}</th>
               <td> <span 
@@ -32,19 +32,19 @@
                 class="status-circle"
               ></span> </td>
               <!-- <td>{{ user.id }}</td> -->
-              <td>{{ user.userType }}</td>
+              <td>{{ findDictionary(userTypes ,user.userType) }}</td>
               <th>{{ user.userName }}</th>
               <td>{{ user.firstName }}</td>
               <td>{{ user.lastName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.phoneNumber }}</td>
               <td v-if="user.activeStatus" class="text-start ms-2">
-                <button size="sm" @click="editUser(user.id)" class="me-3 btn btn-primary">Edit</button>
+                <button size="sm" @click="goToEditUser(user.id)" class="me-3 btn btn-primary">Edit</button>
                 <button size="sm" @click="changeActiveStatus(user.id, false)" class="me-3 btn btn-danger">Deactivate</button>
                 <!-- <button size="sm" @click="deleteUser(user.id)" class="btn btn-danger">Delete</button> -->
               </td>
               <td v-else class="text-start ms-2">
-                <button size="sm" @click="editUser(user.id)" class="me-3 btn btn-primary">Edit</button>
+                <button size="sm" @click="goToEditUser(user.id)" class="me-3 btn btn-primary">Edit</button>
                 <button size="sm" @click="changeActiveStatus(user.id, true)" class="me-3 btn btn-success">Activate</button>
               </td>
             </tr>
@@ -61,46 +61,37 @@
 export default {
   data() {
     return {
-      items: []
+      users: [],
+      //
+      userTypes: [],
+      token: ''
     }
   },
   mounted() {
-    this.getUsersData()
+    this.token = localStorage.getItem('token');
+    this.getUsersData();
+    this.getUserTypes();
   },
   methods:{
     async getUsersData(){
-        this.busyState = true;
+      const response = await fetch('https://localhost:7263/Users/getAllUsers', {
+        method: "GET",
+        headers: {
+          'accept': '',
+          'Authorization': `Bearer ${this.token}`
+        }
+      });
 
-        const token = localStorage.getItem('token');
-        const response = await fetch('https://localhost:7263/Users/getAllUsers', {
-          method: "GET",
-          headers: {
-            'accept': '',
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
-        const responseJson = await response.json();
-        this.items = responseJson.users
-        this.busyState = false;
-      },
-    changeBusyState(){
-      this.busyState = !this.busyState;
-    },
-    editUser(userId){
-      var route = "/Users/EditUser/" + userId;
-
-      this.$router.push({ path: route });
+      const responseJson = await response.json();
+      this.users = responseJson.users
     },
     async changeActiveStatus(userId, newActiveStatus){
-      const token = localStorage.getItem('token');
-
       try {
         const response = await fetch('https://localhost:7263/Users/changeActiveStatus', {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${this.token}`
           },
               body: JSON.stringify({
                 id: userId,
@@ -113,6 +104,31 @@ export default {
       }
       window.location.href = window.location.href;
     },
+    async getUserTypes(){
+            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
+            const response = await fetch(url + new URLSearchParams({
+                dictionaryTypeId: 1
+            }), 
+            {
+                method: "GET",
+                headers: {
+                    'accept': '',
+                    'Authorization': `Bearer ${this.token}`,
+                    'DictionaryTypeId': 1
+                }
+            });
+
+            const responseJson = await response.json();
+            this.userTypes = responseJson.dictionaries;
+        },
+    goToEditUser(userId){
+      var route = "/Users/EditUser/" + userId;
+      this.$router.push({ path: route });
+    },
+    findDictionary(dictionaryList, dictionaryId) {
+      const dictionary = dictionaryList.find((x) => x.dictionaryId === dictionaryId);
+      return dictionary ? dictionary.name : 'Unknown';
+    }
   }
 }
 </script>

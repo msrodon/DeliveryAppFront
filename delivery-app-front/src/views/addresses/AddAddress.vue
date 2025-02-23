@@ -104,22 +104,24 @@ export default {
             addressTypeId: null,
             countryId: null,
             countries: [],
-            addressTypes: []
+            addressTypes: [],
+            //
+            token: ''
         };
     },
     mounted(){
+        this.token = localStorage.getItem('token');
         this.getCountries();
         this.getAddressTypes();
     },
     methods: {
         async addAddress() {
-            const token = localStorage.getItem('token');
             try {
                 const response = await fetch('https://localhost:7263/Addresses/addAddress', {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${this.token}`
                     },
                         body: JSON.stringify({
                             name: this.name,
@@ -138,12 +140,11 @@ export default {
             }
         },
         async getCountries(){
-            const token = localStorage.getItem('token');
             const response = await fetch('https://localhost:7263/Countries/getCountries', {
             method: "GET",
             headers: {
                 'accept': '',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${this.token}`
             }
             });
 
@@ -151,7 +152,6 @@ export default {
             this.countries = responseJson.countries
         },
         async getAddressTypes(){
-            const token = localStorage.getItem('token');
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
                 dictionaryTypeId: 9
@@ -160,7 +160,7 @@ export default {
                 method: "GET",
                 headers: {
                     'accept': '',
-                    'Authorization': `Bearer ${token}`,
+                    'Authorization': `Bearer ${this.token}`,
                     'DictionaryTypeId': 9
                 }
             });

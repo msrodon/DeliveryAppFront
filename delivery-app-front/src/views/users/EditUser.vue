@@ -67,12 +67,11 @@
                     <p class="text-dark-50 m-0">User type</p>
                 </div>
                 <div class="form-outline form-dark mb-4">
-                    <select class="form-select form-select-lg" placeholder="Choose option" v-model="userType">
+                    <select class="form-select form-select-lg" placeholder="Choose option" v-model="userTypeId">
                         <option disabled selected>Choose option</option>
-                        <option value="1">Client</option>
-                        <!-- <option value="1">Admin</option>
-                        <option value="2">Delivery man</option>
-                        <option value="3">Delivery manager</option> -->
+                        <option v-for="userType in userTypes" :value="userType.dictionaryId" :key="userType.dictionaryId">
+                            {{ userType.name }}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -97,14 +96,16 @@ export default {
             lastName: "",
             email: "",  
             phoneNumber: "",
-            userType: "",
+            userTypeId: "",
             //
+            userTypes: [],
             token: ""
         };
     },
     mounted(){
         this.token = localStorage.getItem('token');
         this.getUserData();
+        this.getUserTypes();
     },
     methods: {
         async editUser() {
@@ -122,7 +123,7 @@ export default {
                             lastName: this.lastName,
                             email: this.email,
                             phoneNumber: this.phoneNumber,
-                            userType: this.userType
+                            userType: this.userTypeId
                     }),
                         credentials: 'include' 
                 });
@@ -154,7 +155,24 @@ export default {
             this.lastName = fetchUser. lastName;
             this.email = fetchUser.email;
             this.phoneNumber = fetchUser.phoneNumber;
-            this.userType = fetchUser.userType;
+            this.userTypeId = fetchUser.userType;
+        },
+        async getUserTypes(){
+            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
+            const response = await fetch(url + new URLSearchParams({
+                dictionaryTypeId: 1
+            }), 
+            {
+                method: "GET",
+                headers: {
+                    'accept': '',
+                    'Authorization': `Bearer ${this.token}`,
+                    'DictionaryTypeId': 1
+                }
+            });
+
+            const responseJson = await response.json();
+            this.userTypes = responseJson.dictionaries
         },
         goToUsers(){
             this.$router.push('/Users');

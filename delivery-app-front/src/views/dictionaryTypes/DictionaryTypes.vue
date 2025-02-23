@@ -53,47 +53,36 @@
     export default {
       data() {
         return {
-          items: []
+          items: [],
+          token: ''
         }
       },
       
       mounted() {
+        this.token = localStorage.getItem('token');
         this.getDTypeData()
       },
       methods:{
-        resetSort(){
-        },
-
         async getDTypeData(){
-          this.busyState = true;
-  
-          const token = localStorage.getItem('token');
           const response = await fetch('https://localhost:7263/Dictionaries/getDictionaryTypes', {
             method: "GET",
             headers: {
               'accept': '',
-              'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${this.token}`
             }
           });
   
           const responseJson = await response.json();
           this.items = responseJson.dictionaryTypes;
-          this.busyState = false;
-        },
-
-        deleteDType(){
-          // this.showDialog = true;
         },
 
         async deleteDType(dTypeId){
-        
-          const token = localStorage.getItem('token');
           try {
             const response = await fetch('https://localhost:7263/Dictionaries/removeDictionaryType', {
               method: "DELETE",
               headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${this.token}`
               },
               body: JSON.stringify({
                 id: dTypeId

@@ -53,22 +53,22 @@ export default {
             name: '',
             code: '',
             currencyId: null,
-            currencies: []
+            currencies: [],
+            token: ''
         };
     },
     mounted(){
+        this.token = localStorage.getItem('token');
         this.getCurrencies();
     },
     methods: {
         async AddCountry() {
-
-            const token = localStorage.getItem('token');
             try {
                 const response = await fetch('https://localhost:7263/Countries/addCountry', {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${this.token}`
                     },
                         body: JSON.stringify({
                             name: this.name,
@@ -83,12 +83,11 @@ export default {
             }
         },
         async getCurrencies(){
-            const token = localStorage.getItem('token');
             const response = await fetch('https://localhost:7263/Currencies/getCurrencies', {
             method: "GET",
             headers: {
                 'accept': '',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${this.token}`
             }
             });
 
