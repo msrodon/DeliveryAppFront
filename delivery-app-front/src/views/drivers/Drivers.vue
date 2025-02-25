@@ -19,6 +19,7 @@
             <th scope="col">LastName</th>
             <th scope="col">Email</th>
             <th scope="col">Phone number</th>
+            <th scope="col">Car</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -36,8 +37,9 @@
             <td>{{ user.lastName }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.phoneNumber }}</td>
+            <td>{{ this.findDriver(user.id) }}</td>
             <td>
-                <button size="sm" @click="goToEditUser(user.id)" class="me-3 btn btn-primary">Edit</button>
+                <button size="sm" @click="this.goToEditDriver(user.id)" class="me-3 btn btn-primary">Edit</button>
             </td>
           </tr>
         </tbody>
@@ -55,6 +57,7 @@ export default {
   data() {
     return {
       users: [],
+      drivers: [],
       userTypesEnum: [],
       token: ''
     }
@@ -62,7 +65,8 @@ export default {
   mounted() {
     this.token = localStorage.getItem('token');
     this.userTypesEnum = Enums.UserTypes;
-    this.getUsersData()
+    this.getUsersData();
+    this.getDriversData();
   },
   methods:{
     async getUsersData(){
@@ -78,12 +82,31 @@ export default {
       });
 
       const responseJson = await response.json();
-      this.users = responseJson.users
+      this.users = responseJson.users;
     },
-    goToEditUser(userId){
-      var route = "/Users/EditUser/" + userId;
+    async getDriversData(){
+      var url = 'https://localhost:7263/Drivers/getDrivers?'
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          'accept': '',
+          'Authorization': `Bearer ${this.token}`
+        }
+      });
+
+      const responseJson = await response.json();
+      this.drivers = responseJson.drivers;
+    },
+    goToEditDriver(userId){
+      var route = "/Drivers/EditDriver/" + userId;
       this.$router.push({ path: route });
-    }
+    },
+    findDriver(userId) {
+      const driver = this.drivers.find((x) => x.baseUserId === userId);
+      return driver == null 
+      ? "" 
+      : driver.car.id + "# " + driver.car.brand + " " + driver.car.model + " " + driver.car.year ;
+    },
   }
 }
 </script>

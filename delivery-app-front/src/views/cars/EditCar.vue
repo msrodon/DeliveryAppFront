@@ -107,7 +107,6 @@ export default {
     },
     methods: {
         async editCar() {
-
             const token = localStorage.getItem('token');
             try {
                 const response = await fetch('https://localhost:7263/Cars/editCar', {
