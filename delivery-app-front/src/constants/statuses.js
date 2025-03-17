@@ -17,5 +17,10 @@ export const Enums = {
         DeliveryManager: 13,
         Support: 14,
         Admin: 4
+    },
+    TransportationStatuses: {
+        Scheduled: 35,
+        Started: 36,
+        Finished: 37
     }
 }

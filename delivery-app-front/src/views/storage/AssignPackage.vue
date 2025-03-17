@@ -302,10 +302,7 @@ export default {
           this.$router.push({ path: route });
         },
         async assignPackage(){
-            console.log("OK");
-            console.log(this.selectedDate);
             const formattedDate = new Date(this.selectedDate).toISOString();
-            console.log(formattedDate);
 
             try {
 
@@ -318,7 +315,6 @@ export default {
                         body: JSON.stringify({
                             packageId: this.$route.params.id,
                             driverId: this.selectedDriverId,
-                            // transportDate: new Date(this.selectedDate).toISOString() 
                             transportDate: formattedDate
                     }),
                     credentials: 'include' 
@@ -327,7 +323,7 @@ export default {
 
             }
 
-            //this.$router.push({ path: '/PriceLists' })
+            this.$router.push({ path: '/Storage/PackagesToAssign' })
         }
     }
 }
