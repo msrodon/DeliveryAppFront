@@ -24,11 +24,14 @@
               <td>{{ pack.reciverEmail }}</td>
               <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
               <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
+              <td>
+                <button class="btn btn-outline-secondary px-5 mt-3" @click="goPackageInfo(pack.packageId)">Package info</button>
+              </td>
             </tr>
           </tbody>
         </table> 
         <div v-else>
-          <h1>NO PACKAGES FOUND</h1>
+          <h4>NO PACKAGES FOUND</h4>
         </div> 
   
             <!-- <template #table-busy>
@@ -107,7 +110,10 @@
         findDictionary(dictionaryList, dictionaryId) {
           const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);
           return dictionary ? dictionary.name : 'Unknown';
-        }
+        },
+        goPackageInfo(packageId){
+          this.$router.push("/Packages/PackageInfo/" + packageId);
+        },
       }
     }
   </script>

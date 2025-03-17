@@ -40,7 +40,7 @@
           </tbody>
         </table> 
         <div v-else>
-          <h1>NO PACKAGES FOUND</h1>
+          <h4>NO PACKAGES FOUND</h4>
         </div> 
   
             <!-- <template #table-busy>
@@ -133,7 +133,7 @@
           this.$router.push("/Packages/SendPackage/" + packageId);
         },
         goPackageInfo(packageId){
-          this.$router.push("/Packages/info" + packageId);
+          this.$router.push("/Packages/PackageInfo/" + packageId);
         },
         findDictionary(dictionaryList, dictionaryId) {
           const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);

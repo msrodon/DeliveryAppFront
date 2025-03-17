@@ -8,11 +8,13 @@
     <div class="collapse navbar-collapse" id="navbarScroll" v-if="!!isAuth">
     <button class="nav-link" @click="redirect('/')">HOME</button>
       <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+        
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             ADMINISTRATION
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><button class="dropdown-item" @click="redirect('/Storage/PackagesToAssign')">PACKAGES TO ASSIGN</button></li>
             <li><button class="dropdown-item" @click="redirect('/DictionaryTypes')">DICTIONARY TYPES</button></li>
             <li><button class="dropdown-item" @click="redirect('/AllPackages')">ALL PACKAGES</button></li>
             <li><button class="dropdown-item" @click="redirect('/Currencies')">CURRENCIES</button></li>
@@ -23,24 +25,48 @@
             <li><button class="dropdown-item" @click="redirect('/Cars')">CARS</button></li>
           </ul>
         </li>
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            MY ADDRESSES
+            STORAGE MANAGER
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-            <li><button class="dropdown-item" @click="redirect('/Addresses')">ADDRESSES</button></li>
-            <li><button class="dropdown-item" @click="redirect('/Addresses/AddAddress')">ADD ADDRESS</button></li>
+            <li><button class="dropdown-item" @click="redirect('/Storage/PackagesToAssign')">PACKAGES TO ASSIGN</button></li>
+            <li><button class="dropdown-item" @click="redirect('/AllPackages')">ALL PACKAGES</button></li>
           </ul>
         </li>
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            PACKAGES
+            DRIVER
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><button class="dropdown-item" @click="redirect('/Deliveries')">DELIVERIES</button></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            SUPPORT
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><button class="dropdown-item" @click="redirect('/AllPackages')">ALL PACKAGES</button></li>
+            <li><button class="dropdown-item" @click="redirect('/Users')">USERS</button></li>
+          </ul>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            USER
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+            <li><button class="dropdown-item" @click="redirect('/Addresses')">MY ADDRESSES</button></li>
+            <li><button class="dropdown-item" @click="redirect('/Addresses/AddAddress')">ADD ADDRESS</button></li>
             <li><button class="dropdown-item" @click="redirect('/Packages')">PACKAGES</button></li>
             <li><button class="dropdown-item" @click="redirect('/Packages/AddPackage')">ADD PACKAGE</button></li>
           </ul>
         </li>
+
       </ul>
       <div class="d-flex">
         <h2 class="h4">{{ this.userLogin }}</h2>

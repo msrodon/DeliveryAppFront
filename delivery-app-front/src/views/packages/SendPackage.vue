@@ -47,7 +47,6 @@ export default {
   
           const responseJson = await response.json();
           this.pack = responseJson.package;
-          console.log(this.items);
         },
         async sendPackage() {
             try {
