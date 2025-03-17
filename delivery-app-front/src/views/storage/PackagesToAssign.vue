@@ -1,0 +1,179 @@
+<template>
+    <div>
+    <white-card-80>
+        <h2 class="fw-bold mb-2 text-uppercase">Packages to collect</h2>
+        <hr>
+        <div class="mt-4">
+        <table class="table" v-if="packagesToCollect.length > 0">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Package ID</th>
+                <th scope="col">Sender email</th>
+                <th scope="col">Reciver email</th>
+                <th scope="col">Package type</th>
+                <th scope="col">Package status</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(pack, index) in packagesToCollect" :key="pack.packageId">
+                <th scope="row">{{ index + 1 }}</th>
+                <th>{{ pack.packageId }}</th>
+                <td>{{ pack.senderEmail }}</td>
+                <td>{{ pack.reciverEmail }}</td>
+                <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
+                <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
+                <td>
+                    <button class="btn btn-outline-secondary px-5 mt-3" @click="goToAssignPackage(pack.packageId)">Assign package</button>
+                </td>
+            </tr>
+            </tbody>
+        </table> 
+        <div v-else>
+            <h4>NO PACKAGES FOUND</h4>
+        </div> 
+
+            <!-- <template #table-busy>
+                <div class="text-center text-primary my-5">
+                <b-spinner class="align-middle"></b-spinner>
+                <strong> Loading...</strong>
+                </div>
+            </template>
+                -->
+            
+        </div>
+    </white-card-80>
+
+    <white-card-80 class="mt-5">
+        <h2 class="fw-bold mb-2 text-uppercase">Packages in storage</h2>
+        <hr>
+        <div class="mt-4">
+        <table class="table" v-if="packagesToDelivery.length > 0">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Package ID</th>
+                <th scope="col">Sender email</th>
+                <th scope="col">Reciver email</th>
+                <th scope="col">Package type</th>
+                <th scope="col">Package status</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(pack, index) in packagesToDelivery" :key="pack.packageId">
+                <th scope="row">{{ index + 1 }}</th>
+                <th>{{ pack.packageId }}</th>
+                <td>{{ pack.senderEmail }}</td>
+                <td>{{ pack.reciverEmail }}</td>
+                <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
+                <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
+                <td>
+                    <button class="btn btn-outline-secondary px-5 mt-3" @click="goToAssignPackage(pack.packageId)">Assign package</button>
+                </td>
+            </tr>
+            </tbody>
+        </table> 
+        <div v-else>
+            <h4>NO PACKAGES FOUND</h4>
+        </div> 
+
+            <!-- <template #table-busy>
+                <div class="text-center text-primary my-5">
+                <b-spinner class="align-middle"></b-spinner>
+                <strong> Loading...</strong>
+                </div>
+            </template>
+                -->
+            
+        </div>
+    </white-card-80>
+        
+    </div>
+</template>
+
+  <script>
+    import { Enums } from '@/constants/statuses';
+    export default {
+      data() {
+        return {
+          packagesToCollect: [],
+          packagesToDelivery: [],
+
+          packageTypes: [],
+          packageStatuses: [],
+
+          packageStatusEnum: [],
+          token: ''
+        }
+      },
+      async mounted() {
+        this.token = localStorage.getItem('token');
+        this.packageStatusEnum = Enums.PackageStatuses;
+
+        this.packagesToCollect = await this.getPackages(this.packageStatusEnum.Posted);
+        this.packagesToDelivery = await this.getPackages(this.packageStatusEnum.Storage);
+        this.getPackageTypes();
+        this.getPackageStatuses();
+      },
+      methods:{
+        async getPackages(packageStatusId){
+            var url = 'https://localhost:7263/Packages/getPackages?';
+            const response = await fetch(url + new URLSearchParams({
+                packageStatusId: packageStatusId
+            }), 
+            {
+                method: "GET",
+                headers: {
+                'accept': '',
+                'Authorization': `Bearer ${this.token}`
+                }
+            });
+    
+            const responseJson = await response.json();
+            return responseJson.packages;
+        },
+        async getPackageTypes(){
+            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
+            const response = await fetch(url + new URLSearchParams({
+                dictionaryTypeId: 5
+            }), 
+            {
+                method: "GET",
+                headers: {
+                    'accept': '',
+                    'Authorization': `Bearer ${this.token}`
+                }
+            });
+
+            const responseJson = await response.json();
+            this.packageTypes = responseJson.dictionaries
+        },
+        async getPackageStatuses(){
+            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
+            const response = await fetch(url + new URLSearchParams({
+                dictionaryTypeId: 2
+            }), 
+            {
+                method: "GET",
+                headers: {
+                    'accept': '',
+                    'Authorization': `Bearer ${this.token}`
+                }
+            });
+
+            const responseJson = await response.json();
+            this.packageStatuses = responseJson.dictionaries;
+        },
+        goToAssignPackage(packageId){
+            var route = "/Storage/AssignPackage/"+ packageId;
+            this.$router.push({ path: route });
+        },
+        findDictionary(dictionaryList, dictionaryId) {
+          const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);
+          return dictionary ? dictionary.name : 'Unknown';
+        }
+      }
+    }
+  </script>

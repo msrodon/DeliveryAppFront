@@ -46,8 +46,16 @@ const EditPriceList = () => import("@/views/priceLists/EditPriceList.vue")
 //PACKAGES
 const Packages = () => import("@/views/packages/Packages.vue")
 const AddPackage = () => import("@/views/packages/AddPackage.vue")
+const PackageInfo = () => import("@/views/packages/PackageInfo.vue")
 const AllPackages = () => import("@/views/packages/AllPackages.vue")
 const SendPackage = () => import("@/views/packages/SendPackage.vue")
+
+//PACKAGES
+const PackagesToAssign = () => import("@/views/storage/PackagesToAssign.vue")
+const AssignPackage = () => import("@/views/storage/AssignPackage.vue")
+
+//DELIVERIES
+const Deliveries = () => import("@/views/deliveries/Deliveries.vue")
 
 //USERS
 const Users = () => import("@/views/users/Users.vue")
@@ -58,7 +66,6 @@ const Drivers = () => import("@/views/drivers/Drivers.vue")
 const EditDriver = () => import("@/views/drivers/EditDriver.vue")
 
 //PAYMENTS
-// const Payment = () => import("@/views/payments/Payment.vue")
 const Payment = () => import("@/views/payments/ProcessPayment.vue")
 
 const routes = [
@@ -97,7 +104,13 @@ const routes = [
   {path: "/Packages",name: "Packages",component: Packages, meta: { requiresAuth: true}},
   {path: "/AllPackages",name: "AllPackages",component: AllPackages, meta: { requiresAuth: true}},
   {path: "/Packages/AddPackage",name: "AddPackage",component: AddPackage, meta: { requiresAuth: true}},
+  {path: "/Packages/PackageInfo/:id",name: "PackageInfo",component: PackageInfo, meta: { requiresAuth: true}},
   {path: "/Packages/SendPackage/:id",name: "SendPackage",component: SendPackage, meta: { requiresAuth: true}},
+
+  {path: "/Storage/PackagesToAssign",name: "PackagesToAssign",component: PackagesToAssign, meta: { requiresAuth: true}},
+  {path: "/Storage/AssignPackage/:id",name: "AssignPackage",component: AssignPackage, meta: { requiresAuth: true}},
+
+  {path: "/Deliveries",name: "Deliveries",component: Deliveries, meta: { requiresAuth: true}},
   
   {path: "/Users",name: "Users",component: Users, meta: { requiresAuth: true}},
   {path: "/Users/EditUser/:id",name: "EditUser",component: EditUser, meta: { requiresAuth: true}},
