@@ -109,11 +109,12 @@ export default {
             token: ''
         };
     },
-    mounted(){
+    async mounted(){
         this.token = localStorage.getItem('token');
+        this.addressTypes = await this.getDictionaries(9);
+
         this.fetchAddressData();
         this.getCountries();
-        this.getAddressTypes();
     },
     methods: {
         async editAddress() {
@@ -178,22 +179,21 @@ export default {
             const responseJson = await response.json();
             this.countries = responseJson.countries
         },
-        async getAddressTypes(){
+        async getDictionaries(dictionaryTypeId){
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 9
+                dictionaryTypeId: dictionaryTypeId
             }), 
             {
                 method: "GET",
                 headers: {
                     'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 9
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
 
             const responseJson = await response.json();
-            this.addressTypes = responseJson.dictionaries
+            return responseJson.dictionaries
         },
         goToAddresses(){
             this.$router.push('/Addresses');

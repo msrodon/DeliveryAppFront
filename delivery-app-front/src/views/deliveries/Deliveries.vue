@@ -6,10 +6,10 @@
             <DatePicker @date-selected="handleDateChange" />
             <div v-if="transportationStatus != 0" class="mt-3">
                 <h4 >Status: {{ findDictionary(transportationStatuses, transportationStatus) }}</h4>
-                <button v-if="transportationStatus == transportationStatusEnum.Scheduled" class="btn btn-lg btn-warning">
+                <button v-if="transportationStatus == transportationStatusEnum.Scheduled" class="btn btn-lg btn-warning" @click="startDelivery()">
                     Start today's delivery
                 </button>
-                <button v-if="transportationStatus == transportationStatusEnum.Started" class="btn btn-lg btn-warning">
+                <button v-if="transportationStatus == transportationStatusEnum.Started" class="btn btn-lg btn-warning" @click="goToDailyDelivery()">
                     Continue delivery
                 </button>
             </div>
@@ -43,7 +43,7 @@
                             <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
                             <td>
                                 <button @click="toggleDetails(index)" class="btn btn-primary">
-                                    {{ expandedRow === index ? 'Ukryj' : 'Pokaż' }}
+                                    {{ expandedRow === index ? 'Hide' : 'Show' }}
                                 </button>
                             </td>
                             <td colspan="7" v-if="expandedRow !== null && expandedRow === index" class="bg-light">
@@ -87,7 +87,7 @@
                             <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
                             <td>
                                 <button @click="toggleDetails(index)" class="btn btn-primary">
-                                    {{ expandedRow === index ? 'Ukryj' : 'Pokaż' }}
+                                    {{ expandedRow === index ? 'Hide' : 'Show' }}
                                 </button>
                             </td>
                             <td colspan="7" v-if="expandedRow !== null && expandedRow === index" class="bg-light">
@@ -138,12 +138,12 @@ export default {
     },
     async mounted() {
         this.token = localStorage.getItem('token');
+        this.packageTypes = await this.getDictionaries(5);
+        this.packageStatuses = await this.getDictionaries(2);
+        this.transportationStatuses = await this.getDictionaries(10);
+
         this.packageStatusEnum = Enums.PackageStatuses;
         this.transportationStatusEnum = Enums.TransportationStatuses;
-
-        await this.getPackageTypes();
-        await this.getPackageStatuses();
-        await this.getTransportationStatuses();
     },
 
     methods:{
@@ -179,57 +179,45 @@ export default {
             this.packagesToDelivery = responseJson.transportation.packagesToDelivery;
             this.transportationStatus = responseJson.transportation.transportationStatus
         },
-        async getPackageTypes(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 5
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
-            });
-
-            const responseJson = await response.json();
-            this.packageTypes = responseJson.dictionaries
-        },
-        async getPackageStatuses(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 2
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
-            });
-
-            const responseJson = await response.json();
-            this.packageStatuses = responseJson.dictionaries;
-        },
-        async getTransportationStatuses(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 10
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
-            });
-
-            const responseJson = await response.json();
-            this.transportationStatuses = responseJson.dictionaries;
-        },
         findDictionary(dictionaryList, dictionaryId) {
             const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);
             return dictionary ? dictionary.name : 'Unknown';
+        },
+        async getDictionaries(dictionaryTypeId){
+            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
+            const response = await fetch(url + new URLSearchParams({
+                dictionaryTypeId: dictionaryTypeId
+            }), 
+            {
+                method: "GET",
+                headers: {
+                    'accept': '',
+                    'Authorization': `Bearer ${this.token}`
+                }
+            });
+
+            const responseJson = await response.json();
+            return responseJson.dictionaries
+        },
+        async startDelivery(){
+            const formattedDate = new Date(this.selectedDate).toISOString();
+
+            var url = 'https://localhost:7263/Transportations/startTransportation?';
+            const response = await fetch(url + new URLSearchParams({
+                selectedDate: formattedDate
+            }), 
+            {
+                method: "POST",
+                headers: {
+                'accept': '',
+                'Authorization': `Bearer ${this.token}`
+                }
+            });
+            this.goToDailyDelivery();
+        },
+        goToDailyDelivery(){
+        //   var route = "/DictionaryTypes/" + dTypeId + "/Dictionaries";
+        //   this.$router.push({ path: route });
         }
     }
 }

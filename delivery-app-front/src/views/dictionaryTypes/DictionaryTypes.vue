@@ -25,7 +25,7 @@
               <td>{{ dType.name }}</td>
               <td>
                 <button size="sm" @click="editDType(dType.id)" class="me-3 btn btn-primary">Edit name</button>
-                <button size="sm" v-on:click="editDictionaries(dType.id)" class="me-3 btn btn-primary">Edit dictionaries</button>
+                <button size="sm" @click="editDictionaries(dType.id)" class="me-3 btn btn-primary">Edit dictionaries</button>
                 <button size="sm" @click="deleteDType(dType.id)" class="btn btn-danger">Delete type</button>
               </td>
             </tr>

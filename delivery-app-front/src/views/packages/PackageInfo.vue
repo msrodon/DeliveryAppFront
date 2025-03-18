@@ -220,14 +220,15 @@ export default {
     },
     async mounted(){
         this.token = localStorage.getItem('token');
-        await this.getPackageDetails();
+
+        this.packageStatuses = await this.getDictionaries(2);
+        this.paymentStatuses = await this.getDictionaries(7);
+        this.packageTypes = await this.getDictionaries(5);
+        this.paymentTypes = await this.getDictionaries(8);
+        this.addressTypes = await this.getDictionaries(9);
 
         await this.getCurrencies();
-        await this.getPackageTypes();
-        await this.getPackageStatuses();
-        await this.getPaymentTypes();
-        await this.getPaymentStatuses();
-        await this.getAddressTypes();
+        await this.getPackageDetails();
     },
     methods: {
         async getPackageDetails(){
@@ -263,91 +264,21 @@ export default {
             this.addressTypeId = packageDetails.destinationAddress.addressTypeId;
             this.guestAddress = packageDetails.destinationAddress.guestAddress;
         },
-
-        async getPackageTypes(){
+        async getDictionaries(dictionaryTypeId){
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 5
+                dictionaryTypeId: dictionaryTypeId
             }), 
             {
                 method: "GET",
                 headers: {
                     'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 5
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
 
             const responseJson = await response.json();
-            this.packageTypes = responseJson.dictionaries
-        },
-        async getAddressTypes(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 9
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 9
-                }
-            });
-
-            const responseJson = await response.json();
-            this.addressTypes = responseJson.dictionaries
-        },
-        async getPaymentTypes(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 8
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 8	
-                }
-            });
-
-            const responseJson = await response.json();
-            this.paymentTypes = responseJson.dictionaries
-        },
-        async getPackageStatuses(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 2
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 8	
-                }
-            });
-
-            const responseJson = await response.json();
-            this.packageStatuses = responseJson.dictionaries
-        },
-        async getPaymentStatuses(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 7
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 7	
-                }
-            });
-
-            const responseJson = await response.json();
-            this.paymentStatuses = responseJson.dictionaries
+            return responseJson.dictionaries
         },
         async getCurrencies(){
 

@@ -110,12 +110,14 @@
       },
       async mounted() {
         this.token = localStorage.getItem('token');
+
+        this.packageTypes = await this.getDictionaries(5);
+        this.packageStatuses = await this.getDictionaries(2);
+
         this.packageStatusEnum = Enums.PackageStatuses;
 
         this.packagesToCollect = await this.getPackages(this.packageStatusEnum.Posted);
         this.packagesToDelivery = await this.getPackages(this.packageStatusEnum.Storage);
-        this.getPackageTypes();
-        this.getPackageStatuses();
       },
       methods:{
         async getPackages(packageStatusId){
@@ -134,10 +136,11 @@
             const responseJson = await response.json();
             return responseJson.packages;
         },
-        async getPackageTypes(){
+        
+        async getDictionaries(dictionaryTypeId){
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 5
+                dictionaryTypeId: dictionaryTypeId
             }), 
             {
                 method: "GET",
@@ -148,23 +151,7 @@
             });
 
             const responseJson = await response.json();
-            this.packageTypes = responseJson.dictionaries
-        },
-        async getPackageStatuses(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 2
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
-            });
-
-            const responseJson = await response.json();
-            this.packageStatuses = responseJson.dictionaries;
+            return responseJson.dictionaries
         },
         goToAssignPackage(packageId){
             var route = "/Storage/AssignPackage/"+ packageId;

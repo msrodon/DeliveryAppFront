@@ -194,12 +194,13 @@ export default {
     },
     async mounted(){
         this.token = localStorage.getItem('token');
-        await this.getPackageDetails();
 
+        this.packageTypes = await this.getDictionaries(5);
+        this.packageStatuses = await this.getDictionaries(2);
+        this.addressTypes = await this.getDictionaries(9);
+
+        await this.getPackageDetails();
         await this.getDriversData();
-        await this.getPackageTypes();
-        await this.getPackageStatuses();
-        await this.getAddressTypes();
     },
     methods: {
         handleDateChange(date) {
@@ -232,57 +233,21 @@ export default {
             this.number = packageDetails.destinationAddress.number;
             this.addressTypeId = packageDetails.destinationAddress.addressTypeId;
         },
-
-        async getPackageTypes(){
+        async getDictionaries(dictionaryTypeId){
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
             const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 5
+                dictionaryTypeId: dictionaryTypeId
             }), 
             {
                 method: "GET",
                 headers: {
                     'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 5
+                    'Authorization': `Bearer ${this.token}`
                 }
             });
 
             const responseJson = await response.json();
-            this.packageTypes = responseJson.dictionaries
-        },
-        async getAddressTypes(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 9
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 9
-                }
-            });
-
-            const responseJson = await response.json();
-            this.addressTypes = responseJson.dictionaries
-        },
-        async getPackageStatuses(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 2
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 8	
-                }
-            });
-
-            const responseJson = await response.json();
-            this.packageStatuses = responseJson.dictionaries
+            return responseJson.dictionaries
         },
         async getDriversData(){
             var url = 'https://localhost:7263/Drivers/getDrivers?'
