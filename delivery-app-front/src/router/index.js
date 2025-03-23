@@ -56,6 +56,7 @@ const AssignPackage = () => import("@/views/storage/AssignPackage.vue")
 
 //DELIVERIES
 const Deliveries = () => import("@/views/deliveries/Deliveries.vue")
+const DailyDeliveries = () => import("@/views/deliveries/DailyDeliveries.vue")
 
 //USERS
 const Users = () => import("@/views/users/Users.vue")
@@ -111,6 +112,7 @@ const routes = [
   {path: "/Storage/AssignPackage/:id",name: "AssignPackage",component: AssignPackage, meta: { requiresAuth: true}},
 
   {path: "/Deliveries",name: "Deliveries",component: Deliveries, meta: { requiresAuth: true}},
+  {path: "/Deliveries/DailyDeliveries/:id",name: "DailyDeliveries",component: DailyDeliveries, meta: { requiresAuth: true}},
   
   {path: "/Users",name: "Users",component: Users, meta: { requiresAuth: true}},
   {path: "/Users/EditUser/:id",name: "EditUser",component: EditUser, meta: { requiresAuth: true}},
