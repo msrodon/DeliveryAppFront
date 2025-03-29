@@ -5,16 +5,14 @@
         <div class="card bg-white text-dark" style="border-radius: 1rem;">
           <div class="card-body p-5 text-center">
 
-            <div class="mb-md-5 mt-md-4 pb-5">
+            <div class="mb-md-4 mt-md-4">
 
-              <h2 class="fw-bold mb-2 text-uppercase">WELCOME TO MAIN PAGE...</h2>
-              <p class="text-dark-50 m-0">na gurze rurze</p>
-              <p class="text-dark-50 m-0">kuce w piwnicy</p>
+              <h2 class="fw-bold mb-2 text-uppercase">WELCOME TO MAIN PAGE</h2>
+              <p class="text-dark-50 m-0">Let's see</p>
               <hr>
               <img src="./../assets/images/eyes1.png" alt="" width="20%">
 
-              <p class="text-dark-50 m-0">spacje czy taby</p>
-              <p class="text-dark-50 m-0">nie widze różnicy</p>
+              <p class="text-dark-50 mt-2 h4">What we'll be sending today?</p>
               
 
             </div>

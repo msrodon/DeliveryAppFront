@@ -16,7 +16,7 @@
             </div>
         </white-card-50>
 
-        <white-card-80 class="mt-5" v-if="transportationStatus != transportationStatusEnum.Finished">
+        <white-card-80 v-if="transportationStatus != transportationStatusEnum.Finished">
             <h2 class="fw-bold mb-2 text-uppercase">To collect</h2>
             <hr>
             <div class="mt-4">
@@ -67,7 +67,7 @@
             </div>
         </white-card-80>
 
-        <white-card-80 class="mt-5" v-if="transportationStatus != transportationStatusEnum.Finished">
+        <white-card-80 v-if="transportationStatus != transportationStatusEnum.Finished">
             <h2 class="fw-bold mb-2 text-uppercase">To deliver</h2>
             <hr>
             <div class="mt-4">

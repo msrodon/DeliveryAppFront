@@ -8,7 +8,6 @@ const Login = () => import("@/views/auth/Login.vue")
 const Register = () => import("@/views/auth/Register.vue")
 const ResetPassword = () => import("@/views/auth/ResetPassword.vue")
 
-const TestEndpointsButtons = () => import('@/components/layoutComponents/TestEndpointsButtons.vue')
 const NotFound = () => import("@/components/404.vue")
 
 //DICTIONARIES
@@ -130,7 +129,6 @@ const routes = [
   
   {path: "/Payment/:id",name: "Payment",component: Payment, meta: { requiresAuth: true, layout: 'payment-layout' }},
 
-  {path: "/testEndpoints",name: "testEndpoints",component: TestEndpointsButtons},
   {path: "/404",name: "404",component: NotFound,},
   {path: "/:pathMatch(.*)", redirect: to => { return "/404" }}
 ]

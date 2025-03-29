@@ -45,7 +45,7 @@
         </div>
     </white-card-80>
 
-    <white-card-80 class="mt-5">
+    <white-card-80>
         <h2 class="fw-bold mb-2 text-uppercase">Packages in storage</h2>
         <hr>
         <div class="mt-4">

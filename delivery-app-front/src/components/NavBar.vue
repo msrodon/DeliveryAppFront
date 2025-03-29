@@ -119,8 +119,20 @@ h2{
   color: white;
 }
 
-.navbar{
-  background-color: #76ABAE;
+h1{
+  color: rgb(33, 105, 99)
+}
+
+.navbar {
+  position: fixed; /* Przyklejony do góry */
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #333;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  z-index: 1000; /* Żeby był nad innymi elementami */
 }
 
 .nav-link{

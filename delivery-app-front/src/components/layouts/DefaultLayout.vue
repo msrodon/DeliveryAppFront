@@ -23,11 +23,16 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  
+  background-image: url("/src/assets/images/img6.jpg");
+  background-position: center;
+  background-size: cover;
 }
 
 nav {
   padding: 30px;
+
+  border-bottom: 2px solid white;
 
   a {
     font-weight: bold;
