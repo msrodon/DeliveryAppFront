@@ -3,7 +3,7 @@
     <white-card-20>
         <div>
 
-            <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goToUsers()">X</button>
+            <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goBack()">X</button>
             <h2 class="mb-2 text-uppercase">{{ this.user.email }}</h2>
         </div>
         <div class="password-reset-container">
@@ -86,12 +86,10 @@ export default {
                 }),
                 credentials: 'include' 
             }); 
-            var route = "/Users/EditUser/"+this.user.id;
-            this.$router.push({ path: route });
+            this.$router.go(-1);
         },
-        goToUsers(){
-          var route = "/Users";
-          this.$router.push({ path: route });
+        goBack(){
+            this.$router.go(-1);
         }
     }
 };

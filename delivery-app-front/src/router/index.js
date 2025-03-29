@@ -63,6 +63,7 @@ const DeliveriesHistory = () => import("@/views/deliveries/DeliveriesHistory.vue
 //USERS
 const Users = () => import("@/views/users/Users.vue")
 const EditUser = () => import("@/views/users/EditUser.vue")
+const MyAccount = () => import("@/views/users/MyAccount.vue")
 const SetNewPassword = () => import("@/views/users/SetNewPassword.vue")
 
 //DRIVERS
@@ -122,6 +123,7 @@ const routes = [
   {path: "/Users",name: "Users",component: Users, meta: { requiresAuth: true}},
   {path: "/Users/EditUser/:id",name: "EditUser",component: EditUser, meta: { requiresAuth: true}},
   {path: "/Users/SetNewPassword/:userId",name: "SetNewPassword",component: SetNewPassword, meta: { requiresAuth: true}},
+  {path: "/MyAccount",name: "MyAccount",component: MyAccount, meta: { requiresAuth: true}},
 
   {path: "/Drivers",name: "Drivers", component: Drivers, meta: { requiresAuth: true}},
   {path: "/Drivers/EditDriver/:id",name: "EditDriver" ,component: EditDriver, meta: { requiresAuth: true}},

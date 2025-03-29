@@ -3,6 +3,7 @@
     
   <base-dialog :show="!!showDialog" title="Delete address confirm" @close="showDialog = !showDialog"></base-dialog>
 
+  <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goToMenu()">X</button>
   <h2 class="fw-bold mb-2 text-uppercase">My addresses</h2>
   <hr>
     <div class="mt-4">
@@ -123,6 +124,9 @@
         const country = this.countries.find((country) => country.id === countryId);
         return country ? country.name : 'Unknown';
       },
+      goToMenu(){
+          this.$router.push('/');
+      }
     }
   }
 </script>

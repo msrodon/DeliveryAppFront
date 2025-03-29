@@ -65,6 +65,7 @@
             <li><button class="dropdown-item" @click="redirect('/Addresses/AddAddress')">ADD ADDRESS</button></li>
             <li><button class="dropdown-item" @click="redirect('/Packages')">PACKAGES</button></li>
             <li><button class="dropdown-item" @click="redirect('/Packages/AddPackage')">ADD PACKAGE</button></li>
+            <li><button class="dropdown-item" @click="redirect('/MyAccount')">MY ACCOUNT</button></li>
           </ul>
         </li>
 

@@ -3,6 +3,7 @@
       
     <base-dialog :show="!!showDialog" title="Delete country confirm" @close="showDialog = !showDialog"></base-dialog>
   
+    <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goToMenu()">X</button>
     <h2 class="fw-bold mb-2 text-uppercase">My packages</h2>
     <hr>
       <div class="mt-4">
@@ -13,7 +14,7 @@
               <th scope="col">Sender email</th>
               <th scope="col">Reciver email</th>
               <th scope="col">Package type</th>
-              <th scope="col">Package status (NOT PUBLIC TO DO)</th>
+              <th scope="col">Package status</th>
               <th scope="col"></th>
               <th scope="col"></th>
             </tr>
@@ -91,7 +92,6 @@
   
           const responseJson = await response.json();
           this.items = responseJson.userPackages;
-          console.log(this.items);
         },
         async getDictionaries(dictionaryTypeId){
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
@@ -124,7 +124,10 @@
         findDictionary(dictionaryList, dictionaryId) {
           const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);
           return dictionary ? dictionary.name : 'Unknown';
-        }
+        },
+        goToMenu(){
+            this.$router.push('/');
+        },
       }
     }
   </script>
