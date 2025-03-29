@@ -62,6 +62,25 @@
         </div>
 
         <div class="row">
+            <div class="d-flex flex-column w-50">
+                <div class="text-start mx-1">
+                    <p class="text-dark-50 m-0">Password</p>
+                </div>
+                <div class="form-outline form-dark mb-4">
+                    <input class="form-control form-control-lg" disabled value="****************"/>
+                </div>
+            </div>
+            <div class="d-flex flex-column w-50">
+                <div class="text-start mx-1">
+                    <p class="text-dark-50 m-0">&nbsp;</p>
+                </div>
+                <div class="form-outline form-dark mb-4">
+                    <button class="btn btn-outline-warning btn-lg w-100 px-5" @click="goToSetNewPassword()">Set new password</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="d-flex flex-column w-100">
                 <div class="text-start mx-1">
                     <p class="text-dark-50 m-0">User type</p>
@@ -176,6 +195,9 @@ export default {
         },
         goToUsers(){
             this.$router.push('/Users');
+        },
+        goToSetNewPassword(){
+            this.$router.push('/Users/SetNewPassword/'+ this.id);
         }
     }
 }

@@ -25,7 +25,7 @@
                 <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
                 <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
                 <td>
-                    <button class="btn btn-outline-secondary px-5 mt-3" @click="goToAssignPackage(pack.packageId)">Assign package</button>
+                    <button class="btn btn-outline-primary px-5 mt-3" @click="goToAssignPackage(pack.packageId)">Assign package</button>
                 </td>
             </tr>
             </tbody>
@@ -58,6 +58,7 @@
                 <th scope="col">Reciver email</th>
                 <th scope="col">Package type</th>
                 <th scope="col">Package status</th>
+                <th scope="col">Arrival date</th>
                 <th scope="col"></th>
             </tr>
             </thead>
@@ -69,8 +70,9 @@
                 <td>{{ pack.reciverEmail }}</td>
                 <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
                 <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
+                <td>{{ pack.arrivalDate }}</td>
                 <td>
-                    <button class="btn btn-outline-secondary px-5 mt-3" @click="goToAssignPackage(pack.packageId)">Assign package</button>
+                    <button class="btn btn-outline-primary px-5 mt-3" @click="goToAssignPackage(pack.packageId)">Assign package</button>
                 </td>
             </tr>
             </tbody>
@@ -132,8 +134,12 @@
                 'Authorization': `Bearer ${this.token}`
                 }
             });
-    
             const responseJson = await response.json();
+
+            responseJson.packages.forEach(el => {
+                el.arrivalDate = this.formatDate(el.arrivalDate);
+            });
+    
             return responseJson.packages;
         },
         
@@ -160,7 +166,11 @@
         findDictionary(dictionaryList, dictionaryId) {
           const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);
           return dictionary ? dictionary.name : 'Unknown';
-        }
+        },
+        formatDate(date){
+            if(date != null)
+                return new Date(date).toISOString().split('T')[0]
+        },
       }
     }
   </script>

@@ -6,6 +6,7 @@ import HomeView from '../views/HomeView.vue'
 
 const Login = () => import("@/views/auth/Login.vue")
 const Register = () => import("@/views/auth/Register.vue")
+const ResetPassword = () => import("@/views/auth/ResetPassword.vue")
 
 const TestEndpointsButtons = () => import('@/components/layoutComponents/TestEndpointsButtons.vue')
 const NotFound = () => import("@/components/404.vue")
@@ -62,6 +63,7 @@ const DeliveriesHistory = () => import("@/views/deliveries/DeliveriesHistory.vue
 //USERS
 const Users = () => import("@/views/users/Users.vue")
 const EditUser = () => import("@/views/users/EditUser.vue")
+const SetNewPassword = () => import("@/views/users/SetNewPassword.vue")
 
 //DRIVERS
 const Drivers = () => import("@/views/drivers/Drivers.vue")
@@ -75,7 +77,8 @@ const routes = [
   {path: '/dashboard', name: 'dashboard', component: HomeView, meta: { requiresAuth: true} },
 
   {path: "/login", name:"Login",component: Login, meta: { requiresUnauth: true }},
-  {path: "/register",name: "Register",component: Register, meta: { requiresUnauth: true }},
+  {path: "/register", name: "Register",component: Register, meta: { requiresUnauth: true }},
+  {path: "/resetPassword", name: "ResetPassword",component: ResetPassword, meta: { requiresUnauth: true }},
   
   {path: "/DictionaryTypes/:typeId/Dictionaries", name: "Dictionaries",component: Dictionaries, meta: { requiresAuth: true}},
   {path: "/DictionaryTypes/:typeId/Dictionaries/AddDictionary", name: "AddDictionary",component: AddDictionary, meta: { requiresAuth: true}},
@@ -118,6 +121,7 @@ const routes = [
   
   {path: "/Users",name: "Users",component: Users, meta: { requiresAuth: true}},
   {path: "/Users/EditUser/:id",name: "EditUser",component: EditUser, meta: { requiresAuth: true}},
+  {path: "/Users/SetNewPassword/:userId",name: "SetNewPassword",component: SetNewPassword, meta: { requiresAuth: true}},
 
   {path: "/Drivers",name: "Drivers", component: Drivers, meta: { requiresAuth: true}},
   {path: "/Drivers/EditDriver/:id",name: "EditDriver" ,component: EditDriver, meta: { requiresAuth: true}},

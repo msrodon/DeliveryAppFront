@@ -30,7 +30,7 @@
         <p class="mb-0">Don't have an account? <a href="/Register" class="text-dark-50 fw-bold">Sign Up</a></p>
       </div>
 
-    <p class="small mb-3 pb-lg-2"><a class="text-dark-50" href="#!">Forgot password?</a></p>
+    <p class="small mb-3 pb-lg-2"><a href="/resetPassword" class="text-dark-50" >Forgot password?</a></p>
 
     </white-card-20>
 </template>
