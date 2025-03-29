@@ -7,7 +7,7 @@
             <div v-if="transportationStatus != 0" class="mt-3">
                 <h4 >Status: {{ findDictionary(transportationStatuses, transportationStatus) }} <span v-if="transportationStatus == transportationStatusEnum.Finished">&#x2705;</span></h4>
                 <button v-if="transportationStatus == transportationStatusEnum.Scheduled && canStartDelivery()" class="btn btn-lg btn-warning" @click="startDelivery()">
-                    Start today's delivery
+                    Start delivery
                 </button>
                 <button v-if="transportationStatus == transportationStatusEnum.Started" class="btn btn-lg btn-warning" @click="goToDailyDelivery()">
                     Continue delivery
@@ -55,7 +55,7 @@
                     </tbody>
                 </table>
                 <div v-else>
-                    <h4>NO TRANSPORTATION ON THIS DAY</h4>
+                    <h4>NO COLLECTIONS LEFT ON THIS DAY</h4>
                 </div> 
             </div>
         </white-card-80>
@@ -99,7 +99,7 @@
                 </tbody>
             </table> 
             <div v-else>
-                <h4>NO TRANSPORTATION ON THIS DAY</h4>
+                <h4>NO DELIVERIES LEFT ON THIS DAY</h4>
             </div> 
                 
             </div>

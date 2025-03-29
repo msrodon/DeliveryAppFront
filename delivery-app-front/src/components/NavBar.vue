@@ -41,7 +41,8 @@
             DRIVER
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-            <li><button class="dropdown-item" @click="redirect('/Deliveries')">DELIVERIES</button></li>
+            <li><button class="dropdown-item" @click="redirect('/Callendar')">CALLENDAR</button></li>
+            <li><button class="dropdown-item" @click="redirect('/Deliveries/DeliveriesHistory')">DELIVERIES HISTORY</button></li>
           </ul>
         </li>
 

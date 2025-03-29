@@ -2,7 +2,7 @@
     <div>
         
         <white-card-50>
-            <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goToDeliveries()">X</button>
+            <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goToCallendar()">X</button>
             <h2 class="fw-bold mb-2 text-uppercase">Deliveries - {{ transportationDate }}</h2>
             <h4 >Delivery status: {{ findDictionary(transportationStatuses, transportationStatus) }}</h4>
             <div>
@@ -91,11 +91,17 @@
                             <td>{{ pack.reciverEmail }}</td>
                             <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
                             <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
-                            <td>
+                            <td v-if="pack.packageStatusId == packageStatusEnum.IssuedToDelivery">
+                                <button @click="markAsDelivered(pack.packageId)" class="btn btn-success me-4">
+                                    Collect
+                                </button>
                                 <button @click="toggleDetails(index)" class="btn btn-primary">
                                     {{ expandedRow === index ? 'Hide' : 'Show' }}
                                 </button>
                                 
+                            </td>
+                            <td v-else>
+                                <p class="h4">&#x2705;</p> Deliveried
                             </td>
                             <td colspan="7" v-if="expandedRow !== null && expandedRow === index" class="bg-light">
                                 <strong>Adres dostawy:</strong><br>
@@ -192,8 +198,7 @@ export default {
             this.packagesToCollect = responseJson.transportation.packagesToCollect;
             this.packagesToDelivery = responseJson.transportation.packagesToDelivery;
             this.transportationStatus = responseJson.transportation.transportationStatus
-            this.transportationDate = new Date(responseJson.transportation.dateOfTransport).toISOString().split('T')[0]; 
-            console.log(this.transportationDate);
+            this.transportationDate = new Date(responseJson.transportation.dateOfTransport).toISOString().split('T')[0];
         },
         async getDictionaries(dictionaryTypeId){
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
@@ -229,7 +234,7 @@ export default {
                 }),
                 credentials: 'include' 
             }); 
-            var route = "/Deliveries";
+            var route = "/Callendar";
             this.$router.push({ path: route });
         },
         async markAsCollected(packageId){
@@ -248,8 +253,25 @@ export default {
             }); 
             window.location.href = window.location.href;
         },
-        goToDeliveries(){
-          var route = "/Deliveries";
+        
+        async markAsDelivered(packageId){
+            var url = 'https://localhost:7263/Packages/markAsDelivered?';
+            const response = await fetch(url, 
+            {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${this.token}`
+                },
+                body: JSON.stringify({
+                    packageId: packageId
+                }),
+                credentials: 'include' 
+            }); 
+            window.location.href = window.location.href;
+        },
+        goToCallendar(){
+          var route = "/Callendar";
           this.$router.push({ path: route });
         }
     }

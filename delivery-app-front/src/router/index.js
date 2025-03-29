@@ -55,8 +55,9 @@ const PackagesToAssign = () => import("@/views/storage/PackagesToAssign.vue")
 const AssignPackage = () => import("@/views/storage/AssignPackage.vue")
 
 //DELIVERIES
-const Deliveries = () => import("@/views/deliveries/Deliveries.vue")
+const Callendar = () => import("@/views/deliveries/Callendar.vue")
 const DailyDeliveries = () => import("@/views/deliveries/DailyDeliveries.vue")
+const DeliveriesHistory = () => import("@/views/deliveries/DeliveriesHistory.vue")
 
 //USERS
 const Users = () => import("@/views/users/Users.vue")
@@ -111,8 +112,9 @@ const routes = [
   {path: "/Storage/PackagesToAssign",name: "PackagesToAssign",component: PackagesToAssign, meta: { requiresAuth: true}},
   {path: "/Storage/AssignPackage/:id",name: "AssignPackage",component: AssignPackage, meta: { requiresAuth: true}},
 
-  {path: "/Deliveries",name: "Deliveries",component: Deliveries, meta: { requiresAuth: true}},
+  {path: "/Callendar",name: "Callendar",component: Callendar, meta: { requiresAuth: true}},
   {path: "/Deliveries/DailyDeliveries/:id",name: "DailyDeliveries",component: DailyDeliveries, meta: { requiresAuth: true}},
+  {path: "/Deliveries/DeliveriesHistory",name: "DeliveriesHistory",component: DeliveriesHistory, meta: { requiresAuth: true}},
   
   {path: "/Users",name: "Users",component: Users, meta: { requiresAuth: true}},
   {path: "/Users/EditUser/:id",name: "EditUser",component: EditUser, meta: { requiresAuth: true}},
