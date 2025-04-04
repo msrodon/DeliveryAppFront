@@ -1,6 +1,6 @@
 <template>
     <div class="payment-container">
-      <button class="close-btn" @click="closePayment">×</button>
+      <router-link class="btn btn-lg btn-outline-secondary position-absolute top-0 end-0 m-3" :to="`/Packages`">X</router-link>
         <div class="payment-box">
             <h2>Payment summary</h2>
             <p>Order number: <strong>#{{ paymentId }}#</strong></p>
@@ -57,9 +57,6 @@ export default {
 
             }
             this.$router.push('/Packages')
-        },
-        closePayment() {
-            this.$router.push('/Packages');
         },
         async getPaymentData(){
             var url = 'https://localhost:7263/Payments/getPaymentByPackageId?'
@@ -139,17 +136,6 @@ export default {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     position: relative;
-}
-
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: 1px dotted black;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #666;
 }
 
 .close-btn:hover {

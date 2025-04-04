@@ -25,7 +25,7 @@
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToCurrencies()">Cancell</button>
+            <router-link class="btn btn-outline-danger btn-lg px-5 me-3" :to="`/Currencies`">Cancell</router-link>
             <button class="btn btn-outline-success btn-lg px-5" @click="editCurrency()">Save changes</button>
         </div>
     </white-card-50>
@@ -89,9 +89,6 @@ export default {
             this.id = fetchCurrency.id;
             this.name = fetchCurrency.name,
             this.shortcut = fetchCurrency.shortcut
-        },
-        goToCurrencies(){
-            this.$router.push('/Currencies');
         }
     }
 }

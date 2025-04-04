@@ -26,9 +26,8 @@
             <th>{{ currency.id }}</th>
             <td>{{ currency.name }}</td>
             <td>{{ currency.shortcut }}</td>
-            <!-- FOR package types -->
             <td>
-              <button size="sm" @click="editPriceList(currency.id)" class="me-3 btn btn-primary">Edit</button>
+              <router-link class="me-3 btn btn-primary" :to="`/PriceLists/EditPriceList/${currency.id}`">Edit</router-link>
             </td>
           </tr>
         </tbody>
@@ -78,11 +77,6 @@
         const responseJson = await response.json();
         this.items = responseJson.currencies
         this.busyState = false;
-      },
-      editPriceList(currencyId){
-        var route = "/PriceLists/EditPriceList/"+ currencyId;
-
-        this.$router.push({ path: route });
       }
     }
   }

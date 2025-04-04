@@ -107,7 +107,6 @@
                                 <strong>Adres dostawy:</strong><br>
                                 {{ packagesToDelivery[expandedRow].country }}, {{ packagesToDelivery[expandedRow].postCode }} {{ packagesToDelivery[expandedRow].city }}<br>
                                 {{ packagesToDelivery[expandedRow].street }} {{ packagesToDelivery[expandedRow].number }}<br>
-                                <!-- <em>Typ adresu:</em> {{ findDictionary(addressTypes, packagesToCollect[expandedRow].addressTypeId) }} -->
                             </td>
                         </tr>
                 </tbody>

@@ -75,7 +75,7 @@
                     <p class="text-dark-50 m-0">&nbsp;</p>
                 </div>
                 <div class="form-outline form-dark mb-4">
-                    <button class="btn btn-outline-warning btn-lg w-100 px-5" @click="goToSetNewPassword()">Set new password</button>
+                    <router-link class="btn btn-outline-warning btn-lg w-100 px-5" :to="`/Users/SetNewPassword/${this.id}`">Set new password</router-link>
                 </div>
             </div>
         </div>
@@ -97,7 +97,7 @@
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToUsers()">Cancell</button>
+            <router-link class="btn btn-outline-danger btn-lg px-5 me-3" :to="`/Users`">Cancell</router-link>
             <button class="btn btn-outline-success btn-lg px-5" @click="editUser()">Save changes</button>
         </div>
     </white-card-50>
@@ -192,12 +192,6 @@ export default {
 
             const responseJson = await response.json();
             this.userTypes = responseJson.dictionaries
-        },
-        goToUsers(){
-            this.$router.push('/Users');
-        },
-        goToSetNewPassword(){
-            this.$router.push('/Users/SetNewPassword/'+ this.id);
         }
     }
 }

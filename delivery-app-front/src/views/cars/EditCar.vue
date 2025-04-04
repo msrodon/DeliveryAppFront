@@ -81,7 +81,7 @@
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToCars()">Cancell</button>
+            <router-link class="btn btn-outline-danger btn-lg px-5 me-3" :to="`/Cars`">Cancell</router-link>
             <button class="btn btn-outline-success btn-lg px-5" @click="editCar()">Save changes</button>
         </div>
     </white-card-50>
@@ -158,9 +158,6 @@ export default {
             this.horsePower = fetchCar.horsePower;
             this.seats = fetchCar.seats;
             this.maxLoad = fetchCar.maxLoad;
-        },
-        goToCars(){
-            this.$router.push('/Cars');
         }
     }
 }

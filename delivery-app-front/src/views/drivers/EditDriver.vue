@@ -78,7 +78,7 @@
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToDrivers()">Cancell</button>
+            <router-link class="btn btn-outline-danger btn-lg px-5 me-3" :to="`/Drivers`">Cancell</router-link>
             <button class="btn btn-outline-success btn-lg px-5" @click="editDriver()">Save changes</button>
         </div>
     </white-card-50>
@@ -221,10 +221,7 @@ export default {
             
             this.cars.push(userCar);
         }
-      },
-        goToDrivers(){
-            this.$router.push('/Drivers');
-        }
+      }
     }
 }
 </script>

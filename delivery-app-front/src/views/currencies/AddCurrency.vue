@@ -25,7 +25,7 @@
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToCurrencies()">Cancell</button>
+            <router-link class="btn btn-outline-danger btn-lg px-5 me-3" :to="`/Currencies`">Cancell</router-link>
             <button class="btn btn-outline-success btn-lg px-5" @click="addCurrency()">Add new currency</button>
         </div>
     </white-card-50>
@@ -61,9 +61,6 @@ export default {
             } catch (error) {
 
             }   
-        },
-        goToCurrencies(){
-            this.$router.push('/Currencies');
         }
     }
 }

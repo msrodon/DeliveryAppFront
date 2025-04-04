@@ -25,9 +25,7 @@
                         <td>{{ dictionary.name }}</td>
                         <td>{{ dictionary.isDefault }}</td>
                         <td>
-                            <button size="sm" @click="editDictionary(dictionary.dictionaryId)" class="me-3 btn btn-primary">
-                                Edit
-                            </button>
+                            <router-link class="me-3 btn btn-primary" :to="`/DictionaryTypes/${this.dictionaryTypeId}/Dictionaries/EditDictionary/${dictionary.dictionaryId}`">Edit</router-link>
                             <button size="sm" @click="deleteDictionary(dictionary.dictionaryId)" class="btn btn-danger">
                                 Delete
                             </button>
@@ -111,12 +109,6 @@ export default {
             } catch (error) { }
             window.location.href = window.location.href;
         },
-
-        editDictionary(dictionaryId) {
-            var route = "/DictionaryTypes/"+ this.dictionaryTypeId + "/Dictionaries/EditDictionary/" + dictionaryId;
-            this.$router.push({ path: route });
-        },
-
         addNewDictionary() {
             var route = "/DictionaryTypes/"+ this.dictionaryTypeId + "/Dictionaries/AddDictionary/";
             this.$router.push({ path: route });

@@ -25,7 +25,7 @@
               <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
               <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
               <td>
-                <button class="btn btn-outline-secondary px-5 mt-3" @click="goPackageInfo(pack.packageId)">Package info</button>
+                <router-link class="btn btn-sm btn-outline-primary btn-lg px-5 me-3 my-2" :to="`/Packages/PackageInfo/${pack.packageId}`">Package info</router-link>
               </td>
             </tr>
           </tbody>
@@ -95,10 +95,7 @@
         findDictionary(dictionaryList, dictionaryId) {
           const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);
           return dictionary ? dictionary.name : 'Unknown';
-        },
-        goPackageInfo(packageId){
-          this.$router.push("/Packages/PackageInfo/" + packageId);
-        },
+        }
       }
     }
   </script>

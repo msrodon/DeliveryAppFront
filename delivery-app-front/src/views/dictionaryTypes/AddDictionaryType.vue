@@ -17,7 +17,7 @@
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-danger btn-lg px-5 mx-3" @click="goToDictionaryTypes()">Cancell</button>
+            <router-link class="btn btn-outline-danger btn-lg px-5 mx-3" :to="`/DictionaryTypes`">Cancell</router-link>
             <button class="btn btn-outline-success btn-lg px-5" @click="addDictionaryType()">Add new dictionary type</button>
         </div>
     </white-card-50>
@@ -51,9 +51,6 @@ export default {
             } catch (error) {
 
             }
-        },
-        goToDictionaryTypes(){
-            this.$router.push('/DictionaryTypes');
         }
     }
 }

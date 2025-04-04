@@ -25,7 +25,7 @@
             <td>{{ country.code }}</td>
             <td>{{ findCurrencyName(country.currencyId) }}</td>
             <td>
-              <button size="sm" @click="editCountry(country.id)" class="me-3 btn btn-primary">Edit</button>
+              <router-link class="me-3 btn btn-primary" :to="`/Countries/editCountry/${country.countryId}`">Edit</router-link>
               <button size="sm" @click="deleteCountry(country.id)" class="btn btn-danger">Delete</button>
             </td>
           </tr>
@@ -34,18 +34,8 @@
       <div v-else>
         <h1>NO COUNTRIES FOUND</h1>
       </div> 
-
-          <!-- <template #table-busy>
-            <div class="text-center text-primary my-5">
-              <b-spinner class="align-middle"></b-spinner>
-              <strong> Loading...</strong>
-            </div>
-          </template>
-           -->
-          
     </div>
-    <!-- <button class="btn btn-secondary" v-on:click="resetSort()">Reset sort</button> -->
-    <button class="btn btn-outline-success px-5 mt-3" v-on:click="addNewCountry()">Add new country</button>
+    <router-link class="btn btn-outline-success px-5 mt-3" :to="`/Countries/addCountry`">Add new country</router-link>
   </white-card-80>
 </template>
 
@@ -95,10 +85,6 @@
             this.currencies = responseJson.currencies
         },
 
-      deleteCountryDialog(){
-        // this.showDialog = true;
-      },
-
       async deleteCountry(countryId){
       
         const token = localStorage.getItem('token');
@@ -118,14 +104,6 @@
 
         }
         window.location.href = window.location.href;
-      },
-      editCountry(countryId){
-        var route = "/Countries/editCountry/"+ countryId;
-
-        this.$router.push({ path: route });
-      },
-      addNewCountry(){
-        this.$router.push("/Countries/addCountry");
       },
       findCurrencyName(currencyId) {
         const currency = this.currencies.find((currency) => currency.id === currencyId);

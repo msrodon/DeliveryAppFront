@@ -1,11 +1,10 @@
 <template>
   <div>
-
     <white-card-80>
-  
-    <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goToMenu()">X</button>
-    <h2 class="fw-bold mb-2 text-uppercase">My sent packages</h2>
-    <hr>
+      <router-link class="btn btn-outline-secondary position-absolute top-0 end-0 m-3" :to="`/`">X</router-link>
+
+      <h2 class="fw-bold mb-2 text-uppercase">My sent packages</h2>
+      <hr>
       <div class="mt-4">
         <table class="table" v-if="postedFromUser.length > 0">
           <thead>
@@ -25,15 +24,17 @@
               <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
               <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
               <td>
-                <div>
-                  <button class="btn btn-outline-primary px-5 my-2" @click="goPackageInfo(pack.packageId)">Package info</button>
-                </div>
-                <div v-if="pack.packageStatusId == packageStatusEnum.New">
-                  <button class="btn btn-outline-warning px-5 my-2" @click="goToPayment(pack.paymentId)">Continue payment</button>
-                </div>
-                <div v-if="pack.packageStatusId == packageStatusEnum.Paid">
-                  <button class="btn btn-outline-info px-5 my-2" @click="goToSending(pack.packageId)">Mark as send</button>
-                </div>
+                <router-link class="btn btn-outline-primary px-5 my-2 mx-2" :to="`/Packages/PackageInfo/${pack.packageId}`">
+                  Package info
+                </router-link>
+
+                <router-link class="btn btn-outline-warning px-5 my-2 mx-2" :to="`/Payment/${pack.paymentId}`" v-if="pack.packageStatusId == packageStatusEnum.New">
+                  Continue payment
+                </router-link>
+
+                <router-link class="btn btn-outline-info px-5 my-2 mx-2" :to="`/Packages/SendPackage/${pack.packageId}`" v-if="pack.packageStatusId == packageStatusEnum.Paid">
+                  Mark as send
+                </router-link>
               </td>
             </tr>
           </tbody>
@@ -41,17 +42,11 @@
         <div v-else>
           <h4>NO PACKAGES SENT</h4>
         </div> 
-  
-            <!-- <template #table-busy>
-              <div class="text-center text-primary my-5">
-                <b-spinner class="align-middle"></b-spinner>
-                <strong> Loading...</strong>
-              </div>
-            </template>
-             -->
             
       </div>
-      <button class="btn btn-outline-success px-5 my-2" @click="goToNewPackage()">Add new package</button>
+      <router-link class="btn btn-outline-success px-5 my-2" :to="`/Packages/addPackage`">
+        Add new package
+      </router-link>
     </white-card-80>
     
     <white-card-80>
@@ -77,9 +72,9 @@
               <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
               <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
               <td>
-                <div v-if="pack.packageStatusId == packageStatusEnum.Delivered">
-                  <button class="btn btn-outline-warning px-5 my-2" @click="goToPackageCollection(pack.packageId)">Collect package</button>
-                </div>
+                <router-link class="btn btn-outline-warning px-5 my-2" :to="`/Packages/CollectPackage/${pack.packageId}`" v-if="pack.packageStatusId == packageStatusEnum.Delivered">
+                  Collect package
+                </router-link>
               </td>
             </tr>
           </tbody>
@@ -155,28 +150,10 @@
             const responseJson = await response.json();
             return responseJson.dictionaries
         },
-        goToNewPackage(){
-          this.$router.push("/Packages/addPackage");
-        },
-        goToPayment(paymentId){
-          this.$router.push("/Payment/" + paymentId);
-        },
-        goToPackageCollection(packageId){
-          this.$router.push("/Packages/CollectPackage/" + packageId);
-        },
-        goToSending(packageId){
-          this.$router.push("/Packages/SendPackage/" + packageId);
-        },
-        goPackageInfo(packageId){
-          this.$router.push("/Packages/PackageInfo/" + packageId);
-        },
         findDictionary(dictionaryList, dictionaryId) {
           const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);
           return dictionary ? dictionary.name : 'Unknown';
-        },
-        goToMenu(){
-            this.$router.push('/');
-        },
+        }
       }
     }
   </script>

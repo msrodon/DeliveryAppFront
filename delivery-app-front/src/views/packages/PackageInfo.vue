@@ -1,8 +1,7 @@
 <template>
     <div>
         <white-card-50>
-            
-            <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goToPackages()">X</button>
+            <router-link class="btn btn-outline-secondary position-absolute top-0 end-0 m-3" :to="`/Packages`">X</router-link>
             <h2 class="fw-bold mb-2 text-uppercase">Package info</h2>
             <p class="text-dark-50 mb-3">package information details</p>
             
@@ -292,10 +291,6 @@ export default {
 
         const responseJson = await response.json();
         this.currencies = responseJson.currencies;
-        },
-        goToPackages(){
-          var route = "/Packages";
-          this.$router.push({ path: route });
         }
     }
 }

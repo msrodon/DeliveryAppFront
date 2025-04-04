@@ -3,13 +3,14 @@
         <white-card-50>
             <h2 class="fw-bold mb-2 text-uppercase">Collect your package</h2>
             <div v-if="pack?.packageStatusId == packageStatusEnum.Delivered">
-                <p class="mb-0 mt-3">by clicking on this button you confirm collecting your package from collection point</p> 
-                <button class="btn btn-outline-secondary px-5 mt-3 me-3" @click="goToPackages()">CANCELL</button>
+                <p class="mb-0 mt-3">by clicking on this button you confirm collecting your package from collection point</p>
+                
+                <router-link class="btn btn-outline-secondary px-5 mt-3 me-3" :to="`/Packages`">CANCELL</router-link>
                 <button class="btn btn-outline-success btn-md px-5 mt-3 me-4" @click="sendPackage()">COLLECT</button>
             </div>
             <div v-else>
                 <p class="mt-3">This package is not in the right status to be collected</p>
-                <button class="btn btn-outline-secondary px-5 mt-3" @click="goToPackages()">GO BACK</button>
+                <router-link class="btn btn-outline-secondary px-5 mt-3" :to="`/Packages`">GO BACK</router-link>
             </div>
         </white-card-50>
     </div>
@@ -64,9 +65,6 @@ export default {
                 console.error("Error adding package:", error);
             }
             this.$router.push('/Packages')
-        },
-        goToPackages(){
-            this.$router.push('/Packages');
         }
     }
 }

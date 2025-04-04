@@ -24,8 +24,8 @@
               <th>{{ dType.id }}</th>
               <td>{{ dType.name }}</td>
               <td>
-                <button size="sm" @click="editDType(dType.id)" class="me-3 btn btn-primary">Edit name</button>
-                <button size="sm" @click="editDictionaries(dType.id)" class="me-3 btn btn-primary">Edit dictionaries</button>
+                <router-link class="me-3 btn btn-primary" :to="`/DictionaryTypes/EditDictionaryType/${dType.id}`">Edit name</router-link>
+                <router-link class="me-3 btn btn-primary" :to="`/DictionaryTypes/${dType.id}/Dictionaries`">Edit dictionaries</router-link>
                 <button size="sm" @click="deleteDType(dType.id)" class="btn btn-danger">Delete type</button>
               </td>
             </tr>
@@ -34,18 +34,9 @@
         <div v-else>
           <h1>NO DICTIONARY TYPES FOUND</h1>
         </div> 
-  
-            <!-- <template #table-busy>
-              <div class="text-center text-primary my-5">
-                <b-spinner class="align-middle"></b-spinner>
-                <strong> Loading...</strong>
-              </div>
-            </template>
-             -->
             
       </div>
-      <!-- <button class="btn btn-secondary" v-on:click="resetSort()">Reset sort</button> -->
-      <button class="btn btn-outline-success px-5 mt-3" v-on:click="addNewDType()">Add new dictionary type</button>
+      <router-link class="btn btn-outline-success px-5 mt-3" :to="`/DictionaryTypes/AddDictionaryType`">Add new dictionary type</router-link>
     </white-card-80>
   </template>
   
@@ -93,20 +84,6 @@
   
           }
           window.location.href = window.location.href;
-        },
-
-        editDType(dTypeId){
-          var route = "/DictionaryTypes/EditDictionaryType/"+ dTypeId;
-          this.$router.push({ path: route });
-        },
-
-        editDictionaries(dTypeId){
-          var route = "/DictionaryTypes/" + dTypeId + "/Dictionaries";
-          this.$router.push({ path: route });
-        },
-
-        addNewDType(){
-          this.$router.push("/DictionaryTypes/AddDictionaryType");
         }
       }
     }

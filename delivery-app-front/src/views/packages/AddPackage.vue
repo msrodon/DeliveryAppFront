@@ -33,9 +33,7 @@
                 <div>
                     <div class="form-check d-flex">
                         <input class="form-check-input me-3" type="checkbox" v-model="useGuestAddress" id="oneTimeAddressCheck" />
-                        <label class="form-check-label" for="oneTimeAddressCheck">
-                        Use one-time address instead
-                        </label>
+                        <label class="form-check-label" for="oneTimeAddressCheck">Use one-time address instead</label>
                     </div>
                 </div>
             </div>
@@ -167,8 +165,7 @@
         </div>
         
         <div class="mt-4">
-            
-            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="cancell()">Cancell</button>
+            <router-link class="btn btn-outline-danger btn-lg px-5 me-3" :to="`/`">Cancell</router-link>
             <button class="btn btn-outline-success btn-lg px-5" @click="addPackage()">Pay & Send</button>
         </div>
     </white-card-50>
@@ -341,10 +338,6 @@ export default {
 
             const responseJson = await response.json();
             return responseJson.dictionaries
-        },
-        cancell(){
-          var route = "/";
-          this.$router.push({ path: route });
         }
     }
 }

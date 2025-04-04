@@ -30,14 +30,6 @@
       <div v-else>
         <h1>NO DELIVERIES YET</h1>
       </div> 
-
-          <!-- <template #table-busy>
-            <div class="text-center text-primary my-5">
-              <b-spinner class="align-middle"></b-spinner>
-              <strong> Loading...</strong>
-            </div>
-          </template>
-            -->
           
     </div>
   </white-card-80>

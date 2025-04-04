@@ -31,21 +31,21 @@
                 :class="{'green-circle': user.activeStatus, 'red-circle': !user.activeStatus}"
                 class="status-circle"
               ></span> </td>
-              <!-- <td>{{ user.id }}</td> -->
               <td>{{ findDictionary(userTypes ,user.userType) }}</td>
               <th>{{ user.userName }}</th>
               <td>{{ user.firstName }}</td>
               <td>{{ user.lastName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.phoneNumber }}</td>
+
               <td v-if="user.activeStatus" class="text-start ms-2">
-                <button size="sm" @click="goToEditUser(user.id)" class="me-3 btn btn-primary">Edit</button>
-                <button size="sm" @click="changeActiveStatus(user.id, false)" class="me-3 btn btn-outline-danger">Deactivate</button>
-                <!-- <button size="sm" @click="deleteUser(user.id)" class="btn btn-danger">Delete</button> -->
+                <router-link class="me-3 btn btn-primary" :to="`/Users/EditUser/${user.userId}`">Edit</router-link>
+                <button @click="changeActiveStatus(user.id, false)" class="me-3 btn btn-outline-danger">Deactivate</button>
               </td>
+
               <td v-else class="text-start ms-2">
-                <button size="sm" @click="goToEditUser(user.id)" class="me-3 btn btn-primary">Edit</button>
-                <button size="sm" @click="changeActiveStatus(user.id, true)" class="me-3 btn btn-outline-success">Activate</button>
+                <router-link class="me-3 btn btn-primary" :to="`/Users/EditUser/${user.userId}`">Edit</router-link>
+                <button @click="changeActiveStatus(user.id, true)" class="me-3 btn btn-outline-success">Activate</button>
               </td>
             </tr>
           </tbody>
@@ -121,10 +121,6 @@ export default {
             const responseJson = await response.json();
             this.userTypes = responseJson.dictionaries;
         },
-    goToEditUser(userId){
-      var route = "/Users/EditUser/" + userId;
-      this.$router.push({ path: route });
-    },
     findDictionary(dictionaryList, dictionaryId) {
       const dictionary = dictionaryList.find((x) => x.dictionaryId === dictionaryId);
       return dictionary ? dictionary.name : 'Unknown';

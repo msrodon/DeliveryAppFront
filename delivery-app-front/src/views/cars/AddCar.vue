@@ -81,7 +81,7 @@
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToCars()">Cancell</button>
+            <router-link class="btn btn-outline-danger btn-lg px-5 me-3" :to="`/Cars`">Cancell</router-link>
             <button class="btn btn-outline-success btn-lg px-5" @click="addCar()">Add new car</button>
         </div>
     </white-card-50>
@@ -127,10 +127,6 @@ export default {
             } catch (error) {
 
             }
-            
-        },
-        goToCars(){
-            this.$router.push('/Cars');
         }
     }
 }

@@ -3,7 +3,7 @@
     
   <base-dialog :show="!!showDialog" title="Delete address confirm" @close="showDialog = !showDialog"></base-dialog>
 
-  <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goToMenu()">X</button>
+  <router-link class="btn btn-outline-secondary position-absolute top-0 end-0 m-3" :to="`/`">X</router-link>
   <h2 class="fw-bold mb-2 text-uppercase">My addresses</h2>
   <hr>
     <div class="mt-4">
@@ -30,7 +30,7 @@
             <td>{{ address.street }}</td>
             <td>{{ address.number }}</td>
             <td>
-              <button size="sm" @click="goToEditAddress(address.id)" class="me-3 btn btn-primary">Edit</button>
+              <router-link class="me-3 btn btn-primary" :to="`/Addresses/editAddress/${address.addressId}`">Edit</router-link>
               <button size="sm" @click="deleteAddress(address.id)" class="btn btn-danger">Delete</button>
             </td>
           </tr>
@@ -49,7 +49,7 @@
            -->
           
     </div>
-    <button class="btn btn-outline-success px-5 mt-3" v-on:click="goToAddAddress()">Add new address</button>
+    <router-link class="btn btn-outline-success px-5 mt-3" :to="`/Addresses/addAddress`">Add new address</router-link>
   </white-card-80>
 </template>
 
@@ -113,19 +113,9 @@
         }
         window.location.href = window.location.href;
       },
-      goToEditAddress(addressId){
-        var route = "/Addresses/editAddress/"+ addressId;
-        this.$router.push({ path: route });
-      },
-      goToAddAddress(){
-        this.$router.push("/Addresses/addAddress");
-      },
       findCountryName(countryId) {
         const country = this.countries.find((country) => country.id === countryId);
         return country ? country.name : 'Unknown';
-      },
-      goToMenu(){
-          this.$router.push('/');
       }
     }
   }

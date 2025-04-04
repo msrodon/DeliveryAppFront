@@ -30,23 +30,18 @@
                     <p class="text-dark-50 m-0">Currencies</p>
                 </div>
                 <div class="form-outline form-dark mb-4">
-                    <!-- <select class="form-select form-select-lg" v-model="oldId">
-                        <option disabled selected>Choose option</option>
-                        <option v-for="currency in currencies" :value="currency.id" :key="currency.id">{{currency.name}}</option>
-                    </select> -->
                     <select class="form-select form-select-lg" v-model="currencyId">
                         <option disabled value="">Choose option</option>
                         <option v-for="currency in currencies" :value="currency.id" :key="currency.id">
                             {{ currency.name }}
                         </option>
                     </select>
-
                 </div>
             </div>
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToCountries()">Cancell</button>
+            <router-link class="btn btn-outline-danger btn-lg px-5 me-3" :to="`/Countries`">Cancell</router-link>
             <button class="btn btn-outline-success btn-lg px-5" @click="editCountry()">Save changes</button>
         </div>
     </white-card-50>
@@ -127,9 +122,6 @@ export default {
 
             const responseJson = await response.json();
             this.currencies = responseJson.currencies
-        },
-        goToCountries(){
-            this.$router.push('/Countries');
         }
     }
 }

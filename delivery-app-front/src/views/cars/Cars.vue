@@ -35,7 +35,7 @@
             <td>{{ car.horsePower }}</td>
             <td>{{ car.maxLoad }}</td>
             <td>
-              <button size="sm" @click="goToEditCar(car.id)" class="me-3 btn btn-primary">Edit</button>
+              <router-link class="me-3 btn btn-primary" :to="`/Cars/EditCar/${car.carId}`">Edit</router-link>
               <button size="sm" @click="deleteCar(car.id)" class="btn btn-danger">Delete</button>
             </td>
           </tr>
@@ -54,8 +54,7 @@
            -->
           
     </div>
-    <!-- <button class="btn btn-secondary" v-on:click="resetSort()">Reset sort</button> -->
-    <button class="btn btn-outline-success px-5 mt-3" v-on:click="goToAddCar()">Add new car</button>
+    <router-link class="btn btn-outline-success px-5 mt-3" :to="`/Cars/AddCar`">Add new car</router-link>
   </white-card-80>
 </template>
 
@@ -103,13 +102,6 @@
 
         }
         window.location.href = window.location.href;
-      },
-      goToEditCar(carId){
-        var route = "/Cars/EditCar/"+ carId;
-        this.$router.push({ path: route });
-      },
-      goToAddCar(){
-        this.$router.push("/Cars/AddCar");
       }
     }
   }

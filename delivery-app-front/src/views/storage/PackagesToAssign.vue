@@ -25,7 +25,7 @@
                 <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
                 <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
                 <td>
-                    <button class="btn btn-outline-primary px-5 mt-3" @click="goToAssignPackage(pack.packageId)">Assign package</button>
+                    <router-link class="btn btn-outline-primary px-5 mt-3" :to="`/Storage/AssignPackage/${pack.packageId}`">Assign package</router-link>
                 </td>
             </tr>
             </tbody>
@@ -72,7 +72,7 @@
                 <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
                 <td>{{ pack.arrivalDate }}</td>
                 <td>
-                    <button class="btn btn-outline-primary px-5 mt-3" @click="goToAssignPackage(pack.packageId)">Assign package</button>
+                    <router-link class="btn btn-outline-primary px-5 mt-3" :to="`/Storage/AssignPackage/${pack.packageId}`">Assign package</router-link>
                 </td>
             </tr>
             </tbody>
@@ -158,10 +158,6 @@
 
             const responseJson = await response.json();
             return responseJson.dictionaries
-        },
-        goToAssignPackage(packageId){
-            var route = "/Storage/AssignPackage/"+ packageId;
-            this.$router.push({ path: route });
         },
         findDictionary(dictionaryList, dictionaryId) {
           const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);

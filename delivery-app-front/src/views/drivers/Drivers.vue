@@ -13,7 +13,6 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Active status</th>
-            <!-- <th scope="col">User ID</th> -->
             <th scope="col">Login</th>
             <th scope="col">FirstName</th>
             <th scope="col">LastName</th>
@@ -31,7 +30,6 @@
               :class="{'green-circle': user.activeStatus, 'red-circle': !user.activeStatus}"
               class="status-circle"
             ></span> </td>
-            <!-- <td>{{ user.id }}</td> -->
             <th>{{ user.userName }}</th>
             <td>{{ user.firstName }}</td>
             <td>{{ user.lastName }}</td>
@@ -39,7 +37,7 @@
             <td>{{ user.phoneNumber }}</td>
             <td>{{ this.findDriver(user.id) }}</td>
             <td>
-                <button size="sm" @click="this.goToEditDriver(user.id)" class="me-3 btn btn-primary">Edit</button>
+              <router-link class="me-3 btn btn-primary" :to="`/Drivers/EditDriver/${this.userId}`">Cancell</router-link>
             </td>
           </tr>
         </tbody>
@@ -96,10 +94,6 @@ export default {
 
       const responseJson = await response.json();
       this.drivers = responseJson.drivers;
-    },
-    goToEditDriver(userId){
-      var route = "/Drivers/EditDriver/" + userId;
-      this.$router.push({ path: route });
     },
     findDriver(userId) {
       const driver = this.drivers.find((x) => x.baseUserId === userId);

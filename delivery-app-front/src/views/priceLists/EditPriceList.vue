@@ -47,7 +47,7 @@
       </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToPriceLists()">Cancell</button>
+            <router-link class="btn btn-outline-danger btn-lg px-5 me-3" :to="`/PriceLists`">Cancell</router-link>
             <button class="btn btn-outline-success btn-lg px-5" @click="editPriceList()">Save changes</button>
         </div>
     </white-card-50>
@@ -162,9 +162,6 @@ export default {
                     this.packagePrices.push({ packageTypeId:dictionaryId, price: parseFloat(numericValue.toFixed(2)) });
                 }
             }
-        },
-        goToPriceLists(){
-            this.$router.push('/PriceLists');
         }
     }
 }

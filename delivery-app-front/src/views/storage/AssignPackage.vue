@@ -2,7 +2,7 @@
     <div>
         
         <white-card-50>
-            <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goToPackagesToAssign()">X</button>
+            <router-link class="btn btn-outline-secondary position-absolute top-0 end-0 m-3" :to="`/Storage/PackagesToAssign`">X</router-link>
             <h2 class="fw-bold mb-2 text-uppercase">Assign package</h2>
             <p class="text-dark-50 mb-3">assign package to courier</p>
             
@@ -261,10 +261,6 @@ export default {
 
             const responseJson = await response.json();
             this.drivers = responseJson.drivers;
-        },
-        goToPackagesToAssign(){
-          var route = "/Storage/PackagesToAssign";
-          this.$router.push({ path: route });
         },
         async assignPackage(){
             const formattedDate = new Date(this.selectedDate).toISOString();

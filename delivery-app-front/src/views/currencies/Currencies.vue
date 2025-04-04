@@ -26,7 +26,7 @@
             <td>{{ currency.name }}</td>
             <td>{{ currency.shortcut }}</td>
             <td>
-              <button size="sm" @click="goToEditCurrency(currency.id)" class="me-3 btn btn-primary">Edit</button>
+              <router-link class="me-3 btn btn-primary" :to="`/Currencies/EditCurrency/${currency.id}`">Edit</router-link>
               <button size="sm" @click="deleteCurrency(currency.id)" class="btn btn-danger">Delete</button>
             </td>
           </tr>
@@ -95,10 +95,6 @@
 
         }
         window.location.href = window.location.href;
-      },
-      goToEditCurrency(carId){
-        var route = "/Currencies/EditCurrency/"+ carId;
-        this.$router.push({ path: route });
       },
       goToAddCurrency(){
         this.$router.push("/Currencies/AddCurrency");

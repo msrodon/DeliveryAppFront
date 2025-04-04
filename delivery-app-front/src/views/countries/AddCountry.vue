@@ -39,7 +39,7 @@
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-danger btn-lg px-5 me-3" @click="goToCountries()">Cancell</button>
+            <router-link class="btn btn-outline-danger btn-lg px-5 me-3" :to="`/Countries`">Cancell</router-link>
             <button class="btn btn-outline-success btn-lg px-5" @click="AddCountry()">Add new country</button>
         </div>
     </white-card-50>
@@ -93,9 +93,6 @@ export default {
 
             const responseJson = await response.json();
             this.currencies = responseJson.currencies
-        },
-        goToCountries(){
-            this.$router.push('/Countries');
         }
     }
 }

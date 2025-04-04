@@ -5,13 +5,16 @@
             <h2 class="fw-bold mb-2 text-uppercase">My Deliveries - {{ selectedDate }}</h2>
             <DatePicker @date-selected="handleDateChange" />
             <div v-if="transportationStatus != 0" class="mt-3">
-                <h4 >Status: {{ findDictionary(transportationStatuses, transportationStatus) }} <span v-if="transportationStatus == transportationStatusEnum.Finished">&#x2705;</span></h4>
-                <button v-if="transportationStatus == transportationStatusEnum.Scheduled && canStartDelivery()" class="btn btn-lg btn-warning" @click="startDelivery()">
+                <h4 >Status: {{ findDictionary(transportationStatuses, transportationStatus) }} 
+                    <span v-if="transportationStatus == transportationStatusEnum.Finished">&#x2705;</span>
+                </h4>
+                <button class="btn btn-lg btn-warning" @click="startDelivery()" v-if="transportationStatus == transportationStatusEnum.Scheduled && canStartDelivery()">
                     Start delivery
                 </button>
-                <button v-if="transportationStatus == transportationStatusEnum.Started" class="btn btn-lg btn-warning" @click="goToDailyDelivery()">
+
+                <router-link class="btn btn-lg btn-warning" :to="`/Deliveries/DailyDeliveries/${this.transportationId}`" v-if="transportationStatus == transportationStatusEnum.Started">
                     Continue delivery
-                </button>
+                </router-link>
             </div>
             
         </white-card-50>
@@ -49,7 +52,6 @@
                                 <strong>Adres dostawy:</strong><br>
                                 {{ packagesToCollect[expandedRow].country }}, {{ packagesToCollect[expandedRow].postCode }} {{ packagesToCollect[expandedRow].city }}<br>
                                 {{ packagesToCollect[expandedRow].street }} {{ packagesToCollect[expandedRow].number }}<br>
-                                <!-- <em>Typ adresu:</em> {{ findDictionary(addressTypes, packagesToCollect[expandedRow].addressTypeId) }} -->
                             </td>
                         </tr>
                     </tbody>
@@ -93,7 +95,6 @@
                                 <strong>Adres dostawy:</strong><br>
                                 {{ packagesToDelivery[expandedRow].country }}, {{ packagesToDelivery[expandedRow].postCode }} {{ packagesToDelivery[expandedRow].city }}<br>
                                 {{ packagesToDelivery[expandedRow].street }} {{ packagesToDelivery[expandedRow].number }}<br>
-                                <!-- <em>Typ adresu:</em> {{ findDictionary(addressTypes, packagesToCollect[expandedRow].addressTypeId) }} -->
                             </td>
                         </tr>
                 </tbody>
@@ -217,12 +218,9 @@ export default {
             const responseJson = await response.json();
             
             if(responseJson.success == true){
-                this.goToDailyDelivery();
+                var route = "/Deliveries/DailyDeliveries/" + this.transportationId;
+                this.$router.push({ path: route });
             }
-        },
-        goToDailyDelivery(){
-          var route = "/Deliveries/DailyDeliveries/" + this.transportationId;
-          this.$router.push({ path: route });
         },
         canStartDelivery() {
             const today = new Date().toISOString().split("T")[0];

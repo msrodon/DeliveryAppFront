@@ -1,6 +1,6 @@
 <template>
     <white-card-50>
-        <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goToMenu()">X</button>
+        <router-link class="btn btn-outline-secondary position-absolute top-0 end-0 m-3" :to="`/`">X</router-link>
         <h2 class="fw-bold mb-2 text-uppercase">My account</h2>
         <p class="text-dark-50 mb-5">edit account information</p>
         
@@ -69,7 +69,7 @@
                     <p class="text-dark-50 m-0">&nbsp;</p>
                 </div>
                 <div class="form-outline form-dark mb-4">
-                    <button class="btn btn-outline-warning btn-lg w-100 px-5" @click="goToSetNewPassword()">Set new password</button>
+                    <router-link class="btn btn-outline-warning btn-lg w-100 px-5" :to="`/Users/SetNewPassword/${this.id}`">Set new password</router-link>
                 </div>
             </div>
         </div>
@@ -170,12 +170,6 @@ export default {
 
             const responseJson = await response.json();
             this.userTypes = responseJson.dictionaries
-        },
-        goToMenu(){
-            this.$router.push('/');
-        },
-        goToSetNewPassword(){
-            this.$router.push('/Users/SetNewPassword/'+ this.id);
         }
     }
 }
