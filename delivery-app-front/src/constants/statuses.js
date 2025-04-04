@@ -6,7 +6,8 @@ export const Enums = {
         AssignedToCollect: 27,
         Storage: 29,
         AssignedToDelivery: 30,
-        IssuedToDelivery: 32
+        IssuedToDelivery: 32,
+        Delivered: 33
     },
     PaymentStatuses: {
         Unpaid: 5,

@@ -49,6 +49,7 @@ const AddPackage = () => import("@/views/packages/AddPackage.vue")
 const PackageInfo = () => import("@/views/packages/PackageInfo.vue")
 const AllPackages = () => import("@/views/packages/AllPackages.vue")
 const SendPackage = () => import("@/views/packages/SendPackage.vue")
+const CollectPackage = () => import("@/views/packages/CollectPackage.vue")
 
 //PACKAGES
 const PackagesToAssign = () => import("@/views/storage/PackagesToAssign.vue")
@@ -111,6 +112,7 @@ const routes = [
   {path: "/Packages/AddPackage",name: "AddPackage",component: AddPackage, meta: { requiresAuth: true}},
   {path: "/Packages/PackageInfo/:id",name: "PackageInfo",component: PackageInfo, meta: { requiresAuth: true}},
   {path: "/Packages/SendPackage/:id",name: "SendPackage",component: SendPackage, meta: { requiresAuth: true}},
+  {path: "/Packages/CollectPackage/:id",name: "CollectPackage",component: CollectPackage, meta: { requiresAuth: true}},
 
   {path: "/Storage/PackagesToAssign",name: "PackagesToAssign",component: PackagesToAssign, meta: { requiresAuth: true}},
   {path: "/Storage/AssignPackage/:id",name: "AssignPackage",component: AssignPackage, meta: { requiresAuth: true}},

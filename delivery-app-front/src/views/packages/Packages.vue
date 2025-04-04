@@ -1,17 +1,16 @@
 <template>
+  <div>
+
     <white-card-80>
-      
-    <base-dialog :show="!!showDialog" title="Delete country confirm" @close="showDialog = !showDialog"></base-dialog>
   
     <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goToMenu()">X</button>
-    <h2 class="fw-bold mb-2 text-uppercase">My packages</h2>
+    <h2 class="fw-bold mb-2 text-uppercase">My sent packages</h2>
     <hr>
       <div class="mt-4">
-        <table class="table" v-if="items.length > 0">
+        <table class="table" v-if="postedFromUser.length > 0">
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Sender email</th>
               <th scope="col">Reciver email</th>
               <th scope="col">Package type</th>
               <th scope="col">Package status</th>
@@ -20,28 +19,27 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(pack, index) in items" :key="pack.id">
+            <tr v-for="(pack, index) in postedFromUser" :key="pack.id">
               <th scope="row">{{ index + 1 }}</th>
-              <td>{{ pack.senderEmail }}</td>
               <td>{{ pack.reciverEmail }}</td>
               <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
               <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
               <td>
-                <button class="btn btn-outline-secondary px-5 mt-3" @click="goPackageInfo(pack.packageId)">Package info</button>
-              </td>
-              <td>
+                <div>
+                  <button class="btn btn-outline-primary px-5 my-2" @click="goPackageInfo(pack.packageId)">Package info</button>
+                </div>
                 <div v-if="pack.packageStatusId == packageStatusEnum.New">
-                  <button class="btn btn-outline-warning px-5 mt-3" @click="goToPayment(pack.paymentId)">Continue payment</button>
+                  <button class="btn btn-outline-warning px-5 my-2" @click="goToPayment(pack.paymentId)">Continue payment</button>
                 </div>
                 <div v-if="pack.packageStatusId == packageStatusEnum.Paid">
-                  <button class="btn btn-outline-info px-5 mt-3" @click="goToSending(pack.packageId)">Mark as send</button>
+                  <button class="btn btn-outline-info px-5 my-2" @click="goToSending(pack.packageId)">Mark as send</button>
                 </div>
               </td>
             </tr>
           </tbody>
         </table> 
         <div v-else>
-          <h4>NO PACKAGES FOUND</h4>
+          <h4>NO PACKAGES SENT</h4>
         </div> 
   
             <!-- <template #table-busy>
@@ -53,16 +51,63 @@
              -->
             
       </div>
-      <button class="btn btn-outline-success px-5 mt-3" @click="goToNewPackage()">Add new package</button>
+      <button class="btn btn-outline-success px-5 my-2" @click="goToNewPackage()">Add new package</button>
     </white-card-80>
-  </template>
+    
+    <white-card-80>
+  
+      <h2 class="fw-bold mb-2 text-uppercase">My packages to collect</h2>
+      <hr>
+      <div class="mt-4">
+        <table class="table" v-if="postedToUser.length > 0">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Sender email</th>
+              <th scope="col">Package type</th>
+              <th scope="col">Package status</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(pack, index) in postedToUser" :key="pack.id">
+              <th scope="row">{{ index + 1 }}</th>
+              <td>{{ pack.senderEmail }}</td>
+              <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
+              <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
+              <td>
+                <div v-if="pack.packageStatusId == packageStatusEnum.Delivered">
+                  <button class="btn btn-outline-warning px-5 my-2" @click="goToPackageCollection(pack.packageId)">Collect package</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table> 
+        <div v-else>
+          <h4>NO PACKAGES TO COLLECT</h4>
+        </div> 
+
+            <!-- <template #table-busy>
+              <div class="text-center text-primary my-5">
+                <b-spinner class="align-middle"></b-spinner>
+                <strong> Loading...</strong>
+              </div>
+            </template>
+            -->
+            
+      </div>
+    </white-card-80>
+  </div>
+</template>
   
   <script>
     import { Enums } from '@/constants/statuses';
     export default {
       data() {
         return {
-          items: [],
+          postedFromUser: [],
+          postedToUser: [],
           currencies: [],
           packageTypes: [],
           packageStatuses: [],
@@ -91,7 +136,8 @@
           });
   
           const responseJson = await response.json();
-          this.items = responseJson.userPackages;
+          this.postedFromUser = responseJson.postedFromUser;
+          this.postedToUser = responseJson.postedToUser;
         },
         async getDictionaries(dictionaryTypeId){
             var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
@@ -114,6 +160,9 @@
         },
         goToPayment(paymentId){
           this.$router.push("/Payment/" + paymentId);
+        },
+        goToPackageCollection(packageId){
+          this.$router.push("/Packages/CollectPackage/" + packageId);
         },
         goToSending(packageId){
           this.$router.push("/Packages/SendPackage/" + packageId);
