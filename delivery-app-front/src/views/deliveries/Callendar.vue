@@ -127,10 +127,8 @@ export default {
         packageStatusEnum: [],
         transportationStatusEnum: [],
 
-        token: '',
         selectedDate: '',
         transportationId: '',
-        
         expandedRow: null, // Przechowuje indeks rozwiniętego wiersza
     }
     },
@@ -138,7 +136,6 @@ export default {
         DatePicker
     },
     async mounted() {
-        this.token = localStorage.getItem('token');
         this.packageTypes = await this.getDictionaries(5);
         this.packageStatuses = await this.getDictionaries(2);
         this.transportationStatuses = await this.getDictionaries(10);
@@ -148,8 +145,40 @@ export default {
     },
 
     methods:{
+        async getDriverTransportations(){
+            const formattedDate = new Date(this.selectedDate).toISOString();
+
+            const data = await this.$api.get('Transportations/getDriverTransportations',{
+                selectedDate: formattedDate
+            });
+
+            if(data.success){
+                this.packagesToCollect = data.transportation.packagesToCollect;
+                this.packagesToDelivery = data.transportation.packagesToDelivery;
+                this.transportationStatus = data.transportation.transportationStatus;
+                this.transportationId = data.transportation.transportationId;
+            }
+        },
+        async getDictionaries(dictionaryTypeId){
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
+                dictionaryTypeId: dictionaryTypeId
+            });
+
+            if(data.success)
+                return data.dictionaries || [];
+        },
+        async startDelivery(){
+            const formattedDate = new Date(this.selectedDate).toISOString();
+
+            const data = await this.$api.post('Transportations/startTransportation', {
+                selectedDate: formattedDate
+            });
+
+            if(data.success == true)
+                this.$router.push({ path: `/Deliveries/DailyDeliveries${this.transportationId}` });
+        },
         isToday(date) {
-            const today = new Date().toISOString().split('T')[0]; // Pobiera dzisiejszą datę w formacie 'YYYY-MM-DD'
+            const today = new Date().toISOString().split('T')[0]; //'YYYY-MM-DD'
             return today === date;
         },
         toggleDetails(index) {
@@ -159,74 +188,14 @@ export default {
             this.selectedDate = date;
             this.getDriverTransportations();
         },
-        async getDriverTransportations(){
-            const formattedDate = new Date(this.selectedDate).toISOString();
-            if(this.token == '') this.token = localStorage.getItem('token');
-
-            var url = 'https://localhost:7263/Transportations/getDriverTransportations?';
-            const response = await fetch(url + new URLSearchParams({
-                selectedDate: formattedDate
-            }), 
-            {
-                method: "GET",
-                headers: {
-                'accept': '',
-                'Authorization': `Bearer ${this.token}`
-                }
-            });
-
-            const responseJson = await response.json();
-            this.packagesToCollect = responseJson.transportation.packagesToCollect;
-            this.packagesToDelivery = responseJson.transportation.packagesToDelivery;
-            this.transportationStatus = responseJson.transportation.transportationStatus;
-            this.transportationId = responseJson.transportation.transportationId;
+        canStartDelivery() {
+            const today = new Date().toISOString().split("T")[0];
+            return this.selectedDate <= today;
         },
         findDictionary(dictionaryList, dictionaryId) {
             const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);
             return dictionary ? dictionary.name : 'Unknown';
-        },
-        async getDictionaries(dictionaryTypeId){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: dictionaryTypeId
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
-            });
-
-            const responseJson = await response.json();
-            return responseJson.dictionaries
-        },
-        async startDelivery(){
-            const formattedDate = new Date(this.selectedDate).toISOString();
-
-            var url = 'https://localhost:7263/Transportations/startTransportation?';
-            const response = await fetch(url + new URLSearchParams({
-                selectedDate: formattedDate
-            }), 
-            {
-                method: "POST",
-                headers: {
-                'accept': '',
-                'Authorization': `Bearer ${this.token}`
-                }
-            });
-            const responseJson = await response.json();
-            
-            if(responseJson.success == true){
-                var route = "/Deliveries/DailyDeliveries/" + this.transportationId;
-                this.$router.push({ path: route });
-            }
-        },
-        canStartDelivery() {
-            const today = new Date().toISOString().split("T")[0];
-
-            return this.selectedDate <= today;
-        },
+        }
     }
 }
 </script>

@@ -107,57 +107,38 @@ export default {
     },
     methods: {
         async editCar() {
-            const token = localStorage.getItem('token');
-            try {
-                const response = await fetch('https://localhost:7263/Cars/editCar', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                        body: JSON.stringify({
-                            id: this.id,
-                            brand: this.brand,
-                            model: this.model,
-                            year: this.year,
-                            engineCapacity: this.engineCapacity,
-                            horsePower: this.horsePower,
-                            seats: this.seats,
-                            maxLoad: this.maxLoad
-                    }),
-                        credentials: 'include' 
-                });
-            } catch (error) {
 
-            }
-            
-            this.$router.push({ path: '/Cars' })
+            const data = await this.$api.post('Cars/editCar', {
+                id: this.id,
+                brand: this.brand,
+                model: this.model,
+                year: this.year,
+                engineCapacity: this.engineCapacity,
+                horsePower: this.horsePower,
+                seats: this.seats,
+                maxLoad: this.maxLoad
+            });
+
+            if(data.success == true)
+                this.$router.push({ path: '/Cars' })
         },
         async FetchCarData(){
-            var url = 'https://localhost:7263/Cars/getCar?'
-            const token = localStorage.getItem('token');
-
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Cars/getCar',{
                 carId: this.$route.params.id
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
             });
-            const responseJson = await response.json();
-            var fetchCar = responseJson.car;
 
-            this.id = fetchCar.id;
-            this.brand = fetchCar.brand;
-            this.model = fetchCar.model;
-            this.year = fetchCar.year;
-            this.engineCapacity = fetchCar.engineCapacity;
-            this.horsePower = fetchCar.horsePower;
-            this.seats = fetchCar.seats;
-            this.maxLoad = fetchCar.maxLoad;
+            if(data.success){
+                var fetchCar = data.car;
+
+                this.id = fetchCar.id;
+                this.brand = fetchCar.brand;
+                this.model = fetchCar.model;
+                this.year = fetchCar.year;
+                this.engineCapacity = fetchCar.engineCapacity;
+                this.horsePower = fetchCar.horsePower;
+                this.seats = fetchCar.seats;
+                this.maxLoad = fetchCar.maxLoad;
+            }
         }
     }
 }

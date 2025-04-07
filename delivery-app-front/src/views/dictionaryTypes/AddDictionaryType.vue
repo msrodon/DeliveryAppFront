@@ -33,24 +33,12 @@ export default {
     },
     methods: {
         async addDictionaryType() {
+            const data = await this.$api.post('Dictionaries/addDictionaryType', {
+                name: this.name
+            });
 
-            const token = localStorage.getItem('token');
-            try {
-                const response = await fetch('https://localhost:7263/Dictionaries/addDictionaryType', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                        body: JSON.stringify({
-                            name: this.name
-                    }),
-                        credentials: 'include' 
-                });
-                this.$router.push({ path: '/DictionaryTypes' })
-            } catch (error) {
-
-            }
+            if(data.success == true)
+                this.$router.push({ path: '/DictionaryTypes' });
         }
     }
 }

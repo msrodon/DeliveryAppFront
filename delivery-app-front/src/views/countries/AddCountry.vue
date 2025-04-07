@@ -63,36 +63,20 @@ export default {
     },
     methods: {
         async AddCountry() {
-            try {
-                const response = await fetch('https://localhost:7263/Countries/addCountry', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.token}`
-                    },
-                        body: JSON.stringify({
-                            name: this.name,
-                            code: this.code,
-                            currencyId: this.currencyId,
-                    }),
-                        credentials: 'include' 
-                });
-                this.$router.push({ path: '/Countries' })
-            } catch (error) {
-
-            }
-        },
-        async getCurrencies(){
-            const response = await fetch('https://localhost:7263/Currencies/getCurrencies', {
-            method: "GET",
-            headers: {
-                'accept': '',
-                'Authorization': `Bearer ${this.token}`
-            }
+            const data = await this.$api.post('Countries/addCountry', {
+                name: this.name,
+                code: this.code,
+                currencyId: this.currencyId,
             });
 
-            const responseJson = await response.json();
-            this.currencies = responseJson.currencies
+            if(data.success == true)
+                this.$router.push({ path: '/Countries' })
+        },
+        async getCurrencies(){
+            const data = await this.$api.get('Currencies/getCurrencies');
+
+            if(data.success)
+                this.currencies = data.currencies || [];
         }
     }
 }

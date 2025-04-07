@@ -80,14 +80,6 @@
         <div v-else>
             <h4>NO PACKAGES FOUND</h4>
         </div> 
-
-            <!-- <template #table-busy>
-                <div class="text-center text-primary my-5">
-                <b-spinner class="align-middle"></b-spinner>
-                <strong> Loading...</strong>
-                </div>
-            </template>
-                -->
             
         </div>
     </white-card-80>
@@ -107,61 +99,42 @@
           packageStatuses: [],
 
           packageStatusEnum: [],
-          token: ''
         }
       },
       async mounted() {
-        this.token = localStorage.getItem('token');
+        this.packageStatusEnum = Enums.PackageStatuses;
 
         this.packageTypes = await this.getDictionaries(5);
         this.packageStatuses = await this.getDictionaries(2);
-
-        this.packageStatusEnum = Enums.PackageStatuses;
-
         this.packagesToCollect = await this.getPackages(this.packageStatusEnum.Posted);
         this.packagesToDelivery = await this.getPackages(this.packageStatusEnum.Storage);
       },
       methods:{
         async getPackages(packageStatusId){
-            var url = 'https://localhost:7263/Packages/getPackages?';
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Packages/getPackages',{
                 packageStatusId: packageStatusId
-            }), 
-            {
-                method: "GET",
-                headers: {
-                'accept': '',
-                'Authorization': `Bearer ${this.token}`
-                }
             });
-            const responseJson = await response.json();
 
-            responseJson.packages.forEach(el => {
-                el.arrivalDate = this.formatDate(el.arrivalDate);
-            });
-    
-            return responseJson.packages;
+            if(data.success){
+                data.packages.forEach(el => {
+                    el.arrivalDate = this.formatDate(el.arrivalDate);
+                });
+                
+                return data.packages;
+             }
         },
         
         async getDictionaries(dictionaryTypeId){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 dictionaryTypeId: dictionaryTypeId
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
 
-            const responseJson = await response.json();
-            return responseJson.dictionaries
+            if(data.success)
+                return data.dictionaries || [];
         },
         findDictionary(dictionaryList, dictionaryId) {
-          const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);
-          return dictionary ? dictionary.name : 'Unknown';
+            const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);
+            return dictionary ? dictionary.name : 'Unknown';
         },
         formatDate(date){
             if(date != null)

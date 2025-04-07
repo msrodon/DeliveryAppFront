@@ -212,14 +212,10 @@ export default {
             paymentStatuses: [],
             paymentTypes: [],
             currencies: [],
-            addressTypes: [],
-
-            token: ''
+            addressTypes: []
         };
     },
     async mounted(){
-        this.token = localStorage.getItem('token');
-
         this.packageStatuses = await this.getDictionaries(2);
         this.paymentStatuses = await this.getDictionaries(7);
         this.packageTypes = await this.getDictionaries(5);
@@ -231,66 +227,45 @@ export default {
     },
     methods: {
         async getPackageDetails(){
-            var url = 'https://localhost:7263/Packages/getPackageDetails?'
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Packages/getPackageDetails',{
                 packageId: this.$route.params.id
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
-            const responseJson = await response.json();
-            const packageDetails = responseJson.packageDetails;
 
-            this.reciverEmail = packageDetails.reciverEmail;
-            this.senderEmail = packageDetails.senderEmail;
-            this.packageStatusId = packageDetails.packageStatusId;
-            this.packageTypeId = packageDetails.packageTypeId;
+            if(data.success){
+                const packageDetails = data.packageDetails;
 
-            this.paymentStatusId = packageDetails.payment.paymentStatusId;
-            this.paymentTypeId = packageDetails.payment.paymentTypeId;
-            this.currencyId = packageDetails.payment.currencyId;
-            this.price = packageDetails.payment.price;
+                this.reciverEmail = packageDetails.reciverEmail;
+                this.senderEmail = packageDetails.senderEmail;
+                this.packageStatusId = packageDetails.packageStatusId;
+                this.packageTypeId = packageDetails.packageTypeId;
 
-            this.country = packageDetails.destinationAddress.country;
-            this.postCode = packageDetails.destinationAddress.postCode;
-            this.city = packageDetails.destinationAddress.city;
-            this.street = packageDetails.destinationAddress.street;
-            this.number = packageDetails.destinationAddress.number;
-            this.addressTypeId = packageDetails.destinationAddress.addressTypeId;
-            this.guestAddress = packageDetails.destinationAddress.guestAddress;
+                this.paymentStatusId = packageDetails.payment.paymentStatusId;
+                this.paymentTypeId = packageDetails.payment.paymentTypeId;
+                this.currencyId = packageDetails.payment.currencyId;
+                this.price = packageDetails.payment.price;
+
+                this.country = packageDetails.destinationAddress.country;
+                this.postCode = packageDetails.destinationAddress.postCode;
+                this.city = packageDetails.destinationAddress.city;
+                this.street = packageDetails.destinationAddress.street;
+                this.number = packageDetails.destinationAddress.number;
+                this.addressTypeId = packageDetails.destinationAddress.addressTypeId;
+                this.guestAddress = packageDetails.destinationAddress.guestAddress;
+            }
         },
         async getDictionaries(dictionaryTypeId){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 dictionaryTypeId: dictionaryTypeId
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
 
-            const responseJson = await response.json();
-            return responseJson.dictionaries
+            if(data.success)
+                return data.dictionaries || [];
         },
         async getCurrencies(){
+            const data = await this.$api.get('Currencies/getCurrencies');
 
-        const response = await fetch('https://localhost:7263/Currencies/getCurrencies', {
-          method: "GET",
-          headers: {
-            'accept': '',
-            'Authorization': `Bearer ${this.token}`
-          }
-        });
-
-        const responseJson = await response.json();
-        this.currencies = responseJson.currencies;
+            if(data.success)
+                this.currencies = data.currencies || [];
         }
     }
 }

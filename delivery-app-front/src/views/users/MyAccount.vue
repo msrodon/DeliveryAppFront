@@ -94,82 +94,54 @@ export default {
             email: "",  
             phoneNumber: "",
             userTypeId: "",
-            //
-            userTypes: [],
-            token: ""
+            userTypes: []
         };
     },
     mounted(){
-        this.token = localStorage.getItem('token');
         this.getUserData();
         this.getUserTypes();
     },
     methods: {
         async editUser() {
-            try {
-                const response = await fetch('https://localhost:7263/Users/editUser', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.token}`
-                    },
-                        body: JSON.stringify({
-                            id: this.id,
-                            userName: this.userName,
-                            firstName: this.firstName,
-                            lastName: this.lastName,
-                            email: this.email,
-                            phoneNumber: this.phoneNumber,
-                            userType: this.userTypeId
-                    }),
-                        credentials: 'include' 
-                });
-            } catch (error) {
+            const data = await this.$api.post('Users/editUser', {
+                id: this.id,
+                userName: this.userName,
+                firstName: this.firstName,
+                lastName: this.lastName,
+                email: this.email,
+                phoneNumber: this.phoneNumber,
+                userType: this.userTypeId
+            });
 
-            }
-            
-            window.location.href = window.location.href;
+            if(data.success == true)
+                this.getUserData();
         },
+
         async getUserData(){
-            var url = 'https://localhost:7263/Users/getUser?'
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Users/getUser', {
                 currentUser: true
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
-            const responseJson = await response.json();
-            var fetchUser = responseJson.user;
 
-            this.id = fetchUser.id;
-            this.userName = fetchUser.userName;
-            this.activeStatus = fetchUser.activeStatus;
-            this.firstName = fetchUser.firstName;
-            this.lastName = fetchUser. lastName;
-            this.email = fetchUser.email;
-            this.phoneNumber = fetchUser.phoneNumber;
-            this.userTypeId = fetchUser.userType;
+            if(data.success == true){
+                var fetchUser = data.user;
+                this.id = fetchUser.id;
+                this.userName = fetchUser.userName;
+                this.activeStatus = fetchUser.activeStatus;
+                this.firstName = fetchUser.firstName;
+                this.lastName = fetchUser. lastName;
+                this.email = fetchUser.email;
+                this.phoneNumber = fetchUser.phoneNumber;
+                this.userTypeId = fetchUser.userType;
+            }
         },
+
         async getUserTypes(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 dictionaryTypeId: 1
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 1
-                }
             });
 
-            const responseJson = await response.json();
-            this.userTypes = responseJson.dictionaries
+            if(data.success)
+                this.userTypes = data.dictionaries || [];
         }
     }
 }

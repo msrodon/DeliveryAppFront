@@ -6,45 +6,36 @@
         <hr>
 
         <div class="mt-4">
-        <table class="table" v-if="packageTypes.length > 0">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Type</th>
-              <th scope="col">Price</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(pType, index) in packageTypes" :key="pType.dictionaryId">
-                <th scope="row">{{ index + 1 }}</th>
-                <td>{{ pType.name }}</td>
-                <td>
-                    <input 
-                        type="number" 
-                        class="form-control form-control-md"
-                        v-model="formattedPrices[pType.dictionaryId]" 
-                        @focusout="formatPrice(pType.dictionaryId, $event.target.value)"
-                        min="0"
-                    />
-                </td>
-                <td>{{ this.currency.shortcut }}</td>
-            </tr>
-          </tbody>
-        </table> 
-        <div v-else>
-          <h4>NO PACKAGES FOUND</h4>
-        </div> 
-  
-            <!-- <template #table-busy>
-              <div class="text-center text-primary my-5">
-                <b-spinner class="align-middle"></b-spinner>
-                <strong> Loading...</strong>
-              </div>
-            </template>
-             -->
-            
-      </div>
+            <table class="table" v-if="packageTypes.length > 0">
+                <thead>
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Price</th>
+                    <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(pType, index) in packageTypes" :key="pType.dictionaryId">
+                        <th scope="row">{{ index + 1 }}</th>
+                        <td>{{ pType.name }}</td>
+                        <td>
+                            <input 
+                                type="number" 
+                                class="form-control form-control-md"
+                                v-model="formattedPrices[pType.dictionaryId]" 
+                                @focusout="formatPrice(pType.dictionaryId, $event.target.value)"
+                                min="0"
+                            />
+                        </td>
+                        <td>{{ this.currency.shortcut }}</td>
+                    </tr>
+                </tbody>
+            </table> 
+            <div v-else>
+                <h4>NO PACKAGES FOUND</h4>
+            </div> 
+        </div>
 
         <div class="mt-4">
             <router-link class="btn btn-outline-danger btn-lg px-5 me-3" :to="`/PriceLists`">Cancell</router-link>
@@ -63,92 +54,54 @@ export default {
             currency: {},
             packageTypes: [],
             packagePrices: [],
-            //
-            token:''
         };
     },
     computed: {
         formattedPrices() {
-        return this.packagePrices.reduce((map, item) => {
-            map[item.packageTypeId] = item.price.toFixed(2);
-            return map;
-        }, {});
+            return this.packagePrices.reduce((map, item) => {
+                map[item.packageTypeId] = item.price.toFixed(2);
+                return map;
+            }, {});
         }
     },
     mounted(){
-        this.token = localStorage.getItem('token');
         this.getPackagePricesData();
         this.getPackageTypes();
         this.getCurrency();
     },
     methods: {
-
         async editPriceList() {
-            try {
-                const response = await fetch('https://localhost:7263/PackagePrices/editPackagePrice', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.token}`
-                    },
-                        body: JSON.stringify({
-                            currencyId: this.$route.params.id,
-                            packagePrices: this.packagePrices
-                    }),
-                    credentials: 'include' 
-                });
-            } catch (error) {
+            const data = await this.$api.post('PackagePrices/editPackagePrice',{
+                currencyId: this.$route.params.id,
+                packagePrices: this.packagePrices
+            });
 
-            }
-            
-            this.$router.push({ path: '/PriceLists' })
+            if(data.success)
+                this.$router.push({ path: '/PriceLists' })
         },
         async getCurrency(){
-            var url = 'https://localhost:7263/Currencies/getCurrency?'
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 currencyId: this.$route.params.id
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                }
-            });
-            const responseJson = await response.json();
-            this.currency = responseJson.currency;
-        },
-        async getPackagePricesData(){
-            var url = 'https://localhost:7263/PackagePrices/getPackagePrices?'
-            const response = await fetch(url + new URLSearchParams({
-                currencyId: this.$route.params.id
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                }
-            });
-            const responseJson = await response.json();
-            this.packagePrices = responseJson.packagePrices;
-        },
-        async getPackageTypes(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 5
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 5
-                }
             });
 
-            const responseJson = await response.json();
-            this.packageTypes = responseJson.dictionaries
+            if(data.success)
+                this.currency = data.currency || [];
+        },
+        async getPackagePricesData(){
+            const data = await this.$api.get('PackagePrices/getPackagePrices',{
+                currencyId: this.$route.params.id
+            });
+
+            if(data.success)
+                this.packagePrices = data.packagePrices || [];
+        },
+        async getPackageTypes(){
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
+                dictionaryTypeId: 5
+            });
+
+            if(data.success)
+                this.packageTypes = data.dictionaries || [];
         },
         formatPrice(dictionaryId, value) {
             let sanitizedValue = value.replace(",", ".");

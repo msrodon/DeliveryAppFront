@@ -31,14 +31,10 @@ export default {
             password: '',
             confirmPassword: '',
             errorMessage: '',
-            user: [],
-
-            token: '',
+            user: []
         };
     },
     mounted(){
-        this.token = localStorage.getItem('token');
-
         this.getUser();
     },
     methods: {
@@ -55,38 +51,22 @@ export default {
             this.changePassword();
         },
         async getUser(){
-            var url = 'https://localhost:7263/Users/getUser?';
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Users/getUser',{
                 userId: this.$route.params.userId
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
 
-            const responseJson = await response.json();
-            this.user = responseJson.user;
+            if(data.success)
+                this.user = responseJson.user;
         },
         async changePassword(){
-            var url = 'https://localhost:7263/Auth/resetPassword?';
-            const response = await fetch(url, 
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                },
-                body: JSON.stringify({
-                    userId: this.user.id,
-                    email: this.user.email,
-                    newPassword: this.confirmPassword
-                }),
-                credentials: 'include' 
-            }); 
-            this.$router.go(-1);
+            const data = await this.$api.post('Auth/resetPassword', {
+                userId: this.user.id,
+                email: this.user.email,
+                newPassword: this.confirmPassword
+            });
+
+            if(data.success == true)
+                this.$router.go(-1);
         },
         goBack(){
             this.$router.go(-1);

@@ -106,49 +106,32 @@
           currencies: [],
           packageTypes: [],
           packageStatuses: [],
-          //
-          token: "",
           packageStatusEnum: []
         }
       },
       async mounted() {
-        this.token = localStorage.getItem('token');
-
+        this.packageStatusEnum = Enums.PackageStatuses;
         this.packageTypes = await this.getDictionaries(5);
         this.packageStatuses = await this.getDictionaries(2);
 
-        this.packageStatusEnum = Enums.PackageStatuses;
         this.getPackages();
       },
       methods:{
         async getPackages(){
-          const response = await fetch('https://localhost:7263/Packages/getUserPackages', {
-            method: "GET",
-            headers: {
-              'accept': '',
-              'Authorization': `Bearer ${this.token}`
-            }
-          });
-  
-          const responseJson = await response.json();
-          this.postedFromUser = responseJson.postedFromUser;
-          this.postedToUser = responseJson.postedToUser;
+          const data = await this.$api.get('Packages/getUserPackages');
+
+          if(data.success){
+            this.postedFromUser = data.postedFromUser;
+            this.postedToUser = data.postedToUser;
+          }
         },
         async getDictionaries(dictionaryTypeId){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
+          const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 dictionaryTypeId: dictionaryTypeId
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
 
-            const responseJson = await response.json();
-            return responseJson.dictionaries
+            if(data.success)
+                return data.dictionaries || [];
         },
         findDictionary(dictionaryList, dictionaryId) {
           const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);

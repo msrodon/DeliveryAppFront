@@ -118,82 +118,51 @@ export default {
     },
     methods: {
         async editAddress() {
-            try {
-                const response = await fetch('https://localhost:7263/Addresses/editAddress', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.token}`
-                    },
-                        body: JSON.stringify({
-                            id: this.id,
-                            name: this.name,
-                            city: this.city,
-                            postCode: this.postCode,
-                            street: this.street,
-                            number: this.number,
-                            addressTypeId: this.addressTypeId,
-                            countryId: this.countryId,
-                    }),
-                        credentials: 'include' 
-                });
-            } catch (error) {
+            const data = await this.$api.post('Addresses/editAddress', {
+                id: this.id,
+                name: this.name,
+                city: this.city,
+                postCode: this.postCode,
+                street: this.street,
+                number: this.number,
+                addressTypeId: this.addressTypeId,
+                countryId: this.countryId
+            });
 
-            }
-            
-            this.$router.push({ path: '/Addresses' })
+            if(data.success)
+                this.$router.push({ path: '/Addresses' })
         },
         async fetchAddressData(){
-            var url = 'https://localhost:7263/Addresses/getAddress?'
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Addresses/getAddress', {
                 addressId: this.$route.params.id
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
-            const responseJson = await response.json();
-            var fetchAddress = responseJson.address;
 
-            this.id = fetchAddress.id;
-            this.name = fetchAddress.name;
-            this.city = fetchAddress.city;
-            this.postCode = fetchAddress.postCode;
-            this.street = fetchAddress.street;
-            this.number = fetchAddress.number;
-            this.addressTypeId = fetchAddress.addressTypeId;
-            this.countryId = fetchAddress.countryId;
+            if(data.success){
+                var fetchAddress = data.address;
+
+                this.id = fetchAddress.id;
+                this.name = fetchAddress.name;
+                this.city = fetchAddress.city;
+                this.postCode = fetchAddress.postCode;
+                this.street = fetchAddress.street;
+                this.number = fetchAddress.number;
+                this.addressTypeId = fetchAddress.addressTypeId;
+                this.countryId = fetchAddress.countryId;
+            }
         },
         async getCountries(){
-            const response = await fetch('https://localhost:7263/Countries/getCountries', {
-            method: "GET",
-            headers: {
-                'accept': '',
-                'Authorization': `Bearer ${this.token}`
-            }
-            });
-
-            const responseJson = await response.json();
-            this.countries = responseJson.countries
+            const data = await this.$api.get('Countries/getCountries');
+      
+            if(data.success)
+                this.countries = data.countries;
         },
         async getDictionaries(dictionaryTypeId){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 dictionaryTypeId: dictionaryTypeId
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
 
-            const responseJson = await response.json();
-            return responseJson.dictionaries
+            if(data.success)
+                return data.dictionaries || [];
         }
     }
 }

@@ -65,63 +65,34 @@ export default {
     },
     methods: {
         async editCountry() {
+            const data = await this.$api.post('Countries/editCountry', {
+                id: this.id,
+                name: this.name,
+                code: this.code,
+                currencyId: this.currencyId
+            });
 
-            const token = localStorage.getItem('token');
-            try {
-                const response = await fetch('https://localhost:7263/Countries/editCountry', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                        body: JSON.stringify({
-                            id: this.id,
-                            name: this.name,
-                            code: this.code,
-                            currencyId: this.currencyId
-                    }),
-                        credentials: 'include' 
-                });
-            } catch (error) {
-
-            }
-            
-            this.$router.push({ path: '/Countries' })
+            if(data.success == true)
+                this.$router.push({ path: '/Countries' })
         },
         async getCountryData(){
-            var url = 'https://localhost:7263/Countries/getCountry?'
-            const token = localStorage.getItem('token');
-
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Countries/getCountry',{
                 countryId: this.$route.params.id
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
             });
-            const responseJson = await response.json();
-            var fetchCountry = responseJson.country;
 
-            this.id = fetchCountry.id;
-            this.name = fetchCountry.name;
-            this.code = fetchCountry.code;
-            this.currencyId = fetchCountry.currencyId;
+            if(data.success){
+                var fetchCountry = data.country;
+                this.id = fetchCountry.id;
+                this.name = fetchCountry.name;
+                this.code = fetchCountry.code;
+                this.currencyId = fetchCountry.currencyId;
+            }
         },
         async getCurrencies(){
-            const token = localStorage.getItem('token');
-            const response = await fetch('https://localhost:7263/Currencies/getCurrencies', {
-            method: "GET",
-            headers: {
-                'accept': '',
-                'Authorization': `Bearer ${token}`
-            }
-            });
+            const data = await this.$api.get('Currencies/getCurrencies');
 
-            const responseJson = await response.json();
-            this.currencies = responseJson.currencies
+            if(data.success)
+                this.currencies = data.currencies || [];
         }
     }
 }

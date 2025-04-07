@@ -44,58 +44,36 @@ export default {
             dictionaryTypeId: '',
             dictionaryId: '',
             name: '',
-            isDefault: null,
-            //
-            token: ''
+            isDefault: null
         };
     },
     mounted() {
-        this.token = localStorage.getItem('token');
         this.dictionaryTypeId = this.$route.params.typeId;
         this.dictionaryId = this.$route.params.id;
         this.FetchDictionaryData();
     },
     methods: {
         async FetchDictionaryData(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionary?'
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Dictionaries/getDictionary',{
                 dictionaryId: this.dictionaryId
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
-            const responseJson = await response.json();
-            var fetchDictionary = responseJson.dictionary;
 
-            this.name = fetchDictionary.name;
-            this.isDefault = fetchDictionary.isDefault;
+            if(data.success){
+                var fetchDictionary = data.dictionary;
+                this.name = fetchDictionary.name;
+                this.isDefault = fetchDictionary.isDefault;
+            }
         },
         async EditDictionary(){
-            try {
-                const response = await fetch('https://localhost:7263/Dictionaries/editDictionary', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.token}`
-                    },
-                        body: JSON.stringify({
-                            dictionaryId: this.dictionaryId,
-                            dictionaryTypeId: this.dictionaryTypeId,
-                            name: this.name,
-                            isDefault: this.isDefault
-                    }),
-                        credentials: 'include' 
-                });
-            } catch (error) {
+            const data = await this.$api.post('Dictionaries/editDictionary', {
+                dictionaryId: this.dictionaryId,
+                dictionaryTypeId: this.dictionaryTypeId,
+                name: this.name,
+                isDefault: this.isDefault
+            });
 
-            }
-            
-            var route = "/DictionaryTypes/" + this.dictionaryTypeId + "/Dictionaries";
-            this.$router.push({ path: route });
+            if(data.success == true)
+                this.$router.push({ path: `/DictionaryTypes/${this.dictionaryTypeId}/Dictionaries` });
         }
     }
 }

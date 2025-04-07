@@ -26,45 +26,25 @@ export default {
         }
     },
     mounted(){
-        this.token = localStorage.getItem('token');
         this.packageStatusEnum = Enums.PackageStatuses;
         this.getPackage();
     },
     methods: {
         async getPackage(){
-            var url = 'https://localhost:7263/Packages/getPackage?'
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Packages/getPackage',{
                 packageId: this.$route.params.id
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-            },
-                credentials: 'include'
             });
-  
-          const responseJson = await response.json();
-          this.pack = responseJson.package;
+
+            if(data.success)
+                this.pack = data.package;
         },
         async sendPackage() {
-            try {
-                const response = await fetch('https://localhost:7263/Packages/sendPackage', {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                },
-                    body: JSON.stringify({
-                    packageId: this.$route.params.id
-                }),
-                    credentials: 'include'
-                });
-            } catch (error) {
-                console.error("Error adding package:", error);
-            }
-            this.$router.push('/Packages')
+            const data = await this.$api.post('Packages/sendPackage', {
+                packageId: this.$route.params.id
+            });
+
+            if(data.success == true)
+                this.$router.push('/Packages')
         }
     }
 }

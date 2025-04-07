@@ -103,30 +103,18 @@ export default {
     },
     methods: {
         async addCar() {
+            const data = await this.$api.post('Cars/addCar', {
+                brand: this.brand,
+                model: this.model,
+                year: this.year,
+                engineCapacity: this.capacity,
+                horsePower: this.horsePower,
+                seats: this.seats,
+                maxLoad: this.maxLoad
+            });
 
-            const token = localStorage.getItem('token');
-            try {
-                const response = await fetch('https://localhost:7263/Cars/addCar', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                        body: JSON.stringify({
-                            brand: this.brand,
-                            model: this.model,
-                            year: this.year,
-                            engineCapacity: this.capacity,
-                            horsePower: this.horsePower,
-                            seats: this.seats,
-                            maxLoad: this.maxLoad
-                    }),
-                        credentials: 'include' 
-                });
+            if(data.success == true)
                 this.$router.push({ path: '/Cars' })
-            } catch (error) {
-
-            }
         }
     }
 }

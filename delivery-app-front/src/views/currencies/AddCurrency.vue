@@ -42,25 +42,13 @@ export default {
     },
     methods: {
         async addCurrency() {
+            const data = await this.$api.post('Currencies/addCurrency', {
+                name: this.name,
+                shortcut: this.shortcut
+            });
 
-            const token = localStorage.getItem('token');
-            try {
-                const response = await fetch('https://localhost:7263/Currencies/addCurrency', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                        body: JSON.stringify({
-                            name: this.name,
-                            shortcut: this.shortcut
-                    }),
-                        credentials: 'include' 
-                });
+            if(data.success == true)
                 this.$router.push({ path: '/Currencies' })
-            } catch (error) {
-
-            }   
         }
     }
 }

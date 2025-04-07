@@ -9,16 +9,3 @@
       <p class="mb-0"><a href="/" class="text-dark-50 fw-bold">Back to login</a></p>
     </white-card-20>
 </template>
-
-<script>
-
-export default {
-    data() {
-        return {
-        };
-    },
-    methods: {
-    }
-}
-
-</script>

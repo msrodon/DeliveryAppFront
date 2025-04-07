@@ -55,35 +55,19 @@
       },
       methods:{
         async getDTypeData(){
-          const response = await fetch('https://localhost:7263/Dictionaries/getDictionaryTypes', {
-            method: "GET",
-            headers: {
-              'accept': '',
-              'Authorization': `Bearer ${this.token}`
-            }
-          });
-  
-          const responseJson = await response.json();
-          this.items = responseJson.dictionaryTypes;
+          const data = await this.$api.get('Dictionaries/getDictionaryTypes');
+
+          if(data.success)
+            this.items = data.dictionaryTypes || [];
         },
 
         async deleteDType(dTypeId){
-          try {
-            const response = await fetch('https://localhost:7263/Dictionaries/removeDictionaryType', {
-              method: "DELETE",
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.token}`
-              },
-              body: JSON.stringify({
-                id: dTypeId
-              }),
-                credentials: 'include' 
+          const data = await this.$api.delete('Dictionaries/removeDictionaryType',{
+            id: dTypeId
           });
-          } catch (error) {
-  
-          }
-          window.location.href = window.location.href;
+
+          if(data.success)
+            this.getDTypeData();
         }
       }
     }

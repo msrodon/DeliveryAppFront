@@ -25,6 +25,7 @@
               <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
               <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
               <td>
+                
                 <router-link class="btn btn-sm btn-outline-primary btn-lg px-5 me-3 my-2" :to="`/Packages/PackageInfo/${pack.packageId}`">Package info</router-link>
               </td>
             </tr>
@@ -52,12 +53,10 @@
         return {
           items: [],
           packageTypes: [],
-          packageStatuses: [],
-          token: ''
+          packageStatuses: []
         }
       },
       async mounted() {
-        this.token = localStorage.getItem('token');
         this.packageTypes = await this.getDictionaries(5);
         this.packageStatuses = await this.getDictionaries(2);
 
@@ -65,32 +64,19 @@
       },
       methods:{
         async getPackages(){
-          const response = await fetch('https://localhost:7263/Packages/getPackages', {
-            method: "GET",
-            headers: {
-              'accept': '',
-              'Authorization': `Bearer ${this.token}`
-            }
-          });
-  
-          const responseJson = await response.json();
-          this.items = responseJson.packages;
+
+          const data = await this.$api.get('Packages/getPackages');
+
+          if(data.success)
+            this.items = data.packages || [];
         },
         async getDictionaries(dictionaryTypeId){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
+          const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 dictionaryTypeId: dictionaryTypeId
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
 
-            const responseJson = await response.json();
-            return responseJson.dictionaries
+            if(data.success)
+                return data.dictionaries || [];
         },
         findDictionary(dictionaryList, dictionaryId) {
           const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);

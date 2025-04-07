@@ -39,26 +39,15 @@ export default {
     },
     methods: {
         async AddDictionary() {
+            const data = await this.$api.post('Dictionaries/addDictionary', {
+                dictionaryTypeId: this.dictionaryTypeId,
+                name: this.name
+            });
 
-            const token = localStorage.getItem('token');
-            try {
-                const response = await fetch('https://localhost:7263/Dictionaries/addDictionary', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        dictionaryTypeId: this.dictionaryTypeId,
-                        name: this.name
-                    }),
-                    credentials: 'include' 
-                });
-                var route = "/DictionaryTypes/" + this.dictionaryTypeId + "/Dictionaries";
-                this.$router.push({ path: route });
-            } catch (error) {
-
-            }
+            if(data.success == true)
+                this.getUsersData();
+                this.$router.push({ path: `/DictionaryTypes/${this.dictionaryTypeId}/Dictionaries` });
+            
         }
     }
 }

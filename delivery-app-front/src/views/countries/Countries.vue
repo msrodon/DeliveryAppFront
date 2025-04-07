@@ -1,7 +1,5 @@
 <template>
   <white-card-80>
-    
-  <base-dialog :show="!!showDialog" title="Delete country confirm" @close="showDialog = !showDialog"></base-dialog>
 
   <h2 class="fw-bold mb-2 text-uppercase">Registered countries</h2>
   <hr>
@@ -52,58 +50,28 @@
       this.getCurrencies()
     },
     methods:{
-
       async getCountries(){
-        this.busyState = true;
+        const data = await this.$api.get('Countries/getCountries');
 
-        const token = localStorage.getItem('token');
-        const response = await fetch('https://localhost:7263/Countries/getCountries', {
-          method: "GET",
-          headers: {
-            'accept': '',
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
-        const responseJson = await response.json();
-        this.items = responseJson.countries;
-
-        this.busyState = false;
+        if(data.success)
+          this.items = data.countries || [];
       },
 
       async getCurrencies(){
-            const token = localStorage.getItem('token');
-            const response = await fetch('https://localhost:7263/Currencies/getCurrencies', {
-            method: "GET",
-            headers: {
-                'accept': '',
-                'Authorization': `Bearer ${token}`
-            }
-            });
+        const data = await this.$api.get('Currencies/getCurrencies');
 
-            const responseJson = await response.json();
-            this.currencies = responseJson.currencies
+        if(data.success)
+          this.currencies = data.currencies || [];
         },
 
       async deleteCountry(countryId){
-      
-        const token = localStorage.getItem('token');
-        try {
-          const response = await fetch('https://localhost:7263/Countries/removeCountry', {
-            method: "DELETE",
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`
-            },
-                body: JSON.stringify({
-                  countryId: countryId
-            }),
-              credentials: 'include' 
-        });
-        } catch (error) {
 
-        }
-        window.location.href = window.location.href;
+        const data = await this.$api.get('Countries/removeCountry',{
+          countryId: countryId
+        });
+
+        if(data.success)
+          this.getCountries();
       },
       findCurrencyName(currencyId) {
         const currency = this.currencies.find((currency) => currency.id === currencyId);

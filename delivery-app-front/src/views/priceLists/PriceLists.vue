@@ -1,13 +1,8 @@
 <template>
   <white-card-80>
-    
-  <base-dialog :show="!!showDialog" title="Delete currency confirm" @close="showDialog = !showDialog">
-
-  </base-dialog>
-
-  <h2 class="fw-bold mb-2 text-uppercase">Price lists</h2>
-  <p class="text-dark-50 mb-5">select currency</p>
-  <hr>
+    <h2 class="fw-bold mb-2 text-uppercase">Price lists</h2>
+    <p class="text-dark-50 mb-5">select currency</p>
+    <hr>
     <div class="mt-4">
       <table class="table" v-if="items.length > 0">
         <thead>
@@ -33,16 +28,8 @@
         </tbody>
       </table> 
       <div v-else>
-        <h1>NO CURRENCIES FOUND</h1>
+        <h1>NO PRICE LISTS FOUND</h1>
       </div> 
-
-          <!-- <template #table-busy>
-            <div class="text-center text-primary my-5">
-              <b-spinner class="align-middle"></b-spinner>
-              <strong> Loading...</strong>
-            </div>
-          </template>
-           -->
           
     </div>
   </white-card-80>
@@ -60,23 +47,11 @@
       this.getCurrencies()
     },
     methods:{
-      resetSort(){
-      },
       async getCurrencies(){
-        this.busyState = true;
+        const data = await this.$api.get('Currencies/getCurrencies');
 
-        const token = localStorage.getItem('token');
-        const response = await fetch('https://localhost:7263/Currencies/getCurrencies', {
-          method: "GET",
-          headers: {
-            'accept': '',
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
-        const responseJson = await response.json();
-        this.items = responseJson.currencies
-        this.busyState = false;
+        if(data.success)
+          this.items = data.currencies || []
       }
     }
   }

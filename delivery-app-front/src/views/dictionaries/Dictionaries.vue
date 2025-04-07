@@ -37,16 +37,8 @@
                 <h1>NO DICTIONARIES FOUND</h1>
             </div>
 
-            <!-- <template #table-busy>
-              <div class="text-center text-primary my-5">
-                <b-spinner class="align-middle"></b-spinner>
-                <strong> Loading...</strong>
-              </div>
-            </template>
--->
         </div>
-        <!-- <button class="btn btn-secondary" v-on:click="resetSort()">Reset sort</button> -->
-        <button class="btn btn-outline-danger btn-lg px-5 mt-3 me-3" v-on:click="goToDictionaryTypes()">Cancell</button>
+        <router-link class="btn btn-outline-danger btn-lg px-5 mt-3 me-3" :to="`/DictionaryTypes`">Cancell</router-link>
         <button class="btn btn-outline-success btn-lg px-5 mt-3" v-on:click="addNewDictionary()">Add new dictionary</button>
     </white-card-80>
 </template>
@@ -56,13 +48,11 @@ export default {
     data() {
         return {
             dictionaryTypeId: 0,
-            items: [],
-            token: ''
+            items: []
         };
     },
 
     mounted() {
-        this.token = localStorage.getItem("token");
         this.dictionaryTypeId = this.$route.params.typeId;
         this.getDictionariesData();
     },
@@ -70,51 +60,26 @@ export default {
         resetSort() { },
 
         async getDictionariesData() {
-            var url = "https://localhost:7263/Dictionaries/getDictionariesByType?";
-            const response = await fetch(url +
-                new URLSearchParams(
-                    {
-                        dictionaryTypeId: this.dictionaryTypeId,
-                    }),
-                    {
-                        method: "GET",
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${this.token}`
-                        }
-                    }
-            );
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
+                dictionaryTypeId: this.dictionaryTypeId,
+            });
 
-            const responseJson = await response.json();
-            this.items = responseJson.dictionaries;
+            if(data.success)
+                this.items = data.dictionaries || [];
         },
 
         async deleteDictionary(dictionaryId) {
-            try {
-                const response = await fetch(
-                    "https://localhost:7263/Dictionaries/removeDictionary",
-                    {
-                        method: "DELETE",
-                        headers: {
-                            "Content-Type": "application/json",
-                            'Authorization': `Bearer ${this.token}`
-                        },
-                        body: JSON.stringify({
-                            dictionaryId: dictionaryId,
-                            dictionaryTypeId: Number.parseInt(this.dictionaryTypeId, 10) || undefined
-                        }),
-                        credentials: "include",
-                    }
-                );
-            } catch (error) { }
-            window.location.href = window.location.href;
+            
+            const data = await this.$api.delete('Dictionaries/removeDictionary',{
+                dictionaryId: dictionaryId,
+                dictionaryTypeId: Number.parseInt(this.dictionaryTypeId, 10) || undefined
+            });
+
+            if(data.success)
+                this.getDictionariesData();
         },
         addNewDictionary() {
-            var route = "/DictionaryTypes/"+ this.dictionaryTypeId + "/Dictionaries/AddDictionary/";
-            this.$router.push({ path: route });
-        },
-        goToDictionaryTypes(){
-            this.$router.push('/DictionaryTypes');
+            this.$router.push({ path: `/DictionaryTypes/${this.dictionaryTypeId}/Dictionaries/AddDictionary/`});
         }
     },
 };

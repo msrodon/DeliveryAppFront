@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router/index.js'
 import store from './store/index.js'
+import ApiService from './utils/api.js';
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
@@ -19,6 +20,8 @@ import WhiteCard20 from '@/components/layoutComponents/WhiteCard20.vue';
 
 const app = createApp(App);
 
+app.config.globalProperties.$api = null;
+
 app.component('BaseCard', BaseCard);
 app.component('BaseDialog', BaseDialog);
 app.component('WhiteCard80', WhiteCard80);
@@ -27,4 +30,15 @@ app.component('WhiteCard20', WhiteCard20);
 
 app.use(store);
 app.use(router);
+
+app.mixin({
+    created() {
+      if (!this.$api) {
+        const token = localStorage.getItem('token');
+        const notify = this.notify || null;
+        this.$api = new ApiService(token, notify);
+      }
+    }
+  });
+
 app.mount('#app');

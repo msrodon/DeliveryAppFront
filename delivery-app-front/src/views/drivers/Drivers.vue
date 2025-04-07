@@ -56,44 +56,28 @@ export default {
     return {
       users: [],
       drivers: [],
-      userTypesEnum: [],
-      token: ''
+      userTypesEnum: []
     }
   },
   mounted() {
-    this.token = localStorage.getItem('token');
     this.userTypesEnum = Enums.UserTypes;
     this.getUsersData();
     this.getDriversData();
   },
   methods:{
     async getUsersData(){
-      var url = 'https://localhost:7263/Users/getAllUsers?'
-      const response = await fetch(url + new URLSearchParams({
-              userTypeId: this.userTypesEnum.Delivery
-          }), {
-        method: "GET",
-        headers: {
-          'accept': '',
-          'Authorization': `Bearer ${this.token}`
-        }
+      const data = await this.$api.get('Users/getAllUsers',{
+        userTypeId: this.userTypesEnum.Delivery
       });
 
-      const responseJson = await response.json();
-      this.users = responseJson.users;
+      if(data.success)
+        this.users = data.users || [];
     },
     async getDriversData(){
-      var url = 'https://localhost:7263/Drivers/getDrivers?'
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          'accept': '',
-          'Authorization': `Bearer ${this.token}`
-        }
-      });
+      const data = await this.$api.get('Drivers/getDrivers');
 
-      const responseJson = await response.json();
-      this.drivers = responseJson.drivers;
+      if(data.success)
+        this.drivers = data.drivers || [];
     },
     findDriver(userId) {
       const driver = this.drivers.find((x) => x.baseUserId === userId);

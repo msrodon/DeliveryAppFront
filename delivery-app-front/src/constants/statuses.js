@@ -4,6 +4,7 @@ export const Enums = {
         Paid: 25,
         Posted: 26,
         AssignedToCollect: 27,
+        Collected: 28,
         Storage: 29,
         AssignedToDelivery: 30,
         IssuedToDelivery: 32,

@@ -24,14 +24,12 @@ export default {
             paymentCurrency: {},
             paymentPrice: "",
             //
-            token: "",
             currencies: [],
             paymentTypes: [],
             paymentStatusEnum: []
         };
     },
     async mounted(){
-        this.token = localStorage.getItem('token');
         this.paymentStatusEnum = Enums.PaymentStatuses;
         await this.getCurrencies();
         await this.getPaymentTypes();
@@ -39,81 +37,49 @@ export default {
     },
     methods: {
         async payNow() {
-            alert('Płatność przetwarzana...');
+            alert('Payment processing...');
 
-            try {
-                const response = await fetch('https://localhost:7263/Payments/setPaymentAsPaid', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.token}`
-                    },
-                        body: JSON.stringify({
-                            paymentId: this.paymentId
-                    }),
-                    credentials: 'include' 
-                });
-            } catch (error) {
+            const data = await this.$api.post('Payments/setPaymentAsPaid',{
+                paymentId: this.paymentId
+            });
 
-            }
-            this.$router.push('/Packages')
+            if(data.success)
+                this.$router.push('/Packages')
         },
         async getPaymentData(){
-            var url = 'https://localhost:7263/Payments/getPaymentByPackageId?'
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('getPaymentByPackageId',{
                 packageId: this.$route.params.id
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
-            const responseJson = await response.json();
-            var fetchPayment = responseJson.payment;
 
-            this.paymentId = fetchPayment.id;
-            this.paymentTypeId = fetchPayment.paymentTypeId;
-            this.paymentStatusId = fetchPayment.paymentStatusId;
-            this.paymentCurrency = this.findCurrency(fetchPayment.currencyId);
-            this.paymentPrice = fetchPayment.price;
+            if(data.success){
+                var fetchPayment = data.payment;
+                this.paymentId = fetchPayment.id;
+                this.paymentPrice = fetchPayment.price;
+                this.paymentTypeId = fetchPayment.paymentTypeId;
+                this.paymentStatusId = fetchPayment.paymentStatusId;
+                this.paymentCurrency = this.findCurrency(fetchPayment.currencyId);
+            }
         },
         async getPaymentTypes(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 dictionaryTypeId: 8
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 8	
-                }
             });
 
-            const responseJson = await response.json();
-            this.paymentTypes = responseJson.dictionaries
+            if(data.success)
+                this.paymentTypes = data.dictionaries || [];
         },
         async getCurrencies(){
-            const response = await fetch('https://localhost:7263/Currencies/getCurrencies', {
-            method: "GET",
-            headers: {
-                'accept': '',
-                'Authorization': `Bearer ${this.token}`
-            }
-            });
+            const data = await this.$api.get('Currencies/getCurrencies');
 
-            const responseJson = await response.json();
-            this.currencies = responseJson.currencies;
+            if(data.success)
+                this.currencies = data.currencies || [];
         },
         findDictionary(dictionaryList, dictionaryId) {
-          const dictionary = dictionaryList.find((x) => x.dictionaryId === dictionaryId);
-          return dictionary ? dictionary.name : 'Unknown';
+            const dictionary = dictionaryList.find((x) => x.dictionaryId === dictionaryId);
+            return dictionary ? dictionary.name : 'Unknown';
         },
         findCurrency(currencyId) {
-          return this.currencies.find((x) => x.id === currencyId);
+            return this.currencies.find((x) => x.id === currencyId);
         }
     }
 };

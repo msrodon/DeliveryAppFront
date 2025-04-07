@@ -18,8 +18,6 @@
         <input type="password" id="typePasswordX" class="form-control form-control-lg" placeholder="Password" v-model="password"/>
       </div>
 
-      <!-- <p class="small mb-3 pb-lg-2"><a class="text-dark-50" href="#!">Forgot password?</a></p> -->
-
       <button class="btn btn-outline-success btn-lg px-5" @click="Login">Login</button>
 
       <div v-if="this.error != null">
@@ -81,7 +79,7 @@ export default {
 
                 this.$router.push({ name: 'dashboard' });
             } catch (error) {
-                this.error = 'Niepoprawne dane logowania';
+                this.error = 'Invalid credentials';
             }
         },
         dispatchToStore(userLogin){

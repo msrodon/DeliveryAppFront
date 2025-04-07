@@ -13,7 +13,6 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Active status</th>
-              <!-- <th scope="col">User ID</th> -->
               <th scope="col">User type</th>
               <th scope="col">Login</th>
               <th scope="col">FirstName</th>
@@ -39,12 +38,12 @@
               <td>{{ user.phoneNumber }}</td>
 
               <td v-if="user.activeStatus" class="text-start ms-2">
-                <router-link class="me-3 btn btn-primary" :to="`/Users/EditUser/${user.userId}`">Edit</router-link>
+                <router-link class="me-3 btn btn-primary" :to="`/Users/EditUser/${user.id}`">Edit</router-link>
                 <button @click="changeActiveStatus(user.id, false)" class="me-3 btn btn-outline-danger">Deactivate</button>
               </td>
 
               <td v-else class="text-start ms-2">
-                <router-link class="me-3 btn btn-primary" :to="`/Users/EditUser/${user.userId}`">Edit</router-link>
+                <router-link class="me-3 btn btn-primary" :to="`/Users/EditUser/${user.id}`">Edit</router-link>
                 <button @click="changeActiveStatus(user.id, true)" class="me-3 btn btn-outline-success">Activate</button>
               </td>
             </tr>
@@ -59,68 +58,43 @@
 
 <script>
 export default {
+  inject: ['notify'],
   data() {
     return {
       users: [],
-      //
-      userTypes: [],
-      token: ''
+      userTypes: []
     }
   },
   mounted() {
-    this.token = localStorage.getItem('token');
     this.getUsersData();
     this.getUserTypes();
   },
   methods:{
     async getUsersData(){
-      const response = await fetch('https://localhost:7263/Users/getAllUsers', {
-        method: "GET",
-        headers: {
-          'accept': '',
-          'Authorization': `Bearer ${this.token}`
-        }
-      });
-
-      const responseJson = await response.json();
-      this.users = responseJson.users
+      const data = await this.$api.get('Users/getAllUsers');
+      
+      if(data.success)
+        this.users = data.users;
     },
+
     async changeActiveStatus(userId, newActiveStatus){
-      try {
-        const response = await fetch('https://localhost:7263/Users/changeActiveStatus', {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${this.token}`
-          },
-              body: JSON.stringify({
-                id: userId,
-                newActiveStatus
-          }),
-            credentials: 'include' 
+      const data = await this.$api.post('Users/changeActiveStatus', {
+        id: userId, 
+        newActiveStatus
       });
-      } catch (error) {
 
-      }
-      window.location.href = window.location.href;
+      if(data.success == true)
+          this.getUsersData();
     },
-    async getUserTypes(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
-                dictionaryTypeId: 1
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 1
-                }
-            });
 
-            const responseJson = await response.json();
-            this.userTypes = responseJson.dictionaries;
-        },
+    async getUserTypes(){
+      const data = await this.$api.get('Dictionaries/getDictionariesByType',{
+        dictionaryTypeId: 1
+      });
+
+      if(data.success)
+        this.userTypes = data.dictionaries || [];
+    },
     findDictionary(dictionaryList, dictionaryId) {
       const dictionary = dictionaryList.find((x) => x.dictionaryId === dictionaryId);
       return dictionary ? dictionary.name : 'Unknown';

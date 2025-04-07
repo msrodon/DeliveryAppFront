@@ -38,57 +38,35 @@ export default {
         return {
             id: null,
             name: '',
-            shortcut: '',
-            //
-            token: ''
+            shortcut: ''
         };
     },
     mounted(){
-        this.token = localStorage.getItem('token');
         this.getCurrencyData();
     },
     methods: {
-
         async editCurrency() {
-            try {
-                const response = await fetch('https://localhost:7263/Currencies/editCurrency', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.token}`
-                    },
-                        body: JSON.stringify({
-                            id: this.id,
-                            name: this.name,
-                            shortcut: this.shortcut
-                    }),
-                    credentials: 'include' 
-                });
-            } catch (error) {
+            const data = await this.$api.post('Currencies/editCurrency', {
+                id: this.id,
+                name: this.name,
+                shortcut: this.shortcut
+            });
 
-            }
-            
-            this.$router.push({ path: '/Currencies' })
+            if(data.success == true)
+                this.$router.push({ path: '/Currencies' })
         },
 
         async getCurrencyData(){
-            var url = 'https://localhost:7263/Currencies/getCurrency?'
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Currencies/getCurrency',{
                 currencyId: this.$route.params.id
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
-            const responseJson = await response.json();
-            var fetchCurrency = responseJson.currency;
 
-            this.id = fetchCurrency.id;
-            this.name = fetchCurrency.name,
-            this.shortcut = fetchCurrency.shortcut
+            if(data.success){
+                var fetchCurrency = data.currency;
+                this.id = fetchCurrency.id;
+                this.name = fetchCurrency.name,
+                this.shortcut = fetchCurrency.shortcut
+            }
         }
     }
 }

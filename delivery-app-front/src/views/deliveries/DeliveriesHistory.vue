@@ -43,13 +43,11 @@ import { Enums } from '@/constants/statuses';
       return {
         deliveries: [],
         transportationStatuses: [],
-        transportationStatusEnum: [],
-        token: ''
+        transportationStatusEnum: []
       }
     },
     
     async mounted() {
-      this.token = localStorage.getItem('token');
       this.transportationStatusEnum = Enums.TransportationStatuses;
 
       this.getDeliveriesHistory()
@@ -60,42 +58,23 @@ import { Enums } from '@/constants/statuses';
       resetSort(){
       },
       async getDeliveriesHistory(){
-      try{
+        const data = await this.$api.get('Transportations/getTransportationsHistory');
 
-      }catch(ex){
-
-      }
-        const response = await fetch('https://localhost:7263/Transportations/getTransportationsHistory', {
-          method: "GET",
-          headers: {
-            'accept': '',
-            'Authorization': `Bearer ${this.token}`
-          }
-        });
-
-        const responseJson = await response.json();
-
-        responseJson.transportations.forEach(el => {
-          el.dateOfTransport = this.formatDate(el.dateOfTransport);
-        });
-
-        this.deliveries = responseJson.transportations
-      },
-      async getDictionaries(dictionaryTypeId){
-          var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-          const response = await fetch(url + new URLSearchParams({
-              dictionaryTypeId: dictionaryTypeId
-          }), 
-          {
-              method: "GET",
-              headers: {
-                  'accept': '',
-                  'Authorization': `Bearer ${this.token}`
-              }
+        if(data.success){
+          data.transportations.forEach(el => {
+            el.dateOfTransport = this.formatDate(el.dateOfTransport);
           });
 
-          const responseJson = await response.json();
-          return responseJson.dictionaries
+          this.deliveries = data.transportations || []
+        }
+      },
+      async getDictionaries(dictionaryTypeId){
+        const data = await this.$api.get('Dictionaries/getDictionariesByType',{
+                dictionaryTypeId: dictionaryTypeId
+            });
+
+            if(data.success)
+                return data.dictionaries || [];
       },
       findDictionary(dictionaryList, dictionaryId) {
           const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);
@@ -106,12 +85,12 @@ import { Enums } from '@/constants/statuses';
       },
       getStatusClass(status) {
         const statusClasses = {
-          [this.transportationStatusEnum.Scheduled]: "badge bg-primary", // Zielony
-          [this.transportationStatusEnum.Started]: "badge bg-warning", // Żółty
-          [this.transportationStatusEnum.Finished]: "badge bg-success",  // Czerwony
+          [this.transportationStatusEnum.Scheduled]: "badge bg-primary",
+          [this.transportationStatusEnum.Started]: "badge bg-warning",
+          [this.transportationStatusEnum.Finished]: "badge bg-success",
         };
         
-        return statusClasses[status] || "badge bg-secondary"; // Domyślny kolor szary
+        return statusClasses[status] || "badge bg-secondary";
       },
     }
   }

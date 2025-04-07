@@ -92,6 +92,7 @@
 <script> 
 
 export default {
+    inject: ['notify'],
     data() {
         return {
             name: '',
@@ -103,69 +104,42 @@ export default {
             addressTypeId: null,
             countryId: null,
             countries: [],
-            addressTypes: [],
-            //
-            token: ''
+            addressTypes: []
         };
     },
     async mounted(){
-        this.token = localStorage.getItem('token');
         this.addressTypes = await this.getDictionaries(9);
 
         this.getCountries();
     },
     methods: {
         async addAddress() {
-            try {
-                const response = await fetch('https://localhost:7263/Addresses/addAddress', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.token}`
-                    },
-                        body: JSON.stringify({
-                            name: this.name,
-                            city: this.city,
-                            postCode: this.postCode,
-                            street: this.street,
-                            number: this.number,
-                            addressTypeId: this.addressTypeId,
-                            countryId: this.countryId,
-                    }),
-                        credentials: 'include' 
-                });
-                this.$router.push({ path: '/Addresses' })
-            } catch (error) {
+            const data = await this.$api.post('Addresses/addAddress', {
+                name: this.name,
+                city: this.city,
+                postCode: this.postCode,
+                street: this.street,
+                number: this.number,
+                addressTypeId: this.addressTypeId,
+                countryId: this.countryId,
+            });
 
-            }
+            if(data.success == true)
+                this.$router.push({ path: '/Addresses' })
         },
         async getCountries(){
-            const response = await fetch('https://localhost:7263/Countries/getCountries', {
-            method: "GET",
-            headers: {
-                'accept': '',
-                'Authorization': `Bearer ${this.token}`
-            }
-            });
+            const data = await this.$api.get('Countries/getCountries');
 
-            const responseJson = await response.json();
-            this.countries = responseJson.countries
+            if(data.success == true)
+                this.countries = data.countries || []
         },
         async getDictionaries(dictionaryTypeId){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 dictionaryTypeId: dictionaryTypeId
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
 
-            const responseJson = await response.json();
-            return responseJson.dictionaries
+            if(data.success)
+                return data.dictionaries || [];
         }
     }
 }

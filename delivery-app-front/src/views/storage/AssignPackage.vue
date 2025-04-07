@@ -185,16 +185,13 @@ export default {
             drivers: [],
 
             selectedDriverId: '',
-            selectedDate: '',
-            token: ''
+            selectedDate: ''
         };
     },
     components: {
         DatePicker
     },
     async mounted(){
-        this.token = localStorage.getItem('token');
-
         this.packageTypes = await this.getDictionaries(5);
         this.packageStatuses = await this.getDictionaries(2);
         this.addressTypes = await this.getDictionaries(9);
@@ -207,84 +204,51 @@ export default {
             this.selectedDate = date;
         },
         async getPackageDetails(){
-            var url = 'https://localhost:7263/Packages/getPackageDetails?'
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Packages/getPackageDetails',{
                 packageId: this.$route.params.id
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
-            const responseJson = await response.json();
-            const packageDetails = responseJson.packageDetails;
 
-            this.reciverEmail = packageDetails.reciverEmail;
-            this.senderEmail = packageDetails.senderEmail;
-            this.packageStatusId = packageDetails.packageStatusId;
-            this.packageTypeId = packageDetails.packageTypeId;
+            if(data.success){
+                const packageDetails = data.packageDetails;
 
-            this.country = packageDetails.destinationAddress.country;
-            this.postCode = packageDetails.destinationAddress.postCode;
-            this.city = packageDetails.destinationAddress.city;
-            this.street = packageDetails.destinationAddress.street;
-            this.number = packageDetails.destinationAddress.number;
-            this.addressTypeId = packageDetails.destinationAddress.addressTypeId;
+                this.reciverEmail = packageDetails.reciverEmail;
+                this.senderEmail = packageDetails.senderEmail;
+                this.packageStatusId = packageDetails.packageStatusId;
+                this.packageTypeId = packageDetails.packageTypeId;
+
+                this.country = packageDetails.destinationAddress.country;
+                this.postCode = packageDetails.destinationAddress.postCode;
+                this.city = packageDetails.destinationAddress.city;
+                this.street = packageDetails.destinationAddress.street;
+                this.number = packageDetails.destinationAddress.number;
+                this.addressTypeId = packageDetails.destinationAddress.addressTypeId;
+            }
         },
         async getDictionaries(dictionaryTypeId){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 dictionaryTypeId: dictionaryTypeId
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
 
-            const responseJson = await response.json();
-            return responseJson.dictionaries
+            if(data.success)
+                return data.dictionaries || [];
         },
         async getDriversData(){
-            var url = 'https://localhost:7263/Drivers/getDrivers?'
-            const response = await fetch(url, {
-                method: "GET",
-                headers: {
-                'accept': '',
-                'Authorization': `Bearer ${this.token}`
-                }
-            });
+            const data = await this.$api.get('Drivers/getDrivers');
 
-            const responseJson = await response.json();
-            this.drivers = responseJson.drivers;
+            if(data.success)
+                this.drivers = data.drivers;
         },
         async assignPackage(){
             const formattedDate = new Date(this.selectedDate).toISOString();
 
-            try {
+            const data = await this.$api.post('Packages/assignPackage', {
+                packageId: this.$route.params.id,
+                driverId: this.selectedDriverId,
+                transportDate: formattedDate
+            });
 
-                const response = await fetch('https://localhost:7263/Packages/assignPackage', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.token}`
-                    },
-                        body: JSON.stringify({
-                            packageId: this.$route.params.id,
-                            driverId: this.selectedDriverId,
-                            transportDate: formattedDate
-                    }),
-                    credentials: 'include' 
-                });
-            } catch (error) {
-
-            }
-
-            this.$router.push({ path: '/Storage/PackagesToAssign' })
+            if(data.success == true)
+                this.$router.push({ path: '/Storage/PackagesToAssign' })
         }
     }
 }

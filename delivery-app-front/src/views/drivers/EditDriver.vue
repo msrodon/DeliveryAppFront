@@ -101,127 +101,79 @@ export default {
             //
             cars: [],
             userTypes: [],
-            token: ""
         };
     },
     async mounted(){
-        this.token = localStorage.getItem('token');
         await this.getUserData();
         await this.getDriverData();
         await this.getUserTypes();
         await this.getCarsData();
     },
     methods: {
-        async editDriver(){
-            try {
-                const response = await fetch('https://localhost:7263/Drivers/editDriver', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.token}`
-                    },
-                        body: JSON.stringify({
-                            driverId: this.driver.id,
-                            userId: this.id,
-                            assignedCarId: this.driver.assignedCarId ?? 0
-                    }),
-                        credentials: 'include' 
-                });
-            } catch (error) {
+        async editDriver(){ 
+            const data = await this.$api.post('Drivers/editDriver', {
+                driverId: this.driver.id,
+                userId: this.id,
+                assignedCarId: this.driver.assignedCarId ?? 0
+            });
 
-            }
-            
-            this.$router.push({ path: '/Drivers' })
+            if(data.success == true)
+                this.$router.push({ path: '/Drivers' })
         },
         async getUserData(){
-            var url = 'https://localhost:7263/Users/getUser?'
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Users/getUser',{
                 userId: this.$route.params.id
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
-            const responseJson = await response.json();
-            var fetchUser = responseJson.user;
 
-            this.id = fetchUser.id;
-            this.userName = fetchUser.userName;
-            this.activeStatus = fetchUser.activeStatus;
-            this.firstName = fetchUser.firstName;
-            this.lastName = fetchUser. lastName;
-            this.email = fetchUser.email;
-            this.phoneNumber = fetchUser.phoneNumber;
+            if(data.success){
+                var fetchUser = data.user;
+                this.id = fetchUser.id;
+                this.userName = fetchUser.userName;
+                this.activeStatus = fetchUser.activeStatus;
+                this.firstName = fetchUser.firstName;
+                this.lastName = fetchUser. lastName;
+                this.email = fetchUser.email;
+                this.phoneNumber = fetchUser.phoneNumber;
+            }
         },
         
         async getDriverData(){
-            var url = 'https://localhost:7263/Drivers/getDriver?'
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Drivers/getDriver',{
                 userId: this.$route.params.id
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
-            const responseJson = await response.json();
-            this.driver = responseJson.driver;
+
+            if(data.success)
+                this.driver = data.driver;
         },
         async getUserTypes(){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 dictionaryTypeId: 1
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`,
-                    'DictionaryTypeId': 1
-                }
             });
 
-            const responseJson = await response.json();
-            this.userTypes = responseJson.dictionaries
+            if(data.success)
+                this.userTypes = data.dictionaries || []
         },
         async getCarsData(){
-        var url = 'https://localhost:7263/Cars/getCars?';
-        const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Cars/getCars',{
                 includeAssigned: false
-            }), {
-          method: "GET",
-          headers: {
-            'accept': '',
-            'Authorization': `Bearer ${this.token}`
-          }
-        });
-
-        const responseJson = await response.json();
-        this.cars = responseJson.cars;
-        if(this.driver.assignedCarId != null){
-
-            url = 'https://localhost:7263/Cars/getCar?'
-            const response2 = await fetch(url + new URLSearchParams({
-                carId: this.driver.assignedCarId
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
-            const responseJson2 = await response2.json();
-            var userCar = responseJson2.car;
-            
-            this.cars.push(userCar);
+
+            if(data.success){
+                this.cars = data.cars;
+            }
+
+            if(this.driver.assignedCarId != null){
+
+                const data2 = await this.$api.get('Cars/getCar',{
+                    carId: this.driver.assignedCarId
+                });
+                
+                if(data2.success){
+                    var userCar = data2.car;
+                    this.cars.push(userCar);
+                }
+            }
         }
-      }
     }
 }
 </script>

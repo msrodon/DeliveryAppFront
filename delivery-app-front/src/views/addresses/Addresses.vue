@@ -1,7 +1,5 @@
 <template>
   <white-card-80>
-    
-  <base-dialog :show="!!showDialog" title="Delete address confirm" @close="showDialog = !showDialog"></base-dialog>
 
   <router-link class="btn btn-outline-secondary position-absolute top-0 end-0 m-3" :to="`/`">X</router-link>
   <h2 class="fw-bold mb-2 text-uppercase">My addresses</h2>
@@ -39,14 +37,6 @@
       <div v-else>
         <h1>NO ADDRESSES FOUND</h1>
       </div> 
-
-          <!-- <template #table-busy>
-            <div class="text-center text-primary my-5">
-              <b-spinner class="align-middle"></b-spinner>
-              <strong> Loading...</strong>
-            </div>
-          </template>
-           -->
           
     </div>
     <router-link class="btn btn-outline-success px-5 mt-3" :to="`/Addresses/addAddress`">Add new address</router-link>
@@ -58,60 +48,36 @@
     data() {
       return {
         items: [],
-        countries: [],
-        token: ''
+        countries: []
       }
     },
     mounted() {
-      this.token = localStorage.getItem('token');
       this.getAddresses();
       this.getCountries();
     },
     methods:{
 
       async getAddresses(){
-        const response = await fetch('https://localhost:7263/Addresses/getUserAddresses', {
-          method: "GET",
-          headers: {
-            'accept': '',
-            'Authorization': `Bearer ${this.token}`
-          }
-        });
-
-        const responseJson = await response.json();
-        this.items = responseJson.userAddresses;
+        const data = await this.$api.get('Addresses/getUserAddresses');
+      
+        if(data.success)
+          this.items = data.userAddresses;
       },
 
       async getCountries(){
-            const response = await fetch('https://localhost:7263/Countries/getCountries', {
-            method: "GET",
-            headers: {
-                'accept': '',
-                'Authorization': `Bearer ${this.token}`
-            }
-            });
-
-            const responseJson = await response.json();
-            this.countries = responseJson.countries
+          const data = await this.$api.get('Countries/getCountries');
+        
+          if(data.success)
+            this.countries = data.countries;
         },
 
       async deleteAddress(addressId){
-        try {
-          const response = await fetch('https://localhost:7263/Addresses/removeAddress', {
-            method: "DELETE",
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${this.token}`
-            },
-                body: JSON.stringify({
-                  addressId: addressId
-            }),
-              credentials: 'include' 
+        const data = await this.$api.delete('Addresses/removeAddress',{
+          addressId: addressId
         });
-        } catch (error) {
-
-        }
-        window.location.href = window.location.href;
+        
+          if(data.success)
+            this.getAddresses();
       },
       findCountryName(countryId) {
         const country = this.countries.find((country) => country.id === countryId);

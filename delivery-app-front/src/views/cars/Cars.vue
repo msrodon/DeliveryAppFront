@@ -1,9 +1,5 @@
 <template>
   <white-card-80>
-    
-  <base-dialog :show="!!showDialog" title="Delete car confirm" @close="showDialog = !showDialog">
-
-  </base-dialog>
 
   <h2 class="fw-bold mb-2 text-uppercase">Registered cars</h2>
   <hr>
@@ -44,14 +40,6 @@
       <div v-else>
         <h1>NO CARS FOUND</h1>
       </div> 
-
-          <!-- <template #table-busy>
-            <div class="text-center text-primary my-5">
-              <b-spinner class="align-middle"></b-spinner>
-              <strong> Loading...</strong>
-            </div>
-          </template>
-           -->
           
     </div>
     <router-link class="btn btn-outline-success px-5 mt-3" :to="`/Cars/AddCar`">Add new car</router-link>
@@ -62,46 +50,27 @@
   export default {
     data() {
       return {
-        items: [],
-        token: ''
+        items: []
       }
     },
-    
     mounted() {
-      this.token = localStorage.getItem('token');
       this.getCarsData()
     },
     methods:{
       async getCarsData(){
-        const response = await fetch('https://localhost:7263/Cars/getCars', {
-          method: "GET",
-          headers: {
-            'accept': '',
-            'Authorization': `Bearer ${this.token}`
-          }
-        });
+        const data = await this.$api.get('Cars/getCars');
 
-        const responseJson = await response.json();
-        this.items = responseJson.cars
+        if(data.success)
+          this.items = data.cars
       },
 
       async deleteCar(carId){
-        try {
-          const response = await fetch('https://localhost:7263/Cars/removeCar', {
-            method: "DELETE",
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${thistoken}`
-            },
-                body: JSON.stringify({
-                  carId: carId
-            }),
-              credentials: 'include' 
+        const data = await this.$api.delete('Cars/removeCar',{
+          carId: carId
         });
-        } catch (error) {
 
-        }
-        window.location.href = window.location.href;
+        if(data.success)
+          this.getCarsData()
       }
     }
   }

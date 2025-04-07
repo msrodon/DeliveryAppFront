@@ -200,12 +200,10 @@ export default {
             paymentTypes: [],
             //SETTINGS
             useGuestAddress: false,
-            selectedCurrency: '',
-            token: ''
+            selectedCurrency: ''
         };
     },
     async mounted(){
-        this.token = localStorage.getItem('token');
         this.packageTypes = await this.getDictionaries(5);
         this.addressTypes = await this.getDictionaries(9);
         this.paymentTypes = await this.getDictionaries(8);
@@ -236,78 +234,44 @@ export default {
             } else {
                 body.destinationId = this.destinationId;
             }
-            try {
-                const response = await fetch('https://localhost:7263/Packages/addPackage', {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.token}`
-                    },
-                    body: JSON.stringify(body),
-                    credentials: 'include'
-                });
-                
-                const responseJson = await response.json();
-                const path = "/Payment/"+ responseJson.newPackageId
+
+            const data = await this.$api.post('Packages/addPackage',{
+                body
+            });
+
+            if(data.success){
+                const path = "/Payment/"+ data.newPackageId
                 this.$router.push({ path });
-            } catch (error) {
-                console.error("Error adding package:", error);
             }
         },
         async getUserAddresses(){
-            const response = await fetch('https://localhost:7263/Addresses/getUserAddresses', {
-            method: "GET",
-            headers: {
-                'accept': '',
-                'Authorization': `Bearer ${this.token}`
-            }
-            });
+            const data = await this.$api.get('Addresses/getUserAddresses');
 
-            const responseJson = await response.json();
-            this.userAddresses = responseJson.userAddresses
+            if(data.success)
+                this.userAddresses = data.userAddresses || [];
         },
         async getCountries(){
-            const response = await fetch('https://localhost:7263/Countries/getCountries', {
-            method: "GET",
-            headers: {
-                'accept': '',
-                'Authorization': `Bearer ${this.token}`
-            }
-            });
+            const data = await this.$api.get('Countries/getCountries');
 
-            const responseJson = await response.json();
-            this.countries = responseJson.countries
+            if(data.success)
+                this.countries = data.countries || [];
         },
         async getCurrencies(){
+            const data = await this.$api.get('Currencies/getCurrencies');
 
-        const response = await fetch('https://localhost:7263/Currencies/getCurrencies', {
-          method: "GET",
-          headers: {
-            'accept': '',
-            'Authorization': `Bearer ${this.token}`
-          }
-        });
-
-        const responseJson = await response.json();
-        this.currencies = responseJson.currencies;
+            if(data.success)
+                this.currencies = data.currencies || [];
         },
         async getPackagePrice(){
-            var url = 'https://localhost:7263/PackagePrices/getPackagePrices?'
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('PackagePrices/getPackagePrices',{
                 currencyId: this.currencyId
-            }),
-            {
-                method: "GET",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
-            const responseJson = await response.json();
-            this.packagePrices = responseJson.packagePrices;
-            
-            this.selectedCurrency = this.currencies.find(p => p.id == this.currencyId);
-            this.recalculatePrice();
+
+            if(data.success){
+                this.packagePrices = data.packagePrices || [];
+                this.selectedCurrency = this.currencies.find(p => p.id == this.currencyId);
+                this.recalculatePrice();
+            }
         },
         recalculatePrice() {
             if (!this.packageTypeId || !this.currencyId) {
@@ -324,20 +288,12 @@ export default {
             this.totalPrice = (selectedPackage.price).toFixed(2);
         },
         async getDictionaries(dictionaryTypeId){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 dictionaryTypeId: dictionaryTypeId
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
 
-            const responseJson = await response.json();
-            return responseJson.dictionaries
+            if(data.success)
+                return data.dictionaries || [];
         }
     }
 }

@@ -2,47 +2,47 @@
   <white-card-20>
 
     <h2 class="fw-bold mb-2 text-uppercase">Register</h2>
-    <p class="text-dark-50 mb-5">Sign up now</p>
+    <p class="text-dark-50 mb-1">Sign up now</p>
 
     <div class="text-start mx-1">
       <p class="text-dark-50 m-0">Username</p>
     </div>
-    <div data-mdb-input-init class="form-outline form-dark mb-4">
+    <div data-mdb-input-init class="form-outline form-dark mb-3">
       <input type="text" id="typeUsernameX" class="form-control form-control-lg" placeholder="Username" v-model="username"/>
     </div>
 
     <div class="text-start mx-1">
       <p class="text-dark-50 m-0">Email</p>
     </div>
-    <div data-mdb-input-init class="form-outline form-dark mb-4">
+    <div data-mdb-input-init class="form-outline form-dark mb-3">
       <input type="text" id="typeEmailX" class="form-control form-control-lg" placeholder="Email" v-model="email"/>
     </div>
     
     <div class="text-start mx-1">
       <p class="text-dark-50 m-0">First name</p>
     </div>
-    <div data-mdb-input-init class="form-outline form-dark mb-4">
+    <div data-mdb-input-init class="form-outline form-dark mb-3">
       <input type="text" id="typeFirstnameX" class="form-control form-control-lg" placeholder="Firstname" v-model="firstName"/>
     </div>
     
     <div class="text-start mx-1">
       <p class="text-dark-50 m-0">Last name</p>
     </div>
-    <div data-mdb-input-init class="form-outline form-dark mb-4">
+    <div data-mdb-input-init class="form-outline form-dark mb-3">
       <input type="text" id="typeLastnameX" class="form-control form-control-lg" placeholder="Last name" v-model="lastName"/>
     </div>
 
     <div class="text-start mx-1">
       <p class="text-dark-50 m-0">Password</p>
     </div>
-    <div data-mdb-input-init class="form-outline form-dark mb-4">
+    <div data-mdb-input-init class="form-outline form-dark mb-3">
       <input type="password" id="typePasswordX" class="form-control form-control-lg" placeholder="Password" v-model="password"/>
     </div>
     
     <div class="text-start mx-1">
       <p class="text-dark-50 m-0">Repeat password</p>
     </div>
-    <div data-mdb-input-init class="form-outline form-dark mb-4">
+    <div data-mdb-input-init class="form-outline form-dark mb-3">
       <input type="password" id="typePasswordX2" class="form-control form-control-lg" placeholder="Repeat password" v-model="repeatedPassword"/>
     </div>
 
@@ -58,6 +58,7 @@
 
 <script>
 export default {
+  inject: ['notify'],
   data() {
     return {
       email: '',
@@ -74,7 +75,7 @@ export default {
 
       if(!this.ValidatePasswords()){
         
-        console.log(this.error);
+        this.notify({ title: 'Credentials error', message: this.error, type: 'error' });
         return;
       }
 
@@ -107,7 +108,7 @@ export default {
 
           this.$router.push({ name: 'dashboard' });
       } catch (error) {
-        this.error = 'Niepoprawne dane logowania';
+        this.error = 'Invalid credentials';
       }
       this.$router.push("/Login");
     },

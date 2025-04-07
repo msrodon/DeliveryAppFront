@@ -2,7 +2,7 @@
     <div>
         
         <white-card-50>
-            <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goToCallendar()">X</button>
+            <router-link class="btn btn-outline-secondary position-absolute top-0 end-0 m-3" :to="`/Callendar`">X</router-link>
             <h2 class="fw-bold mb-2 text-uppercase">Deliveries - {{ transportationDate }}</h2>
             <h4 >Delivery status: {{ findDictionary(transportationStatuses, transportationStatus) }}</h4>
             <div>
@@ -139,9 +139,6 @@ export default {
 
         packageStatusEnum: [],
         transportationStatusEnum: [],
-
-        token: '',
-        
         expandedRow: null, // Przechowuje indeks rozwiniętego wiersza
     }
     },
@@ -150,10 +147,10 @@ export default {
             if  (this.transportationStatus == this.transportationStatusEnum.Finished)
                 return 100;
 
-            const collected = this.packagesToCollect.filter(pkg => pkg.packageStatusId === 28).length;
+            const collected = this.packagesToCollect.filter(pkg => pkg.packageStatusId === this.packageStatusEnum.Collected).length;
             const totalToCollect = this.packagesToCollect.length;
             
-            const delivered = this.packagesToDelivery.filter(pkg => pkg.packageStatusId === 33).length;
+            const delivered = this.packagesToDelivery.filter(pkg => pkg.packageStatusId === this.packageStatusEnum.Delivered).length;
             const totalToDeliver = this.packagesToDelivery.length;
             
             const total = totalToCollect + totalToDeliver;
@@ -166,7 +163,6 @@ export default {
         DatePicker
     },
     async mounted() {
-        this.token = localStorage.getItem('token');
         this.packageStatusEnum = Enums.PackageStatuses;
         this.transportationStatusEnum = Enums.TransportationStatuses;
         this.getDriverDailyTransportations();
@@ -181,97 +177,53 @@ export default {
             this.expandedRow = this.expandedRow === index ? null : index;
         },
         async getDriverDailyTransportations(){
-            var url = 'https://localhost:7263/Transportations/getDriverDailyTransportations?';
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Transportations/getDriverDailyTransportations',{
                 transportationId: this.$route.params.id
-            }), 
-            {
-                method: "GET",
-                headers: {
-                'accept': '',
-                'Authorization': `Bearer ${this.token}`
-                }
             });
 
-            const responseJson = await response.json();
-            this.packagesToCollect = responseJson.transportation.packagesToCollect;
-            this.packagesToDelivery = responseJson.transportation.packagesToDelivery;
-            this.transportationStatus = responseJson.transportation.transportationStatus
-            this.transportationDate = new Date(responseJson.transportation.dateOfTransport).toISOString().split('T')[0];
+            if(data.success){
+                this.packagesToCollect = data.transportation.packagesToCollect;
+                this.packagesToDelivery = data.transportation.packagesToDelivery;
+                this.transportationStatus = data.transportation.transportationStatus
+                this.transportationDate = new Date(data.transportation.dateOfTransport).toISOString().split('T')[0];
+            }
         },
         async getDictionaries(dictionaryTypeId){
-            var url = 'https://localhost:7263/Dictionaries/getDictionariesByType?';
-            const response = await fetch(url + new URLSearchParams({
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 dictionaryTypeId: dictionaryTypeId
-            }), 
-            {
-                method: "GET",
-                headers: {
-                    'accept': '',
-                    'Authorization': `Bearer ${this.token}`
-                }
             });
 
-            const responseJson = await response.json();
-            return responseJson.dictionaries
+            if(data.success)
+                return data.dictionaries || [];
+        },
+        async finishTransportation(){
+            const data = await this.$api.post('Transportations/finishTransportation', {
+                transportationId: this.$route.params.id
+            });
+
+            if(data.success == true)
+                this.$router.push({ path: "/Callendar" });
+        },
+        async markAsCollected(packageId){
+            const data = await this.$api.post('Packages/markAsCollected', {
+                packageId: packageId
+            });
+
+            if(data.success == true)
+                this.getDriverDailyTransportations();
+        },
+        
+        async markAsDelivered(packageId){
+            const data = await this.$api.post('Packages/markAsDelivered', {
+                packageId: packageId
+            });
+
+            if(data.success == true)
+                this.getDriverDailyTransportations();
         },
         findDictionary(dictionaryList, dictionaryId) {
             const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);
             return dictionary ? dictionary.name : 'Unknown';
-        },
-        async finishTransportation(){
-            var url = 'https://localhost:7263/Transportations/finishTransportation?';
-            const response = await fetch(url, 
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                },
-                body: JSON.stringify({
-                    transportationId: this.$route.params.id
-                }),
-                credentials: 'include' 
-            }); 
-            var route = "/Callendar";
-            this.$router.push({ path: route });
-        },
-        async markAsCollected(packageId){
-            var url = 'https://localhost:7263/Packages/markAsCollected?';
-            const response = await fetch(url, 
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                },
-                body: JSON.stringify({
-                    packageId: packageId
-                }),
-                credentials: 'include' 
-            }); 
-            window.location.href = window.location.href;
-        },
-        
-        async markAsDelivered(packageId){
-            var url = 'https://localhost:7263/Packages/markAsDelivered?';
-            const response = await fetch(url, 
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${this.token}`
-                },
-                body: JSON.stringify({
-                    packageId: packageId
-                }),
-                credentials: 'include' 
-            }); 
-            window.location.href = window.location.href;
-        },
-        goToCallendar(){
-          var route = "/Callendar";
-          this.$router.push({ path: route });
         }
     }
 }
