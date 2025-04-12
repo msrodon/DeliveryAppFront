@@ -63,7 +63,7 @@
         </white-card-80>
 
         <white-card-80 v-if="transportationStatus != transportationStatusEnum.Finished">
-            <h2 class="fw-bold mb-2 text-uppercase">To deliver</h2>
+            <h2 class="fw-bold mb-2 text-uppercase">To delivery</h2>
             <hr>
             <div class="mt-4">
             <table class="table" v-if="packagesToDelivery.length > 0">

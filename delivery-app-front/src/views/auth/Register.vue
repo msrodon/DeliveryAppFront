@@ -103,9 +103,6 @@ export default {
           this.email = null;
           this.password = null;
 
-          // Dodaj token do nagłówków Axios
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
           this.$router.push({ name: 'dashboard' });
       } catch (error) {
         this.error = 'Invalid credentials';
