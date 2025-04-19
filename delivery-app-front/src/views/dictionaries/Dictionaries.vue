@@ -1,7 +1,5 @@
 <template>
     <white-card-80>
-        <base-dialog :show="!!showDialog" title="Delete dictionary confirm" @close="showDialog = !showDialog">
-        </base-dialog>
 
         <h2 class="fw-bold mb-2 text-uppercase">
             {{ dictionaryType }} dictionaries
@@ -45,6 +43,7 @@
 
 <script>
 export default {
+    inject: ['notify'],
     data() {
         return {
             dictionaryTypeId: 0,

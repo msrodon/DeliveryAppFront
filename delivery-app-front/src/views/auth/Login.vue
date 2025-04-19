@@ -36,6 +36,7 @@
 <script>
 
 export default {
+    inject: ['notify'],
     data() {
         return {
             usernameOrEmail: '',

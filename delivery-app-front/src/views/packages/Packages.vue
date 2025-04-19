@@ -45,7 +45,7 @@
             
       </div>
       <router-link class="btn btn-outline-success px-5 my-2" :to="`/Packages/addPackage`">
-        Add new package
+        Send new package
       </router-link>
     </white-card-80>
     
@@ -82,14 +82,6 @@
         <div v-else>
           <h4>NO PACKAGES TO COLLECT</h4>
         </div> 
-
-            <!-- <template #table-busy>
-              <div class="text-center text-primary my-5">
-                <b-spinner class="align-middle"></b-spinner>
-                <strong> Loading...</strong>
-              </div>
-            </template>
-            -->
             
       </div>
     </white-card-80>

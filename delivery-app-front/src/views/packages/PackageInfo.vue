@@ -1,7 +1,7 @@
 <template>
     <div>
         <white-card-50>
-            <router-link class="btn btn-outline-secondary position-absolute top-0 end-0 m-3" :to="`/Packages`">X</router-link>
+            <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3" @click="goBack">X</button>
             <h2 class="fw-bold mb-2 text-uppercase">Package info</h2>
             <p class="text-dark-50 mb-3">package information details</p>
             
@@ -183,6 +183,7 @@
 <script> 
 
 export default {
+    inject: ['notify'],
     data() {
         return {
             //PACKAGE
@@ -266,6 +267,9 @@ export default {
 
             if(data.success)
                 this.currencies = data.currencies || [];
+        },
+        goBack(){
+            this.$router.go(-1);
         }
     }
 }

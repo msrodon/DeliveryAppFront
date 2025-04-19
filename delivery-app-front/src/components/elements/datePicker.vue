@@ -22,6 +22,7 @@
   
 <script>
   export default {
+    inject: ['notify'],
     data() {
       return {
         selectedDate: new Date().toISOString().split('T')[0]

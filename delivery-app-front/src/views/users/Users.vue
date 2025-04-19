@@ -1,9 +1,5 @@
 <template>
   <white-card-80>
-    
-    <base-dialog :show="!!showDialog" title="Delete car confirm" @close="showDialog = !showDialog">
-  
-    </base-dialog>
   
     <h2 class="fw-bold mb-2 text-uppercase">Registered users</h2>
     <hr>
@@ -92,8 +88,9 @@ export default {
         dictionaryTypeId: 1
       });
 
-      if(data.success)
+      if(data.success){
         this.userTypes = data.dictionaries || [];
+      }
     },
     findDictionary(dictionaryList, dictionaryId) {
       const dictionary = dictionaryList.find((x) => x.dictionaryId === dictionaryId);

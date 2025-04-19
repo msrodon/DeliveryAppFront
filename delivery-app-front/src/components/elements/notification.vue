@@ -36,7 +36,7 @@
   
         setTimeout(() => {
           this.notifications = this.notifications.filter(n => n.id !== id);
-        }, 7000);
+        }, 2000);
       },
       alertClass(type) {
         switch (type) {

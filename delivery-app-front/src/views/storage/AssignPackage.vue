@@ -161,6 +161,7 @@
 
 import DatePicker from "@/components/elements/datePickerMinDate.vue";
 export default {
+    inject: ['notify'],
     data() {
         return {
             //PACKAGE

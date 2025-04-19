@@ -114,6 +114,7 @@ import { Enums } from '@/constants/statuses';
 import DatePicker from "@/components/elements/datePicker.vue";
 
 export default {
+    inject: ['notify'],
     data() {
     return {
         packagesToCollect: [],

@@ -19,6 +19,7 @@
 <script>
 import { Enums } from '@/constants/statuses';
 export default {
+    inject: ['notify'],
     data() {
         return {
             packageStatusEnum: [],

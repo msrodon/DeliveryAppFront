@@ -26,6 +26,7 @@
   
 <script>
 export default {
+    inject: ['notify'],
     data() {
         return {
             password: '',
@@ -56,7 +57,7 @@ export default {
             });
 
             if(data.success)
-                this.user = responseJson.user;
+                this.user = data.user;
         },
         async changePassword(){
             const data = await this.$api.post('Auth/resetPassword', {

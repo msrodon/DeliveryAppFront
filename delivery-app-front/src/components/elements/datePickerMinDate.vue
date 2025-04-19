@@ -34,7 +34,7 @@ export default {
       return this.selectedDate <= this.minDate;
     }
   },
-  created() {
+  mounted() {
     this.emitDate();
   },
   methods: {

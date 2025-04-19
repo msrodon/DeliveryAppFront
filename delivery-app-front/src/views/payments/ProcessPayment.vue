@@ -16,6 +16,7 @@
 <script>
 import { Enums } from '@/constants/statuses';
 export default {
+    inject: ['notify'],
     data() {
         return {
             paymentId:"",
@@ -47,7 +48,7 @@ export default {
                 this.$router.push('/Packages')
         },
         async getPaymentData(){
-            const data = await this.$api.get('getPaymentByPackageId',{
+            const data = await this.$api.get('Payments/getPaymentByPackageId',{
                 packageId: this.$route.params.id
             });
 

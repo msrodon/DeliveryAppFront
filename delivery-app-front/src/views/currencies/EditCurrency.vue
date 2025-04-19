@@ -34,6 +34,7 @@
 <script> 
 
 export default {
+    inject: ['notify'],
     data() {
         return {
             id: null,
