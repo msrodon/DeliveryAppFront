@@ -1,17 +1,44 @@
-import Vue from 'vue'
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import { createApp } from 'vue'
 import App from './App.vue'
-import './registerServiceWorker'
-import router from './router'
+import router from './router/index.js'
+import store from './store/index.js'
+import ApiService from './utils/api.js';
 
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap"
 
-Vue.config.productionTip = false
-Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
+//CSS
+import "@/assets/styles/global.css"
 
-new Vue({
-  router,
-  render: function (h) { return h(App) }
-}).$mount('#app')
+//Global components
+import BaseCard from '@/components/layoutComponents/BaseCard.vue';
+import BaseDialog from '@/components/layoutComponents/BaseDialog.vue';
+
+import WhiteCard80 from '@/components/layoutComponents/WhiteCard80.vue';
+import WhiteCard50 from '@/components/layoutComponents/WhiteCard50.vue';
+import WhiteCard20 from '@/components/layoutComponents/WhiteCard20.vue';
+
+const app = createApp(App);
+
+app.config.globalProperties.$api = null;
+
+app.component('BaseCard', BaseCard);
+app.component('BaseDialog', BaseDialog);
+app.component('WhiteCard80', WhiteCard80);
+app.component('WhiteCard50', WhiteCard50);
+app.component('WhiteCard20', WhiteCard20);
+
+app.use(store);
+app.use(router);
+
+app.mixin({
+    mounted() {
+      if (!this.$api) {
+        const token = localStorage.getItem('token');
+        const notify = this.notify || null;
+        this.$api = new ApiService(token, notify);
+      }
+    }
+  });
+
+app.mount('#app');

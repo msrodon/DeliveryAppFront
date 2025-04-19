@@ -1,0 +1,207 @@
+<template>
+    <div>
+        
+        <white-card-50>
+            <h2 class="fw-bold mb-2 text-uppercase">My Deliveries - {{ selectedDate }}</h2>
+            <DatePicker v-if="isReady" @date-selected="handleDateChange" />
+            <div v-if="transportationStatus != 0" class="mt-3">
+                <h4 >Status: {{ findDictionary(transportationStatuses, transportationStatus) }} 
+                    <span v-if="transportationStatus == transportationStatusEnum.Finished">&#x2705;</span>
+                </h4>
+                <button class="btn btn-lg btn-warning" @click="startDelivery()" v-if="transportationStatus == transportationStatusEnum.Scheduled && canStartDelivery()">
+                    Start delivery
+                </button>
+
+                <router-link class="btn btn-lg btn-warning" :to="`/Deliveries/DailyDeliveries/${this.transportationId}`" v-if="transportationStatus == transportationStatusEnum.Started">
+                    Continue delivery
+                </router-link>
+            </div>
+            
+        </white-card-50>
+
+        <white-card-80 v-if="transportationStatus != transportationStatusEnum.Finished">
+            <h2 class="fw-bold mb-2 text-uppercase">To collect</h2>
+            <hr>
+            <div class="mt-4">
+                <table class="table" v-if="packagesToCollect.length > 0">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Package ID</th>
+                            <th scope="col">Sender email</th>
+                            <th scope="col">Reciver email</th>
+                            <th scope="col">Package type</th>
+                            <th scope="col">Package status</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(pack, index) in packagesToCollect" :key="pack.packageId">
+                            <th scope="row">{{ index + 1 }}</th>
+                            <th>{{ pack.packageId }}</th>
+                            <td>{{ pack.senderEmail }}</td>
+                            <td>{{ pack.reciverEmail }}</td>
+                            <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
+                            <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
+                            <td>
+                                <button @click="toggleDetails(index)" class="btn btn-primary">
+                                    {{ expandedRow === index ? 'Hide' : 'Show' }}
+                                </button>
+                            </td>
+                            <td colspan="7" v-if="expandedRow !== null && expandedRow === index" class="bg-light">
+                                <strong>Adres dostawy:</strong><br>
+                                {{ packagesToCollect[expandedRow].country }}, {{ packagesToCollect[expandedRow].postCode }} {{ packagesToCollect[expandedRow].city }}<br>
+                                {{ packagesToCollect[expandedRow].street }} {{ packagesToCollect[expandedRow].number }}<br>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div v-else>
+                    <h4>NO COLLECTIONS LEFT ON THIS DAY</h4>
+                </div> 
+            </div>
+        </white-card-80>
+
+        <white-card-80 v-if="transportationStatus != transportationStatusEnum.Finished">
+            <h2 class="fw-bold mb-2 text-uppercase">To delivery</h2>
+            <hr>
+            <div class="mt-4">
+            <table class="table" v-if="packagesToDelivery.length > 0">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Package ID</th>
+                    <th scope="col">Sender email</th>
+                    <th scope="col">Reciver email</th>
+                    <th scope="col">Package type</th>
+                    <th scope="col">Package status</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(pack, index) in packagesToDelivery" :key="pack.packageId">
+                            <th scope="row">{{ index + 1 }} </th>
+                            <th>{{ pack.packageId }}</th>
+                            <td>{{ pack.senderEmail }}</td>
+                            <td>{{ pack.reciverEmail }}</td>
+                            <td>{{ findDictionary(packageTypes, pack.packageTypeId) }}</td>
+                            <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
+                            <td>
+                                <button @click="toggleDetails(index)" class="btn btn-primary">
+                                    {{ expandedRow === index ? 'Hide' : 'Show' }}
+                                </button>
+                            </td>
+                            <td colspan="7" v-if="expandedRow !== null && expandedRow === index" class="bg-light">
+                                <strong>Adres dostawy:</strong><br>
+                                {{ packagesToDelivery[expandedRow].country }}, {{ packagesToDelivery[expandedRow].postCode }} {{ packagesToDelivery[expandedRow].city }}<br>
+                                {{ packagesToDelivery[expandedRow].street }} {{ packagesToDelivery[expandedRow].number }}<br>
+                            </td>
+                        </tr>
+                </tbody>
+            </table> 
+            <div v-else>
+                <h4>NO DELIVERIES LEFT ON THIS DAY</h4>
+            </div> 
+                
+            </div>
+        </white-card-80>
+    </div>
+</template>
+
+<script>
+
+import { Enums } from '@/constants/statuses';
+import DatePicker from "@/components/elements/datePicker.vue";
+
+export default {
+    inject: ['notify'],
+    data() {
+    return {
+        packagesToCollect: [],
+        packagesToDelivery: [],
+        transportationStatus: '',
+
+        packageTypes: [],
+        packageStatuses: [],
+        transportationStatuses: [],
+
+        packageStatusEnum: [],
+        transportationStatusEnum: [],
+
+        selectedDate: '',
+        transportationId: '',
+        expandedRow: null, // Przechowuje indeks rozwiniętego wiersza
+        isReady: false
+    }
+    },
+    components: {
+        DatePicker
+    },
+    async mounted() {
+        this.packageTypes = await this.getDictionaries(5);
+        this.packageStatuses = await this.getDictionaries(2);
+        this.transportationStatuses = await this.getDictionaries(10);
+
+        this.packageStatusEnum = Enums.PackageStatuses;
+        this.transportationStatusEnum = Enums.TransportationStatuses;
+        this.isReady = true;
+    },
+
+    methods:{
+        async getDriverTransportations(){
+            if (!this.isReady) return;
+
+            const formattedDate = new Date(this.selectedDate).toISOString();
+
+            const data = await this.$api.get('Transportations/getDriverTransportations',{
+                selectedDate: formattedDate
+            });
+
+            if(data.success){
+                this.packagesToCollect = data.transportation.packagesToCollect;
+                this.packagesToDelivery = data.transportation.packagesToDelivery;
+                this.transportationStatus = data.transportation.transportationStatus;
+                this.transportationId = data.transportation.transportationId;
+            }
+        },
+        async getDictionaries(dictionaryTypeId){
+            
+            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
+                dictionaryTypeId: dictionaryTypeId
+            });
+
+            if(data.success)
+                return data.dictionaries || [];
+        },
+        async startDelivery(){
+            const formattedDate = new Date(this.selectedDate).toISOString();
+
+            const data = await this.$api.post('Transportations/startTransportation', {
+                selectedDate: formattedDate
+            });
+
+            if(data.success == true)
+                this.$router.push({ path: `/Deliveries/DailyDeliveries/${this.transportationId}` });
+        },
+        isToday(date) {
+            const today = new Date().toISOString().split('T')[0]; //'YYYY-MM-DD'
+            return today === date;
+        },
+        toggleDetails(index) {
+            this.expandedRow = this.expandedRow === index ? null : index;
+        },
+        async handleDateChange(date) {
+            this.selectedDate = date;
+            await this.getDriverTransportations();
+        },
+        canStartDelivery() {
+            const today = new Date().toISOString().split("T")[0];
+            return this.selectedDate <= today;
+        },
+        findDictionary(dictionaryList, dictionaryId) {
+            const dictionary = dictionaryList.find((dictionary) => dictionary.dictionaryId === dictionaryId);
+            return dictionary ? dictionary.name : 'Unknown';
+        }
+    }
+}
+</script>
