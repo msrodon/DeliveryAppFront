@@ -1,10 +1,5 @@
 <template>
     <white-card-80>
-      
-    <base-dialog :show="!!showDialog" title="Delete dictionary type confirm" @close="showDialog = !showDialog">
-  
-  
-    </base-dialog>
   
       <h2 class="fw-bold mb-2 text-uppercase">Dictionary types</h2>
       <hr>

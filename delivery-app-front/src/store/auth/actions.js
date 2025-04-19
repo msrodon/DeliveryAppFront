@@ -1,6 +1,6 @@
 export default {
     Login(context, payload){
-        context.commit("setAuth", {isAuth: true, userLogin: payload.userLogin});
+        context.commit("setAuth", {isAuth: true, userLogin: payload.userLogin, userRole: payload.userRole});
     },
     Logout(context){
         localStorage.removeItem('token');
@@ -10,9 +10,8 @@ export default {
     },
     async TryLogin(context){
         const token = localStorage.getItem("token");
-        const refreshToken = localStorage.getItem("refreshToken");
 
-        if(token == null || refreshToken == null){
+        if(token == null){
             return;
         }
 
@@ -31,7 +30,7 @@ export default {
             }
         
             const data = await response.json();
-            context.dispatch("Login", { userLogin: data.email });
+            context.dispatch("Login", { userLogin: data.email, userRole: data.userRole });
         } catch (err) {
             console.log('Fetch error:', err);
         }

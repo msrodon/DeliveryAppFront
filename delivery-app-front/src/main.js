@@ -32,7 +32,7 @@ app.use(store);
 app.use(router);
 
 app.mixin({
-    created() {
+    mounted() {
       if (!this.$api) {
         const token = localStorage.getItem('token');
         const notify = this.notify || null;

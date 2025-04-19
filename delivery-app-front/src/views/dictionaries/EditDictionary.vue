@@ -20,11 +20,10 @@
         <div class="row">
             <div class="d-flex flex-column w-100">
                 <div class="text-start mx-1">
-                    <p class="text-dark-50 m-0">Set as default</p>
+                    <p class="text-dark-50 m-0 ">Set as default</p>
                 </div>
-                <div class="form-check form-switch mx-1 mb-4">
-                    <input class="form-check-input" type="checkbox" v-model="isDefault" id="isDefaultCheckbox">
-                    <label class="form-check-label" for="isDefaultCheckbox">Default</label>
+                <div class="form-check form-switch ms-4">
+                    <input class="form-check-input fs-4" type="checkbox" v-model="isDefault" id="isDefaultCheckbox">
                 </div>
             </div>
         </div>

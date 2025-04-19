@@ -4,5 +4,8 @@ export default {
     },
     UserLogin(state){
         return state.userLogin;
+    },
+    UserRole(state){
+        return state.userRole;
     }
 }

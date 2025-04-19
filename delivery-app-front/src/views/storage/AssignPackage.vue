@@ -234,7 +234,9 @@ export default {
                 return data.dictionaries || [];
         },
         async getDriversData(){
-            const data = await this.$api.get('Drivers/getDrivers');
+            const data = await this.$api.get('Drivers/getDrivers', {
+                onlyActive: true
+            });
 
             if(data.success)
                 this.drivers = data.drivers;

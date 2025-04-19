@@ -22,13 +22,17 @@ export default class ApiService {
       try {
         const response = await fetch(this.baseUrl + endpoint, options);
         const responseJson = await response.json();
-  
+
         if (responseJson.errors) {
           if (this.notify) {
             this.notify({ title: 'Error', message: responseJson.errors[0], type: 'error' });
           }else{
             throw new Error(responseJson.errors[0]);
           }
+        }
+
+        if(responseJson.showMessage == true && responseJson.success == true){
+          this.notify({ title: 'Success', message: "", type: "success" });
         }
   
         return responseJson;

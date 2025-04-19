@@ -3,7 +3,7 @@
         
         <white-card-50>
             <h2 class="fw-bold mb-2 text-uppercase">My Deliveries - {{ selectedDate }}</h2>
-            <DatePicker @date-selected="handleDateChange" />
+            <DatePicker v-if="isReady" @date-selected="handleDateChange" />
             <div v-if="transportationStatus != 0" class="mt-3">
                 <h4 >Status: {{ findDictionary(transportationStatuses, transportationStatus) }} 
                     <span v-if="transportationStatus == transportationStatusEnum.Finished">&#x2705;</span>
@@ -131,6 +131,7 @@ export default {
         selectedDate: '',
         transportationId: '',
         expandedRow: null, // Przechowuje indeks rozwiniętego wiersza
+        isReady: false
     }
     },
     components: {
@@ -143,10 +144,13 @@ export default {
 
         this.packageStatusEnum = Enums.PackageStatuses;
         this.transportationStatusEnum = Enums.TransportationStatuses;
+        this.isReady = true;
     },
 
     methods:{
         async getDriverTransportations(){
+            if (!this.isReady) return;
+
             const formattedDate = new Date(this.selectedDate).toISOString();
 
             const data = await this.$api.get('Transportations/getDriverTransportations',{
@@ -161,6 +165,7 @@ export default {
             }
         },
         async getDictionaries(dictionaryTypeId){
+            
             const data = await this.$api.get('Dictionaries/getDictionariesByType',{
                 dictionaryTypeId: dictionaryTypeId
             });
@@ -176,7 +181,7 @@ export default {
             });
 
             if(data.success == true)
-                this.$router.push({ path: `/Deliveries/DailyDeliveries${this.transportationId}` });
+                this.$router.push({ path: `/Deliveries/DailyDeliveries/${this.transportationId}` });
         },
         isToday(date) {
             const today = new Date().toISOString().split('T')[0]; //'YYYY-MM-DD'
@@ -185,9 +190,9 @@ export default {
         toggleDetails(index) {
             this.expandedRow = this.expandedRow === index ? null : index;
         },
-        handleDateChange(date) {
+        async handleDateChange(date) {
             this.selectedDate = date;
-            this.getDriverTransportations();
+            await this.getDriverTransportations();
         },
         canStartDelivery() {
             const today = new Date().toISOString().split("T")[0];

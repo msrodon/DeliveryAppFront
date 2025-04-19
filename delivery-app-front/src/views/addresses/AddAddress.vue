@@ -114,6 +114,13 @@ export default {
     },
     methods: {
         async addAddress() {
+
+            const validationMessage = this.validate();
+            if(validationMessage){
+                this.notify({ title: 'Error', message: validationMessage, type: 'error' });
+                return;
+            }
+
             const data = await this.$api.post('Addresses/addAddress', {
                 name: this.name,
                 city: this.city,
@@ -140,6 +147,16 @@ export default {
 
             if(data.success)
                 return data.dictionaries || [];
+        },
+        validate(){
+            if (!this.name) return("Name is required.");
+            if (!this.city) return("City is required.");
+            if (!this.postCode) return("Post code name is required.");
+            if (!this.street) return("Street is required.");
+            if (!this.number) return("Number is required.");
+            if (!this.addressTypeId) return("Address type is required.");
+            if (!this.countryId) return("Country is required.");
+            return "";
         }
     }
 }

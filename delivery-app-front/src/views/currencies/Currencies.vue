@@ -1,9 +1,5 @@
 <template>
   <white-card-80>
-    
-  <base-dialog :show="!!showDialog" title="Delete currency confirm" @close="showDialog = !showDialog">
-
-  </base-dialog>
 
   <h2 class="fw-bold mb-2 text-uppercase">Registered currencies</h2>
   <hr>

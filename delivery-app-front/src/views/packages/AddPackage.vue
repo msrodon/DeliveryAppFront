@@ -236,9 +236,13 @@ export default {
                 body.destinationId = this.destinationId;
             }
 
-            const data = await this.$api.post('Packages/addPackage',{
-                body
-            });
+            const validationMessage = this.validate(body);
+            if(validationMessage){
+                this.notify({ title: 'Error', message: validationMessage, type: 'error' });
+                return;
+            }
+
+            const data = await this.$api.post('Packages/addPackage',body);
 
             if(data.success){
                 const path = "/Payment/"+ data.newPackageId
@@ -295,6 +299,24 @@ export default {
 
             if(data.success)
                 return data.dictionaries || [];
+        },
+        validate(data){
+            if (!data.reciverEmail) return("Receiver email is required.");
+            if (!data.packageTypeId) return("Package type is required.");
+            if (!data.paymentTypeId) return("Payment type is required.");
+            if (!data.currencyId) return("Currency is required.");
+            if (data.price == null || data.price === "") return("Price is required.");
+
+            if (this.useGuestAddress) {
+                const address = data.guestAddress;
+                if (!address.countryId) return("Country is required.");
+                if (!address.postCode) return("Post code is required.");
+                if (!address.city) return("City is required.");
+                if (!address.street) return("Street is required.");
+                if (!address.number) return("House/flat number is required.");
+                if (!address.addressTypeId) return("Address type is required.");
+            }
+            return '';
         }
     }
 }

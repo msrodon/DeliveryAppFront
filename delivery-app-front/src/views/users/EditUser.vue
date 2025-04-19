@@ -18,7 +18,7 @@
                     <p class="text-dark-50 m-0">User name</p>
                 </div>
                 <div class="form-outline form-dark mb-4">
-                    <input class="form-control form-control-lg" placeholder="Username" v-model="userName"/>
+                    <input class="form-control form-control-lg" placeholder="Username" v-model="userName" required/>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                     <p class="text-dark-50 m-0">First name</p>
                 </div>
                 <div class="form-outline form-dark mb-4">
-                    <input class="form-control form-control-lg" placeholder="FirstName" v-model="firstName"/>
+                    <input class="form-control form-control-lg" placeholder="FirstName" v-model="firstName" required/>
                 </div>
             </div>
             <div class="d-flex flex-column w-50">
@@ -37,7 +37,7 @@
                     <p class="text-dark-50 m-0">Last name</p>
                 </div>
                 <div class="form-outline form-dark mb-4">
-                    <input class="form-control form-control-lg" placeholder="LastName" v-model="lastName"/>
+                    <input class="form-control form-control-lg" placeholder="LastName" v-model="lastName" required/>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
                     <p class="text-dark-50 m-0">Email</p>
                 </div>
                 <div class="form-outline form-dark mb-4">
-                    <input class="form-control form-control-lg" placeholder="Email" v-model="email"/>
+                    <input class="form-control form-control-lg" placeholder="Email" v-model="email" required/>
                 </div>
             </div>
             <div class="d-flex flex-column w-50">
@@ -56,7 +56,7 @@
                     <p class="text-dark-50 m-0">Phone number</p>
                 </div>
                 <div class="form-outline form-dark mb-4">
-                    <input class="form-control form-control-lg" placeholder="PhoneNumber" v-model="phoneNumber"/>
+                    <input class="form-control form-control-lg" placeholder="PhoneNumber" v-model="phoneNumber" required/>
                 </div>
             </div>
         </div>

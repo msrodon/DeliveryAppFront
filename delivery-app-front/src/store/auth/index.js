@@ -7,7 +7,8 @@ export default {
     state(){
         return {
             userIsLoggedIn: false,
-            userLogin: ""
+            userLogin: "",
+            userRole: ""
         }
     },
     mutations,

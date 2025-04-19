@@ -1,9 +1,5 @@
 <template>
   <white-card-80>
-    
-    <base-dialog :show="!!showDialog" title="Delete car confirm" @close="showDialog = !showDialog">
-  
-    </base-dialog>
   
     <h2 class="fw-bold mb-2 text-uppercase">Registered drivers</h2>
     <hr>
@@ -37,7 +33,7 @@
             <td>{{ user.phoneNumber }}</td>
             <td>{{ this.findDriver(user.id) }}</td>
             <td>
-              <router-link class="me-3 btn btn-primary" :to="`/Drivers/EditDriver/${this.userId}`">Cancell</router-link>
+              <router-link class="me-3 btn btn-primary" :to="`/Drivers/EditDriver/${user.id}`">Change car</router-link>
             </td>
           </tr>
         </tbody>

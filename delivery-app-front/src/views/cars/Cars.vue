@@ -31,7 +31,7 @@
             <td>{{ car.horsePower }}</td>
             <td>{{ car.maxLoad }}</td>
             <td>
-              <router-link class="me-3 btn btn-primary" :to="`/Cars/EditCar/${car.carId}`">Edit</router-link>
+              <router-link class="me-3 btn btn-primary" :to="`/Cars/EditCar/${car.id}`">Edit</router-link>
               <button size="sm" @click="deleteCar(car.id)" class="btn btn-danger">Delete</button>
             </td>
           </tr>

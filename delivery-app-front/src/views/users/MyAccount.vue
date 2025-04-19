@@ -104,6 +104,13 @@ export default {
     },
     methods: {
         async editUser() {
+
+            const validationMessage = this.validate();
+            if(validationMessage){
+                this.notify({ title: 'Error', message: validationMessage, type: 'error' });
+                return;
+            }
+
             const data = await this.$api.post('Users/editUser', {
                 id: this.id,
                 userName: this.userName,
@@ -143,6 +150,16 @@ export default {
 
             if(data.success)
                 this.userTypes = data.dictionaries || [];
+        },
+        validate(){
+            if (!this.userName) return("User name is required.");
+            if (!this.activeStatus) return("Active status is required.");
+            if (!this.firstName) return("First name is required.");
+            if (!this.lastName) return("Last name is required.");
+            if (!this.email) return("Email is required.");
+            if (!this.phoneNumber) return("Phone number is required.");
+            if (!this.userTypeId) return("User type is required.");
+            return "";
         }
     }
 }

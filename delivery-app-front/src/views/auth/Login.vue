@@ -2,7 +2,7 @@
     <white-card-20>
 
       <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-      <p class="text-dark-50 mb-5">Please enter your login and password!</p>
+      <p class="text-dark-50 mb-4">Please enter your login and password!</p>
 
       <div class="text-start mx-1">
           <p class="text-dark-50 m-0">Email</p>
@@ -18,7 +18,7 @@
         <input type="password" id="typePasswordX" class="form-control form-control-lg" placeholder="Password" v-model="password"/>
       </div>
 
-      <button class="btn btn-outline-success btn-lg px-5" @click="Login">Login</button>
+      <button class="btn btn-outline-success btn-lg px-5 mt-2" @click="Login">Login</button>
 
       <div v-if="this.error != null">
         <p style="color: red;">{{ this.error }}</p>
@@ -87,7 +87,7 @@ export default {
                 const userData = await response2.json();
                 console.log('Dane użytkownika:', userData);
 
-                this.dispatchToStore(userData.email);
+                this.dispatchToStore(userData.email, userData.userRole);
                 this.$router.push({ name: 'dashboard' });
 
             } catch (error) {
@@ -95,8 +95,8 @@ export default {
                 console.error('Błąd:', error.message);
             }
         },
-        dispatchToStore(userLogin){
-            this.$store.dispatch('auth/Login', {userLogin});
+        dispatchToStore(userLogin, userRole){
+            this.$store.dispatch('auth/Login', {userLogin, userRole});
         },
     }
 }
