@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import store from "@/store/index.js"
 import HomeView from '../views/HomeView.vue'
+import Login from "../components/Login.vue"
+import Register from "../components/Register.vue"
 
 const Login = () => import("@/views/auth/Login.vue")
 const Register = () => import("@/views/auth/Register.vue")
@@ -144,6 +146,10 @@ const routes = [
   {path: "/:pathMatch(.*)", redirect: to => { return "/404" }}
 ]
 
+// const router = createRouter({
+//   history: createWebHashHistory(),
+//   routes
+// })
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
