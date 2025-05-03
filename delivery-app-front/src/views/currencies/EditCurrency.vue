@@ -62,12 +62,10 @@ export default {
                 currencyId: this.$route.params.id
             });
 
-            if(data.success){
-                var fetchCurrency = data.currency;
-                this.id = fetchCurrency.id;
-                this.name = fetchCurrency.name,
-                this.shortcut = fetchCurrency.shortcut
-            }
+            var fetchCurrency = data.currency;
+            this.id = fetchCurrency.id;
+            this.name = fetchCurrency.name,
+            this.shortcut = fetchCurrency.shortcut
         }
     }
 }
