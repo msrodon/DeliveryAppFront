@@ -8,8 +8,7 @@
 
 .base-card {
     min-height: calc(92vh);
-    margin-top: 8vh;
-    padding-top: 7vh;
+    padding-top: 11vh;
 }
 
 </style>

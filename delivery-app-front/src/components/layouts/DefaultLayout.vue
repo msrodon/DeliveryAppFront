@@ -24,15 +24,19 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   
+  min-height: 100vh;
   background-image: url("/src/assets/images/img6.jpg");
   background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
+
+  display: flex;
+  flex-direction: column;
 }
 
 nav {
   padding: 30px;
-
-  border-bottom: 2px solid white;
 
   a {
     font-weight: bold;

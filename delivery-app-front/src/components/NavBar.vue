@@ -1,7 +1,7 @@
 <template>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <h1 class="pe-4">DELIVERY APP///</h1>
+    <h4 class="pe-4">DELIVERY APP///</h4>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -20,18 +20,21 @@
           <button class="nav-link" @click="redirect('/Drivers')">DRIVERS</button>
           <button class="nav-link" @click="redirect('/Users')">USERS</button>
           <button class="nav-link" @click="redirect('/Cars')">CARS</button>
+          <button class="nav-link" @click="redirect('/MyAccount')">MY ACCOUNT</button>
         </template>
 
         <template v-if="hasRole(['DeliveryManager'])">
           <button class="nav-link" @click="redirect('/Storage/PackagesToAssign')">PACKAGES TO ASSIGN</button>
           <button class="nav-link" @click="redirect('/Drivers')">DRIVERS</button>
           <button class="nav-link" @click="redirect('/Cars')">CARS</button>
+          <button class="nav-link" @click="redirect('/MyAccount')">MY ACCOUNT</button>
         </template>
 
         <template v-if="hasRole(['Delivery'])">
           <button class="nav-link" @click="redirect('/Callendar')">CALLENDAR</button>
           <button class="nav-link" @click="redirect('/Deliveries/DeliveriesHistory')">DELIVERIES HISTORY</button>
           <button class="nav-link" @click="redirect('/Drivers')">DRIVERS</button>
+          <button class="nav-link" @click="redirect('/MyAccount')">MY ACCOUNT</button>
         </template>
 
         <template v-if="hasRole(['Support'])">
@@ -39,6 +42,7 @@
           <button class="nav-link" @click="redirect('/Drivers')">DRIVERS</button>
           <button class="nav-link" @click="redirect('/Users')">USERS</button>
           <button class="nav-link" @click="redirect('/Cars')">CARS</button>
+          <button class="nav-link" @click="redirect('/MyAccount')">MY ACCOUNT</button>
         </template>
 
         <template v-if="hasRole(['Client'])">
@@ -50,7 +54,6 @@
         </template>
       </div>
 
-      <!-- Logout section aligned to left edge -->
       <div class="d-flex align-items-center ms-auto">
         <h2 class="h4 mb-0">{{ this.userLogin }}</h2>
         <button class="btn btn-sm btn-outline-danger ms-3" @click="logout">LOGOUT</button>
@@ -105,25 +108,26 @@ h2{
   color: white;
 }
 
-h1{
+h4{
   color: rgb(33, 105, 99)
 }
 
 .navbar {
+  border-bottom: 2px solid white;
   position: fixed; /* Przyklejony do góry */
   top: 0;
   left: 0;
   width: 100%;
   background: #333;
   color: white;
-  padding: 6px;
+  padding: 8px;
   text-align: center;
   z-index: 1000; /* Żeby był nad innymi elementami */
 }
 
 .nav-link {
   color: white !important;
-  font-size: 130% !important;
+  font-size: 100% !important;
   font-weight: 500 !important;
   margin: 0 0.5rem !important;
 

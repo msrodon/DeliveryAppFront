@@ -4,7 +4,7 @@
         <div>
 
             <button class="btn btn-outline-secondary position-absolute top-0 end-0 m-3 " @click="goBack()">X</button>
-            <h2 class="mb-2 text-uppercase">{{ this.user.email }}</h2>
+            <h2 class=" mt-5 text-uppercase">{{ this.user.email }}</h2>
         </div>
         <div class="password-reset-container">
             <h4>Set new password</h4>
@@ -60,14 +60,15 @@ export default {
                 this.user = data.user;
         },
         async changePassword(){
-            const data = await this.$api.post('Auth/resetPassword', {
+            const response = await this.$api.post('Auth/resetPassword', {
                 userId: this.user.id,
                 email: this.user.email,
                 newPassword: this.confirmPassword
             });
 
-            if(data.success == true)
+            if (response.status === 200) {
                 this.$router.go(-1);
+            }
         },
         goBack(){
             this.$router.go(-1);

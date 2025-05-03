@@ -245,7 +245,7 @@ export default {
             const data = await this.$api.post('Packages/addPackage',body);
 
             if(data.success){
-                const path = "/Payment/"+ data.newPackageId
+                const path = "/Payment/"+ data.newPaymentId
                 this.$router.push({ path });
             }
         },

@@ -7,8 +7,11 @@
             <p>Payment method: <strong>{{ findDictionary(paymentTypes, paymentTypeId) }} </strong></p>
             <p>Payment currency: <strong>{{ paymentCurrency.name }} </strong></p>
             <p>Payment amount: <strong>{{ paymentPrice }} ({{ paymentCurrency.shortcut }})</strong></p>
-            <button v-if="paymentStatusId == paymentStatusEnum.Unpaid" @click="payNow">Pay now</button>
-            <p v-else class="text-success fs-4">This order has already been paid.</p>
+
+            <button v-if="paymentStatusId == paymentStatusEnum.Unpaid && processing == false" @click="payNow">Pay now</button>
+            <p v-if="paymentStatusId == paymentStatusEnum.Unpaid && processing == true">Processing...</p>
+
+            <p v-if="paymentStatusId == paymentStatusEnum.Paid" class="text-success fs-4">This order has already been paid.</p>
         </div>
     </div>
 </template>
@@ -27,7 +30,8 @@ export default {
             //
             currencies: [],
             paymentTypes: [],
-            paymentStatusEnum: []
+            paymentStatusEnum: [],
+            processing: false
         };
     },
     async mounted(){
@@ -39,15 +43,17 @@ export default {
     methods: {
         async payNow() {
             alert('Payment processing...');
-
+            this.processing = true;
+            
             const data = await this.$api.post('Payments/setPaymentAsPaid',{
                 paymentId: this.paymentId
             });
-
+            
             if(data.success)
-                this.$router.push('/Packages')
-        },
-        async getPaymentData(){
+            this.$router.push('/Packages')
+        this.processing = false;
+    },
+    async getPaymentData(){
             const data = await this.$api.get('Payments/getPaymentByPackageId',{
                 packageId: this.$route.params.id
             });

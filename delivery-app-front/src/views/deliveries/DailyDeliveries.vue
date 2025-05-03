@@ -93,7 +93,7 @@
                             <td>{{ findDictionary(packageStatuses, pack.packageStatusId) }}</td>
                             <td v-if="pack.packageStatusId == packageStatusEnum.IssuedToDelivery">
                                 <button @click="markAsDelivered(pack.packageId)" class="btn btn-success me-4">
-                                    Collect
+                                    Deliver
                                 </button>
                                 <button @click="toggleDetails(index)" class="btn btn-primary">
                                     {{ expandedRow === index ? 'Hide' : 'Show' }}
