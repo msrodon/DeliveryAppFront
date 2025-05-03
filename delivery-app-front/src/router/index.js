@@ -18,6 +18,7 @@ const EditDictionary = () => import("@/views/dictionaries/EditDictionary.vue")
 //DICTIONARY TYPES
 const DictionaryTypes = () => import("@/views/dictionaryTypes/DictionaryTypes.vue")
 const AddDictionaryType = () => import("@/views/dictionaryTypes/AddDictionaryType.vue")
+const EditDictionaryType = () => import("@/views/dictionaryTypes/EditDictionaryType.vue")
 
 //CARS
 const Cars = () => import("@/views/cars/Cars.vue")
@@ -117,7 +118,7 @@ const routes = [
 
   {path: "/Users",name: "Users",component: Users, meta: { requiresAuth: true, roles: ['Admin', 'Support']}},
   {path: "/Users/EditUser/:id",name: "EditUser",component: EditUser, meta: { requiresAuth: true, roles: ['Admin', 'Support']}},
-  {path: "/Users/SetNewPassword/:userId",name: "SetNewPassword",component: SetNewPassword, meta: { requiresAuth: true, roles: ['Admin', 'Support', 'Client']}},
+  {path: "/Users/SetNewPassword/:userId",name: "SetNewPassword",component: SetNewPassword, meta: { requiresAuth: true}},
 
   //ADMIN 
   {path: "/Currencies",name: "Currencies",component: Currencies, meta: { requiresAuth: true, meta: { requiresAuth: true, roles: ['Admin']}}},
@@ -133,6 +134,7 @@ const routes = [
   
   {path: "/DictionaryTypes", name: "DictionaryTypes",component: DictionaryTypes, meta: { requiresAuth: true}, meta: { requiresAuth: true, roles: ['Admin']}},
   {path: "/DictionaryTypes/AddDictionaryType",name: "AddDictionaryType",component: AddDictionaryType, meta: { requiresAuth: true}, meta: { requiresAuth: true, roles: ['Admin']}},
+  {path: "/DictionaryTypes/EditDictionaryType/:typeId", name: "EditDictionaryType",component: EditDictionaryType, meta: { requiresAuth: true}, meta: { requiresAuth: true, roles: ['Admin']}},
   
   {path: "/DictionaryTypes/:typeId/Dictionaries", name: "Dictionaries",component: Dictionaries, meta: { requiresAuth: true}, meta: { requiresAuth: true, roles: ['Admin']}},
   {path: "/DictionaryTypes/:typeId/Dictionaries/AddDictionary", name: "AddDictionary",component: AddDictionary, meta: { requiresAuth: true}, meta: { requiresAuth: true, roles: ['Admin']}},
