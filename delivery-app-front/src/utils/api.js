@@ -2,7 +2,7 @@ export default class ApiService {
     constructor(token, notify) {
       this.token = token;
       this.notify = notify;
-      this.baseUrl = 'https://localhost:7263/';
+      this.baseUrl = import.meta.env.VUE_APP_API_BASE_URL || 'http://localhost:5000/';
     }
   
     async request(endpoint, method = 'GET', data = null) {
