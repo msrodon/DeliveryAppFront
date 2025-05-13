@@ -146,6 +146,10 @@ const routes = [
   {path: "/:pathMatch(.*)", redirect: to => { return "/404" }}
 ]
 
+// const router = createRouter({
+//   history: createWebHashHistory(),
+//   routes
+// })
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes

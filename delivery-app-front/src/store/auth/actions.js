@@ -16,7 +16,8 @@ export default {
         }
 
         try {
-            const response = await fetch('https://localhost:7263/Auth/me', {
+            var url = process.env.VUE_APP_API_BASE_URL;
+            const response = await fetch(url+'Auth/me', {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',

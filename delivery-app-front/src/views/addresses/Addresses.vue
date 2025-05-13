@@ -28,7 +28,7 @@
             <td>{{ address.street }}</td>
             <td>{{ address.number }}</td>
             <td>
-              <router-link class="me-3 btn btn-primary" :to="`/Addresses/editAddress/${address.addressId}`">Edit</router-link>
+              <router-link class="me-3 btn btn-primary" :to="`/Addresses/editAddress/${address.id}`">Edit</router-link>
               <button size="sm" @click="deleteAddress(address.id)" class="btn btn-danger">Delete</button>
             </td>
           </tr>
