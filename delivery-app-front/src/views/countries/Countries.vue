@@ -23,7 +23,7 @@
             <td>{{ country.code }}</td>
             <td>{{ findCurrencyName(country.currencyId) }}</td>
             <td>
-              <router-link class="me-3 btn btn-primary" :to="`/Countries/editCountry/${country.countryId}`">Edit</router-link>
+              <router-link class="me-3 btn btn-primary" :to="`/Countries/editCountry/${country.id}`">Edit</router-link>
               <button size="sm" @click="deleteCountry(country.id)" class="btn btn-danger">Delete</button>
             </td>
           </tr>

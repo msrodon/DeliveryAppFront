@@ -82,7 +82,9 @@ export default {
       this.error = null;
 
       try {
-          const response = await fetch('https://localhost:7263/Auth/Register', {
+        
+          var url = process.env.VUE_APP_API_BASE_URL;
+          const response = await fetch(url+'Auth/Register', {
               method: "POST",
               headers: {
                   'Content-Type': 'application/json',

@@ -47,7 +47,9 @@ export default {
     methods: {
         async Login() {
             try {
-                const response = await fetch('https://localhost:7263/Auth/login', {
+                
+                var url = process.env.VUE_APP_API_BASE_URL;
+                const response = await fetch(url+'Auth/login', {
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json',
@@ -72,7 +74,8 @@ export default {
                 }
                 localStorage.setItem('token', token);
 
-                const response2 = await fetch('https://localhost:7263/Auth/me', {
+                var url = process.env.VUE_APP_API_BASE_URL;
+                const response2 = await fetch(url+'Auth/me', {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',

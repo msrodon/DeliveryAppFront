@@ -65,10 +65,10 @@ export default {
             }, {});
         }
     },
-    mounted(){
-        this.getPackagePricesData();
-        this.getPackageTypes();
-        this.getCurrency();
+    async mounted(){
+        await this.getPackagePricesData();
+        await this.getPackageTypes();
+        await this.getCurrency();
     },
     methods: {
         async editPriceList() {
@@ -81,7 +81,7 @@ export default {
                 this.$router.push({ path: '/PriceLists' })
         },
         async getCurrency(){
-            const data = await this.$api.get('Dictionaries/getDictionariesByType',{
+            const data = await this.$api.get('Currencies/getCurrency',{
                 currencyId: this.$route.params.id
             });
 
